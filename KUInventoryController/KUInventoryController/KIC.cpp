@@ -5,5 +5,7 @@
 using namespace std;
 
 int main(void) {
-	cout << "Hello World" << endl;
+	printf("This is Mingyu's Branch");
+	printf("Branch Test 01");
+	printf("Branch Test 02");
 }
