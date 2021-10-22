@@ -3,8 +3,7 @@
 #include <iostream>
 
 using namespace std;
+
 int main(void) {
-	printf("This is Mingyu's Branch");
-	printf("Branch Test 01");
-	printf("Branch Test 02");
+	cout << "Hello World" << endl;
 }
