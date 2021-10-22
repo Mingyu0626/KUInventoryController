@@ -4,6 +4,10 @@
 
 using namespace std;
 int main(void) {
-	printf("ÃÖ¹Î±Ô ¼º°ø");
-	printf("ÀÌÇÏÀ± ¼º°ø");
+	printf("This is Mingyu's Branch");
+	printf("Branch Test 01");
+	printf("Branch Test 02");
+	printf("Çý¼±");
+
+
 }
