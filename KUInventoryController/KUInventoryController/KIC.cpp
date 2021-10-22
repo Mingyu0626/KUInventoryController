@@ -4,9 +4,6 @@
 
 using namespace std;
 int main(void) {
-	printf("This is Mingyu's Branch");
-	printf("Branch Test 01");
-	printf("Branch Test 02");
-
-	printf("This is Yoonju's Branch");
+	printf("최민규 성공");
+	printf("이하윤 성공");
 }
