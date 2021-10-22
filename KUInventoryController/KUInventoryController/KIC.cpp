@@ -7,5 +7,5 @@ int main(void) {
 	printf("This is Mingyu's Branch");
 	printf("Branch Test 01");
 	printf("Branch Test 02");
-	printf("น้วýผฑ");
+	printf("hyeseon");
 }
