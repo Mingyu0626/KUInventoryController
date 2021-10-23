@@ -19,6 +19,16 @@ void KICProduct::setName(string name)
     this->name = name;
 }
 
+int KICProduct::getStock()
+{
+    return this->stock;
+}
+
+void KICProduct::setStock(int stock)
+{
+    this->stock = stock;
+}
+
 int KICProduct::getSalesVolume()
 {
     return this->salesVolume;
