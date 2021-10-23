@@ -2,11 +2,15 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
+#include "KICProduct.h"
 
 using namespace std;
 
 class KICManager
 {
+	int count = 0;
+	KICProduct** product = nullptr;
 	int randomSales();
 	void init();
 	void printMenu();
