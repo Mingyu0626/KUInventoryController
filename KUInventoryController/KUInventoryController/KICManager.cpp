@@ -807,6 +807,19 @@ void KICManager::selectDiscountProds()
 
 void KICManager::selectMarginRate()
 {
+    int tempRPrice, tempWPrice, margin;
+    double marginRate; // 마진율
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getDiscount() == 0) {
+            tempRPrice = product[i]->getRPrice();
+            tempWPrice = product[i]->getWPrice();
+        }
+    }
+    margin = tempRPrice - tempWPrice;
+    marginRate = 100 * (margin / tempRPrice);
+    cout << "현재 마진율 : " << marginRate << endl;
+    cout << "변경할 마진율을 입력해주세요 : " << endl;
+
 }
 
 

@@ -33,6 +33,8 @@ public:
 	void setWPrice(int wPrice);
 	int getRPrice();
 	void setRPrice(int rPrice);
+	int getDiscount();
+	void setDiscount(int discount);
 	bool getIsSVChanged();
 	void setSVChanged(bool isSVChanged);
 
