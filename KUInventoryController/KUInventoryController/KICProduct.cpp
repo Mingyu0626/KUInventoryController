@@ -59,6 +59,16 @@ void KICProduct::setRPrice(int rPrice)
     this->rPrice = rPrice;
 }
 
+int KICProduct::getDiscount()
+{
+    return this->discount;
+}
+
+void KICProduct::setDiscount(int discount)
+{
+    this->discount = discount;
+}
+
 
 ostream& operator<<(ostream& out, const KICProduct& p)
 {

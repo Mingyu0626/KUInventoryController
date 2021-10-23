@@ -13,6 +13,7 @@ class KICProduct
 	int expDate;		// 유통기한
 	int wPrice;			// 도매가(주문할 때 드는 금액)
 	int rPrice;			// 판매가(판매할 때 얻는 금액)
+	int discount = 0;
 
 public:
 	KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice);
@@ -27,6 +28,8 @@ public:
 	void setWPrice(int wPrice);
 	int getRPrice();
 	void setRPrice(int rPrice);
+	int getDiscount();
+	void setDiscount(int discount);
 
 	friend ostream& operator<<(ostream& out, const KICProduct& p);
 };

@@ -501,6 +501,9 @@ void KICManager::changePrice()
 
 void KICManager::discountProds(KICProduct** kicp[])
 {
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getDiscount() >= 0)
+    }
 }
 
 
@@ -513,6 +516,7 @@ void KICManager::discountReqProds(KICProduct** kicp[])
 
 void KICManager::selectDiscountProds(KICProduct** kicp[])
 {
+
 }
 
 
