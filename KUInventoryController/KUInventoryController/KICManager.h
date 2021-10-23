@@ -7,8 +7,10 @@
 #include <ctime>
 #include "KICProduct.h"
 #include <fstream>
+#include <random>
 #include "KICProduct.h"
 #include <conio.h>
+#define _CRT_SECURE_NO_WARNINGS
 
 using namespace std;
 
@@ -16,44 +18,46 @@ class KICManager
 {
 	int property = 1000000;			// 보유 자산
 	string todayDate;				// 날짜
-	int balance;                    // 보유 잔액
+	int balance = 100000;                    // 보유 잔액
 	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
-
+	KICProduct** searchprod = nullptr;  //검색 위한 동적 1차원 배열
 	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
 
 	void init();													// 텍스트 파일 읽어오기	
 
 	/*----- 5. 시작 화면 및 메인 화면-----*/
-	bool finalCheck = false;
-	string checkDate(string date);
-	vector<string> split(string str, char delimiter);
+	bool finalCheck = false;											// checkDate(string date)의 정상적인 작동 여부 확인 
+	string checkDate(string date);										// 날짜 입력 예외 처리를 통해 8자리 숫자(ex 20211023) 형식의 string 형성
+	vector<string> split(string str, char delimiter);					// 특수 문자에 따른 string 분할
 
-	void printMenu();												// 메인 화면의 메뉴 출력
-	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
+	void printMenu();													// 메인 화면의 메뉴 출력
+	void noStockAlarm();												// 재고 부족 알림
 
 	/*----- 6.1 제품 주문 -----*/
-	void addOrder();												// 주문 추가
+	void addOrder();													// 주문 추가
 
 	/*----- 6.2 제품 검색 -----*/
-	void searchProds();												// 제품 검색
-	void sortStock();												// 정렬_재고순
-	void sortDate();												// 정렬_유통기임박순
-	void sortAl();													// 정렬_ㄱㄴㄷ순
+	void searchProds();													// 제품 검색
+	void sortStock();													// 정렬_재고순
+	void sortDate();													// 정렬_유통기임박순
+	void sortAl();														// 정렬_ㄱㄴㄷ순
 
 	/*----- 6.3 판매가 지정-----*/
-	void changePrice();												// 판매가 지정
-	void discountProds(KICProduct** kicp[]);						// 현재 할인중인 제품 출력
-	void discountReqProds(KICProduct** kicp[]);						// 할인이 필요한 제품 판별
-	void selectDiscountProds(KICProduct** kicp[]);					// 할인 제품 지정
-	void selectMarginRate(KICProduct** kicp[]);						// 마진율 지정
+	void changePrice();													// 판매가 지정
+	void discountProds();												// 현재 할인중인 제품 출력
+	void discountReqProds();											// 할인이 필요한 제품 판별
+	void selectDiscountProds();											// 할인 제품 지정
+	void selectMarginRate();											// 마진율 지정
 
 
 	/*----- 6.4 업무 마감 -----*/
-	void closingWork();												// 업무 마감
-	void searchScrap(KICProduct** kicp[]);							// 폐기 제품을 판별 후 출력
-	void printFinance();											// 재정 상황 출력(당일 매출, 당일 순이익, 보유 자산)
-	void randomSV(KICProduct** kicp[]);								// 판매량을 랜덤 알고리즘에 의해 지정
+	void closingWork();													// 당일 업무 마감
+	void searchScrap();													// 폐기 제품을 판별 후 출력
+	void financeCalculate();											// 재정 상황 출력(당일 매출, 당일 순이익, 보유 자산)
+	void randomSV();													// 판매량을 랜덤 알고리즘에 의해 지정
+	int calTodaySales(int ts, int sorsv, int rp);
+	int calTodayProfits(int tp, int sorsv, int rp, int wp);
 
 	/*----- 6.5 getter. setter -----*/
 	int getProperty();
