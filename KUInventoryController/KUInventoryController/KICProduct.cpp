@@ -1,7 +1,7 @@
 #include "KICProduct.h"
 
 KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice) 
-    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), wPrice(wPrice), rPrice(rPrice)
+    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(expDate), wPrice(wPrice), rPrice(rPrice)
 {
 }
 
@@ -49,6 +49,16 @@ void KICProduct::setExpDate(int expDate)
     this->expDate = expDate;
 }
 
+int KICProduct::getFixedExpDate()
+{
+    return this->fixedExpDate;
+}
+
+void KICProduct::setFixedExpDate(int fiexedExpDate)
+{
+    this->fixedExpDate = fixedExpDate;
+}
+
 int KICProduct::getWPrice()
 {
     return this->wPrice;
@@ -79,9 +89,22 @@ void KICProduct::setDiscount(int discount)
     this->discount = discount;
 }
 
+int KICProduct::getDisDate()
+{
+    return this->disDate;
+}
+
+void KICProduct::setDisDate(int disDate)
+{
+    this->disDate = disDate;
+}
+
 
 ostream& operator<<(ostream& out, const KICProduct& p)
 {
     out << p.name << ' ' << p.stock << ' ' << p.salesVolume << ' ' << p.expDate << ' ' << p.wPrice << ' ' << p.rPrice;
+    if (p.discount != 0) {
+        out << ' ' << p.rPrice * 100 / (100 - p.discount) << ' ' << p.disDate;
+    }
     return out;
 }
