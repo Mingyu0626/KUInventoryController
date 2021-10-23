@@ -441,7 +441,7 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("source.txt");
+    fstream fin("C:\\Users\\samsung\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
