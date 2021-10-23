@@ -12,14 +12,13 @@
 using namespace std;
 
 class KICManager
-
 {
 	int property = 1000000;			// 보유 자산
-	int balance;                    // 보유 잔액
 	string todayDate;				// 날짜
 	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
 
+	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
 
 	void init();													// 텍스트 파일 읽어오기	
 
@@ -32,11 +31,13 @@ class KICManager
 	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
 
 	/*----- 6.1 제품 주문 -----*/
-	void addOrder(KICProduct** kicp[]);												// 주문 추가
+	void addOrder();												// 주문 추가
 
 	/*----- 6.2 제품 검색 -----*/
 	void searchProds();												// 제품 검색
-	void sortStock();												// 정렬
+	void sortStock();												// 정렬_재고순
+	void sortDate();												// 정렬_유통기임박순
+	void sortAl();													// 정렬_ㄱㄴㄷ순
 
 	/*----- 6.3 판매가 지정-----*/
 	void changePrice();												// 판매가 지정

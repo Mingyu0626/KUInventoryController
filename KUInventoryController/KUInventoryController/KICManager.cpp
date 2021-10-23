@@ -1,10 +1,7 @@
 #include "KICManager.h"
-
+#include <algorithm>
 void KICManager::start()
 {
-
-
-
     while (true) {
         string date, result;
         cout << "시작 날짜 입력 : ";
@@ -17,10 +14,14 @@ void KICManager::start()
             cout << todayDate << endl;
             break;
         }
-
     }
 	init();
+    //addOrder(); //주문 추가
+
+  //  sortDate();
+    sortStock();
 }
+
 
 // 날짜 입력 예외처리
 string KICManager::checkDate(string date) 
@@ -418,7 +419,7 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("C:\\Konkuk\\전기프\\KIC\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -433,6 +434,7 @@ void KICManager::init()
 
         if (count > 0) {
             product = new KICProduct * [count];
+            sortprod = new KICProduct * [count]; //정렬위해 추가
         }
 
 
@@ -446,6 +448,7 @@ void KICManager::init()
         }
         for (int i = 0; i < count; i++) {
             cout << *product[i] << endl;
+            
         }
     }
 }
@@ -479,40 +482,82 @@ void KICManager::noStockAlarm(KICProduct** kicp[])
 
 
 
-void KICManager::addOrder(KICProduct** kicp[])
+void KICManager::addOrder()
 {
-    cout << " 보유 잔액 :" << balance << endl;
-    cout << " ========================== " << endl;
-    /*for (int i = 0; i < count; i++) {
-        if (count <= salesVolume * 3) {
-}
-        cout << *product[i] << endl;
-        
-    }
-    while (true) {
-        string namePro, numPro;
-        cout << " 주문할 제품명을 띄어쓰기 없이 입력해주세요 : ";
-        getline(cin, namePro);
-        for (int i = 0; i < )
-            cout << " 주문할 제품 수량을 띄어쓰기 없이 입력해주세요 : ";
-        getline(cin, numPro);
-        
-
-
-    }
-    */
+    cout<<"addorder"<<endl;
+   // cout << count << endl;
 }
 
 
 
 void KICManager::searchProds()
 {
+    cout << "searchProds" << endl;
 }
 
+void KICManager::sortDate()
+{
+    //여기서 sortprod는 유통기한 임박순!
+    cout << "sortdate" << endl;
+
+    for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(),product[i]->getRPrice());
+    }
+
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for(int j=i+1;j<count;j++){
+            if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        cout << *sortprod[i] << endl;
+    }
+    
+   // sort(product[0]->getExpDate(), product[41]->getExpDate());
+
+
+}
+
+void KICManager::sortAl()
+{
+    //ㄱㄴㄷ순
+    cout << "sortal" << endl;
+}
 
 
 void KICManager::sortStock()
 {
+    //여기서 sortprod는 재고 적은순
+
+    cout << "sortstock" << endl;
+
+    for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }
+
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getStock() > sortprod[j]->getStock()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        cout << *sortprod[i] << endl;
+    }
+    
+    //1. ㄱㄴㄷ순
+    //2. 
 }
 
 
@@ -593,3 +638,4 @@ int KICManager::getProperty()
 void KICManager::setProperty()
 {
 }
+
