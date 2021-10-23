@@ -418,7 +418,7 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("C:\\Konkuk\\전기프\\KIC\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -479,21 +479,29 @@ void KICManager::noStockAlarm(KICProduct** kicp[])
 
 
 
-void KICManager::addOrder()
+void KICManager::addOrder(KICProduct** kicp[], KICProduct**salesVolume)
 {
-   /* cout << " 보유 잔액 :" << balance << endl;
+    cout << " 보유 잔액 :" << balance << endl;
     cout << " ========================== " << endl;
-    cout << ""
+    for (int i = 0; i < count; i++) {
+        /*if (count <= salesVolume * 3) {
+
+
+        }
+        cout << *product[i] << endl;
+        */
+    }
     while (true) {
-        string namePro, numPro;
+        /*string namePro, numPro;
         cout << " 주문할 제품명을 띄어쓰기 없이 입력해주세요 : ";
         getline(cin, namePro);
         for (int i = 0; i < )
             cout << " 주문할 제품 수량을 띄어쓰기 없이 입력해주세요 : ";
         getline(cin, numPro);
+        */
 
 
-    }*/
+    }
 }
 
 

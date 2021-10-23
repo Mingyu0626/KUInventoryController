@@ -32,7 +32,7 @@ class KICManager
 	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
 
 	/*----- 6.1 제품 주문 -----*/
-	void addOrder();												// 주문 추가
+	void addOrder(KICProduct** kicp[], KICProduct** salesVolume);												// 주문 추가
 
 	/*----- 6.2 제품 검색 -----*/
 	void searchProds();												// 제품 검색
