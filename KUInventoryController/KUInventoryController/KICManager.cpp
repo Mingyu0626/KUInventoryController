@@ -1,5 +1,4 @@
 #include "KICManager.h"
-#include <fstream>
 
 void KICManager::start()
 {
@@ -18,11 +17,6 @@ void KICManager::start()
     }
 	init();
 }
-
-    printMenu();
-}
-
-
 
 // 날짜 입력 예외처리
 string KICManager::checkDate(string date) 
