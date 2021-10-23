@@ -13,7 +13,6 @@ class KICProduct
 	int expDate;
 	int wPrice;
 	int rPrice;
-
 public:
 	KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice);
 	~KICProduct();
@@ -27,5 +26,6 @@ public:
 	void setWPrice(int wPrice);
 	int getRPrice();
 	void setRPrice(int rPrice);
+
 	friend ostream& operator<<(ostream& out, const KICProduct& p);
 };

@@ -13,8 +13,7 @@ int KICManager::randomSales()
 
 void KICManager::init()
 {  
-	fstream fin;
-	fin.open("source.txt");
+	fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -25,6 +24,7 @@ void KICManager::init()
 		string buffer;
 		fin >> this->count;
 		getline(fin, buffer);
+		cout << count << endl;
 
 		if (count > 0) {
 			product = new KICProduct * [count];
@@ -40,7 +40,7 @@ void KICManager::init()
 			getline(fin, buffer);
 		}
 		for (int i = 0; i < count; i++) {
-			cout << product[i] << endl;
+			cout << *product[i] << endl;
 		}
 	}
 }

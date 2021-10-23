@@ -62,6 +62,6 @@ void KICProduct::setRPrice(int rPrice)
 
 ostream& operator<<(ostream& out, const KICProduct& p)
 {
-    out << p.name << p.stock << p.salesVolume << p.expDate << p.wPrice << p.rPrice;
+    out << p.name << ' ' << p.stock << ' ' << p.salesVolume << ' ' << p.expDate << ' ' << p.wPrice << ' ' << p.rPrice;
     return out;
 }
