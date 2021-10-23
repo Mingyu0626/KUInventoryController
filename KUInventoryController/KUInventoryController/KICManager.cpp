@@ -1,5 +1,6 @@
 #include "KICManager.h"
 #include <algorithm>
+
 void KICManager::start()
 {
     while (true) {
@@ -457,6 +458,7 @@ void KICManager::init()
         if (count > 0) {
             product = new KICProduct * [count];
             sortprod = new KICProduct * [count]; //정렬위해 추가
+            searchprod = new KICProduct * [count]; /*searchPro*/
         }
 
 
@@ -473,6 +475,8 @@ void KICManager::init()
             
         } */
     }
+
+    searchProds();
 }
 
 
@@ -506,10 +510,10 @@ void KICManager::noStockAlarm(KICProduct** kicp[])
 
 void KICManager::addOrder()
 {
-    balance = 10000; /* balance 나오는 부분 없길래 일단 임의로 했어요 */
+   
 
     /* 주문을 위해 보유 잔액 출력  */
-    cout << " 보유 잔액 : " << balance << endl;
+    cout << " 보유 잔액 : " << property << endl;
 
    
    // cout << count << endl;
@@ -544,21 +548,17 @@ void KICManager::addOrder()
 	cout << " 주문할 제품 수량을 띄어쓰기 없이 입력  : ";
     cin >> numPro;
 
-
-
-
+    //string compare 써서 같은거 세개 있으면 주문 막기
 
     
 
-    cout <<" 결제금액 " << "원 " << " 보유금액 " << "원" << "주문하시겠습니까? (y/n)" << endl;
+    cout << " 결제금액 " << "원 " << " 보유금액 " << "원" << "주문하시겠습니까? (y/n)" << endl;
 
     while (true) {
         char yn = _getch();
-        if (yn != 89 | yn != 78) {
-            cout << "잘못 입력하셨습니다. ";
-            continue;
-        }
-        else if (yn == 89) {
+       
+        if (yn == 89) {
+            cout << "주문이 완료되었습니다. " << endl;
             /* 주문 상황 반영*/
         }
 
@@ -567,6 +567,55 @@ void KICManager::addOrder()
             break;
         }
 
+    }
+
+}
+
+
+// 다팔린거 정렬안되게 할것
+
+
+void KICManager::searchProds()
+{
+    sortAl();
+
+    while (true) {
+
+        string namePro;
+        char chnamePro[100];
+
+        cout << "searchProds" << endl;
+        cout << "검색하고자 하는 상품의 이름을 띄어쓰기 없이 입력 : ";
+        cin >> namePro;
+        strcpy_s(chnamePro, namePro.c_str()); /* 아스키코드 사용 위해서 특수문자만 namePro를 char 로 바꿔서 처리*/
+
+        for (int j = 0; j < count; j++) {
+            this->searchprod[j] = new KICProduct(product[j]->getName(), product[j]->getStock(), product[j]->getSalesVolume(), product[j]->getExpDate(), product[j]->getWPrice(), product[j]->getRPrice());
+
+            if ((searchprod[j]->getName()).find(namePro) != string::npos) {
+                cout << *searchprod[j] << endl;
+            }
+
+            else if (namePro == " ") {
+                
+                cout << "공백은 포함하지 않습니다. 다시 입력하세요" << endl;;
+                
+
+            }
+
+            else if ((31 < int(chnamePro) < 48) | (57 < int(chnamePro) < 65) | (90 < int(chnamePro) < 97) | (122 < int(chnamePro) < 127)) {  // 특수문자
+                
+                cout << int(chnamePro) << endl;;
+                
+                
+            }
+
+            else { // 오타 등 기획서에 명시한 예외 빼고는 모두 else로 처리
+                
+                cout << " 잘못된 입력입니다. " << endl;;
+                
+            }
+        }
 
     }
 
@@ -574,10 +623,7 @@ void KICManager::addOrder()
 
 
 
-void KICManager::searchProds()
-{
-    cout << "searchProds" << endl;
-}
+
 
 void KICManager::sortDate()
 {
@@ -610,8 +656,25 @@ void KICManager::sortDate()
 
 void KICManager::sortAl()
 {
-    //ㄱㄴㄷ순
+    //ㄱㄴㄷ순 정렬
     cout << "sortal" << endl;
+
+    for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }
+
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
+            if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    }
+    
 }
 
 
