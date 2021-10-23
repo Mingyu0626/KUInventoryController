@@ -23,9 +23,9 @@ class KICManager
 	void init();													// 텍스트 파일 읽어오기	
 
 	/*----- 5. 시작 화면 및 메인 화면-----*/
-	bool finalCheck = false;
-	string checkDate(string date);
-	vector<string> split(string str, char delimiter);
+	bool finalCheck = false;										// checkDate(string date)의 정상적인 작동 여부 확인 
+	string checkDate(string date);									// 날짜 입력 예외 처리를 통해 8자리 숫자(ex 20211023) 형식의 string 형성
+	vector<string> split(string str, char delimiter);				// 특수 문자에 따른 string 분할
 
 	void printMenu();												// 메인 화면의 메뉴 출력
 	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
