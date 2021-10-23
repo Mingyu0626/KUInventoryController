@@ -1,5 +1,8 @@
 #include "KICManager.h"
 #include <algorithm>
+#include <typeinfo>
+
+
 void KICManager::start()
 {
     while (true) {
@@ -549,6 +552,26 @@ void KICManager::sortAl()
 {
     //ㄱㄴㄷ순
     cout << "sortal" << endl;
+
+    for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }
+
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+           // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
+           /* if (sortprod[i]->getStock() > sortprod[j]->getStock()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }*/
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        cout << *sortprod[i] << endl;
+    }
 }
 
 
@@ -557,10 +580,16 @@ void KICManager::sortStock()
     //여기서 sortprod는 재고 적은순
 
     cout << "sortstock" << endl;
-
+    int t = 0;
+    
     for (int i = 0; i < count; i++) {
         this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-    }
+    } 
+    cout << typeid(product[3]->getName()).name() << endl;
+    int result;
+    char str = 'd';
+    char str1 = 'e';
+    //result = strcmp(product[2]->getName(), *product[1]->getName());
 
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
