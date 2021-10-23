@@ -10,7 +10,7 @@ vector<string> KICManager::split(string str, char delimiter)
     vector<string> answer;
     stringstream ss(str);
     string temp;
-
+      
     while (getline(ss, temp, delimiter)) {
         answer.push_back(temp);
     }
