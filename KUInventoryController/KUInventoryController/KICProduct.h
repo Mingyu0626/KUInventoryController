@@ -13,6 +13,7 @@ class KICProduct
 	int expDate;		// 유통기한
 	int wPrice;			// 도매가(주문할 때 드는 금액)
 	int rPrice;			// 판매가(판매할 때 얻는 금액)
+	bool isSVChanged = false;	// 전날 판매량이 변화한 객체인지 판단하는 부울 변수
 
 public:
 	KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice);
@@ -29,6 +30,8 @@ public:
 	void setWPrice(int wPrice);
 	int getRPrice();
 	void setRPrice(int rPrice);
+	bool getIsSVChanged();
+	void setSVChanged(bool isSVChanged);
 
 	friend ostream& operator<<(ostream& out, const KICProduct& p);
 };
