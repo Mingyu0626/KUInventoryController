@@ -22,7 +22,6 @@ class KICManager
 	void init();													// 텍스트 파일 읽어오기	
 
 	/*----- 5. 시작 화면 및 메인 화면-----*/
-	void start();
 	bool finalCheck = false;
 	string checkDate(string date);
 	vector<string> split(string str, char delimiter);
@@ -51,10 +50,13 @@ class KICManager
 	void printFinance();											// 재정 상황 출력(당일 매출, 당일 순이익, 보유 자산)
 	void randomSV(KICProduct** kicp[]);								// 판매량을 랜덤 알고리즘에 의해 지정
 
+	/*----- 6.5 getter. setter -----*/
+	int getProperty();
+	void setProperty();
+
 
 public:
 	KICManager();
 	~KICManager();
-	int getProperty();
-	void setProperty();
+	void start();
 };
