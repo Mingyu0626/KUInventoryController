@@ -29,6 +29,8 @@ public:
 	void setSalesVolume(int salesVolume);
 	int getExpDate();
 	void setExpDate(int expDate);
+	int getFixedExpDate();
+	void setFixedExpDate(int fiexedExpDate);
 	int getWPrice();
 	void setWPrice(int wPrice);
 	int getRPrice();
@@ -37,6 +39,10 @@ public:
 	void setDiscount(int discount);
 	bool getIsSVChanged();
 	void setSVChanged(bool isSVChanged);
+	int getDiscount();
+	void setDiscount(int discount);
+	int getDisDate();
+	void setDisDate(int disDate);
 
 	friend ostream& operator<<(ostream& out, const KICProduct& p);
 };
