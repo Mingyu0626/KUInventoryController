@@ -19,6 +19,8 @@ public:
 	~KICProduct();
 	string getName();
 	void setName(string name);
+	int getStock();
+	void setStock(int stock);
 	int getSalesVolume();
 	void setSalesVolume(int salesVolume);
 	int getExpDate();
