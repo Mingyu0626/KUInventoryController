@@ -16,7 +16,6 @@ class KICProduct
 	int rPrice;			// 판매가(판매할 때 얻는 금액)
 	int discount = 0;
 	int disDate = 0;
-
 	bool isSVChanged = false;	// 전날 판매량이 변화한 객체인지 판단하는 부울 변수
 
 public:
