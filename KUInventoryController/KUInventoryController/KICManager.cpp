@@ -613,7 +613,7 @@ void KICManager::printFinance()
 void KICManager::randomSV()
 {
     for (int i = 0; i < count; i++) {
-
+        int tempSalesVolume = product[i]->getSalesVolume();
     }
 }
 
