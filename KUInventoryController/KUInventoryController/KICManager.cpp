@@ -621,6 +621,14 @@ void KICManager::closingWork()
 
 void KICManager::searchScrap(KICProduct** kicp[])
 {
+    cout << "¡Ø¡ØÆó±â ¾Ë¸²¡Ø¡Ø" << endl;
+    int numOfScrapProds = 0;
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getExpDate() == 0) {
+            numOfScrapProds++;
+            cout << product[i]->getName() << " " << product[i]->getStock() << "°³ Æó±â" << endl;
+        }
+    }
 }
 
 
