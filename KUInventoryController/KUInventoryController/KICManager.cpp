@@ -479,29 +479,28 @@ void KICManager::noStockAlarm(KICProduct** kicp[])
 
 
 
-void KICManager::addOrder(KICProduct** kicp[], KICProduct**salesVolume)
+void KICManager::addOrder(KICProduct** kicp[])
 {
     cout << " 보유 잔액 :" << balance << endl;
     cout << " ========================== " << endl;
-    for (int i = 0; i < count; i++) {
-        /*if (count <= salesVolume * 3) {
-
-
-        }
+    /*for (int i = 0; i < count; i++) {
+        if (count <= salesVolume * 3) {
+}
         cout << *product[i] << endl;
-        */
+        
     }
     while (true) {
-        /*string namePro, numPro;
+        string namePro, numPro;
         cout << " 주문할 제품명을 띄어쓰기 없이 입력해주세요 : ";
         getline(cin, namePro);
         for (int i = 0; i < )
             cout << " 주문할 제품 수량을 띄어쓰기 없이 입력해주세요 : ";
         getline(cin, numPro);
-        */
+        
 
 
     }
+    */
 }
 
 
