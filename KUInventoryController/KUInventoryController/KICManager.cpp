@@ -1,31 +1,13 @@
 
 #include "KICmanager.h"
 
-void KICManager::sortStock()
+
+
+void KICManager::init()
 {
 }
 
-vector<string> KICManager::split(string str, char delimiter)
-{
-    vector<string> answer;
-    stringstream ss(str);
-    string temp;
-      
-    while (getline(ss, temp, delimiter)) {
-        answer.push_back(temp);
-    }
 
-    return answer;
-
-}
-
-KICManager::KICManager()
-{
-}
-
-KICManager::~KICManager()
-{
-}
 
 void KICManager::start()
 {
@@ -34,23 +16,22 @@ void KICManager::start()
         cout << "시작 날짜 입력 : ";
         getline(cin, date);
         result = checkDate(date);
-        
-        if (finalCheck) {
+
+        if (finalCheck == true) {
             todayDate = result;
 
             cout << todayDate << endl;
             break;
         }
-        else
-            continue;
-
     }
 
     printMenu();
 }
 
+
+
 // 날짜 입력 예외처리
-string KICManager::checkDate(string date)
+string KICManager::checkDate(string date) 
 {
     int year = 0, month = 0, day = 0;
     bool dateCheck = false, letterCheck = false;
@@ -74,9 +55,8 @@ string KICManager::checkDate(string date)
 
         if (date[0] == ' ') {
             cout << "잘못된 입력입니다. 선행 공백을 허용하지 않습니다." << endl;
-            return NULL;
+            return "";
         }
-
         // 011028 같이 숫자 6자리
         if (date.length() == 6) {
             for (int k = 0; k < date.length(); k++) {
@@ -86,7 +66,6 @@ string KICManager::checkDate(string date)
                     z = 1;
                 }
             }
-
             if (z == 1)
                 continue;
 
@@ -165,10 +144,8 @@ string KICManager::checkDate(string date)
                 continue;
             }
         }
-
         // 20201028    01-10-28
         else if (date.length() == 8) {
-
             a = date[0];
             b = date[1];
             c = date[2];
@@ -219,49 +196,44 @@ string KICManager::checkDate(string date)
                             }
                             break;
                         }
-
                     }
                 }
             }
+        }
+        else if (date.find("-") != string::npos || date.find("/") != string::npos || date.find(".") != string::npos || date.find("_") != string::npos) {
+            num0 = stoi(a);
+            num1 = stoi(b);
+            // num2 = stoi(c);
+            num3 = stoi(d);
+            num4 = stoi(e);
+            // num5 = stoi(f);
+            num6 = stoi(g);
+            num7 = stoi(h);
 
-            // 01-10-28
-            else if (date.find("-") != string::npos || date.find("/") != string::npos
-                || date.find(".") != string::npos || date.find("_") != string::npos) {
+            year = 10 * num0 + num1;
+            month = 10 * num3 + num4;
+            day = 10 * num6 + num7;
 
-                num0 = stoi(a);
-                num1 = stoi(b);
-                // num2 = stoi(c);
-                num3 = stoi(d);
-                num4 = stoi(e);
-                // num5 = stoi(f);
-                num6 = stoi(g);
-                num7 = stoi(h);
-
-                year = 10 * num0 + num1;
-                month = 10 * num3 + num4;
-                day = 10 * num6 + num7;
-
-                // dateCheck 
-                if (month >= 1 && month <= 12) {
-                    if (month == 2) {
-                        if (day >= 1 && day <= 28) {
-                            dateCheck = true;
-                        }
+            // dateCheck 
+            if (month >= 1 && month <= 12) {
+                if (month == 2) {
+                    if (day >= 1 && day <= 28) {
+                        dateCheck = true;
                     }
-                    else if (month == 4 || month == 6 || month == 9 || month == 11) {
-                        if (day >= 1 && day <= 30) {
-                            dateCheck = true;
-                        }
-                    }
-                    else {
-                        if (day >= 1 && day <= 31) {
-                            dateCheck = true;
-                        }
+                }
+                else if (month == 4 || month == 6 || month == 9 || month == 11) {
+                    if (day >= 1 && day <= 30) {
+                        dateCheck = true;
                     }
                 }
                 else {
-                    dateCheck = false;
+                    if (day >= 1 && day <= 31) {
+                        dateCheck = true;
+                    }
                 }
+            }
+            else {
+                dateCheck = false;
             }
 
             // letterCheck
@@ -346,12 +318,9 @@ string KICManager::checkDate(string date)
                 }
             }
         }
-
         // 2021-03-29
         else if (date.length() == 10) {
-            if (date.find("-") != string::npos || date.find("/") != string::npos
-                || date.find(".") != string::npos || date.find("_") != string::npos) {
-
+            if (date.find("-") != string::npos || date.find("/") != string::npos || date.find(".") != string::npos || date.find("_") != string::npos) {
                 a = date[0];
                 b = date[1];
                 c = date[2];
@@ -399,7 +368,6 @@ string KICManager::checkDate(string date)
                 else {
                     dateCheck = false;
                 }
-
                 //cout << dateCheck << endl;
 
                 // letterCheck
@@ -447,54 +415,136 @@ string KICManager::checkDate(string date)
                         return date;
                     }
                 }
-
             }
         }
-
         else {
-        cout << "날짜를 올바르게 입력하세요." << endl;
-        return NULL;       
+            cout << "날짜를 올바르게 입력하세요." << endl;
+            return "";
+        }
     }
 }
 
-int KICManager::getProperty()
-{
-    return property;
-}
 
-void KICManager::setProperty(int p)
-{
-    property = p;
-}
 
-int KICManager::randomSales()
+vector<string> KICManager::split(string str, char delimiter)
 {
-    return 0;
-}
+    vector<string> answer;
+    stringstream ss(str);
+    string temp;
 
-void KICManager::init()
-{
+    while (getline(ss, temp, delimiter)) {
+        answer.push_back(temp);
+    }
+
+    return answer;
 
 }
+
 
 
 void KICManager::printMenu()
 {
-
 }
+
+
+
+void KICManager::noStockAlarm(KICProduct** kicp[])
+{
+}
+
+
 
 void KICManager::addOrder()
 {
 }
 
-void KICManager::discountPrice()
+
+
+void KICManager::searchProds()
 {
 }
+
+
+
+void KICManager::sortStock()
+{
+}
+
+
 
 void KICManager::changePrice()
 {
 }
 
-void KICManager::noStockAlarm()
+
+
+void KICManager::discountProds(KICProduct** kicp[])
+{
+}
+
+
+
+void KICManager::discountReqProds(KICProduct** kicp[])
+{
+}
+
+
+
+void KICManager::selectDiscountProds(KICProduct** kicp[])
+{
+}
+
+
+
+void KICManager::selectMarginRate(KICProduct** kicp[])
+{
+}
+
+
+
+void KICManager::closingWork()
+{
+}
+
+
+
+void KICManager::searchScrap(KICProduct** kicp[])
+{
+}
+
+
+
+void KICManager::printFinance()
+{
+}
+
+
+
+void KICManager::randomSV(KICProduct** kicp[])
+{
+}
+
+
+
+KICManager::KICManager()
+{
+}
+
+
+
+KICManager::~KICManager()
+{
+}
+
+
+
+int KICManager::getProperty()
+{
+    return 0;
+}
+
+
+
+void KICManager::setProperty()
 {
 }

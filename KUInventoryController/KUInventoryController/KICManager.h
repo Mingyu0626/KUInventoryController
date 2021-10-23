@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 #include <ctime>
 #include "KICProduct.h"
 
@@ -9,12 +11,22 @@ using namespace std;
 
 class KICManager
 {
-	int count = 0;
-	KICProduct** product = nullptr;
+	int property = 1000000;			// 보유 자산
+	string todayDate;				// 날짜
+	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
+	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
+
+
 	void init();													// 텍스트 파일 읽어오기	
+
+	/*----- 5. 시작 화면 및 메인 화면-----*/
+	void start();
+	bool finalCheck = false;
+	string checkDate(string date);
+	vector<string> split(string str, char delimiter);
+
 	void printMenu();												// 메인 화면의 메뉴 출력
 	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
-
 
 	/*----- 6.1 제품 주문 -----*/
 	void addOrder();												// 주문 추가
@@ -41,5 +53,6 @@ class KICManager
 public:
 	KICManager();
 	~KICManager();
-	void start();
+	int getProperty();
+	void setProperty();
 };
