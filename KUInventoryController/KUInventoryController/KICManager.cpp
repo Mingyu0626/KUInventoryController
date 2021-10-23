@@ -525,7 +525,7 @@ void KICManager::addOrder()
     /*주문 상품 찾아서 가격 보여주기*/
  
 
-    cout <<" 결제금액 " << "원 " << " 보유금액 " << "원" << "주문하시겠습니까? (y/n)" << endl;
+    cout <<" 결제금액 " << property <<"원 " << " 보유금액 " << "원" << "주문하시겠습니까? (y/n)" << endl;
     
     while (true) {  
         char yn;
