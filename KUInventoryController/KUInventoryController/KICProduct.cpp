@@ -1,8 +1,5 @@
 #include "KICProduct.h"
 
-KICProduct::KICProduct()
-{
-}
 
 KICProduct::KICProduct(string name, int stock, int expDate, int wPrice, int rPrice)
 {
