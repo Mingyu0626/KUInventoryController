@@ -414,7 +414,7 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -541,8 +541,11 @@ void KICManager::printFinance()
 
 
 
-void KICManager::randomSV(KICProduct** kicp[])
+void KICManager::randomSV()
 {
+    for (int i = 0; i < count; i++) {
+
+    }
 }
 
 
