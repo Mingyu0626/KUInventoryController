@@ -83,6 +83,6 @@ KICManager::~KICManager()
 {
 }
 
-void KICManager::start()
+void KICManager::start() // 메인에서 시작
 {
 }
