@@ -12,6 +12,7 @@ class KICProduct
 	int expDate;
 	int wPrice;
 	int rPrice;
+	
 
 public:
 	KICProduct();

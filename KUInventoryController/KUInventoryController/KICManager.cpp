@@ -2,6 +2,7 @@
 
 void KICManager::start()
 {
+    
 }
 
 int KICManager::randomSales()
@@ -19,6 +20,10 @@ void KICManager::printMenu()
 
 void KICManager::addOrder()
 {
+
+
+
+
 }
 
 void KICManager::discountPrice()

@@ -6,7 +6,9 @@
 using namespace std;
 
 class KICManager
+
 {
+	int balance;
 	int randomSales();
 	void init();
 	void printMenu();
