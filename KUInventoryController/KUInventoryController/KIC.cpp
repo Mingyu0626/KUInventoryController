@@ -4,8 +4,5 @@
 
 using namespace std;
 int main(void) {
-	printf("최민규 성공");
-	printf("이하윤 성공");
-	printf("백혜선 성공");
-	printf("오윤주 성공");
+	/*main에서는 KICManager 실행만!! 대부분의 기능은 KICManager 내부에서 작동합니다.*/
 }
