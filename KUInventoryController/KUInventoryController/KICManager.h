@@ -10,6 +10,7 @@
 #include <random>
 #include "KICProduct.h"
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -31,7 +32,9 @@ class KICManager
 	vector<string> split(string str, char delimiter);				// 특수 문자에 따른 string 분할
 
 	void printMenu();												// 메인 화면의 메뉴 출력
-	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
+	void noStockAlarm();											// 재고 부족 알림
+	void setDate();													// 업무 마감 시 다음날로 날짜 이동(폐기 처리한 후 실행하기)
+	void printDate();												// 상단에 날짜 출력하는 함수
 
 	/*----- 6.1 제품 주문 -----*/
 	void addOrder();												// 주문 추가

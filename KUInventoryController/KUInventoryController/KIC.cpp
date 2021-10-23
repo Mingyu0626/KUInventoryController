@@ -9,6 +9,4 @@ int main(void) {
 
 	KICManager manager0;
 	manager0.start();
-
-
 }
