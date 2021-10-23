@@ -601,14 +601,14 @@ void KICManager::sortAl()
             }
         }
     }
-    cout << "********************주문 품목창*********************" << endl;
+    cout << "********************주문 품목창********************" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
             cout << *sortprod[i] << endl;
         }
     }
-    cout << "*****************************************************" << endl;
+    cout << "****************************************************" << endl;
     cout << endl;
 
 }
