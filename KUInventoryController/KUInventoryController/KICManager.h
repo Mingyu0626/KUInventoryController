@@ -18,13 +18,14 @@ class KICManager
 	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
 
+	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
 
 	void init();													// 텍스트 파일 읽어오기	
 
 	/*----- 5. 시작 화면 및 메인 화면-----*/
-	bool finalCheck = false;
-	string checkDate(string date);
-	vector<string> split(string str, char delimiter);
+	bool finalCheck = false;										// checkDate(string date)의 정상적인 작동 여부 확인 
+	string checkDate(string date);									// 날짜 입력 예외 처리를 통해 8자리 숫자(ex 20211023) 형식의 string 형성
+	vector<string> split(string str, char delimiter);				// 특수 문자에 따른 string 분할
 
 	void printMenu();												// 메인 화면의 메뉴 출력
 	void noStockAlarm(KICProduct** kicp[]);							// 재고 부족 알림
@@ -34,7 +35,9 @@ class KICManager
 
 	/*----- 6.2 제품 검색 -----*/
 	void searchProds();												// 제품 검색
-	void sortStock();												// 정렬
+	void sortStock();												// 정렬_재고순
+	void sortDate();												// 정렬_유통기임박순
+	void sortAl();													// 정렬_ㄱㄴㄷ순
 
 	/*----- 6.3 판매가 지정-----*/
 	void changePrice();												// 판매가 지정
