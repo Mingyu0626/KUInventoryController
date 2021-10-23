@@ -2,6 +2,9 @@
 
 void KICManager::start()
 {
+
+
+
     while (true) {
         string date, result;
         cout << "시작 날짜 입력 : ";
@@ -14,6 +17,7 @@ void KICManager::start()
             cout << todayDate << endl;
             break;
         }
+
     }
 	init();
 }
@@ -477,6 +481,19 @@ void KICManager::noStockAlarm(KICProduct** kicp[])
 
 void KICManager::addOrder()
 {
+   /* cout << " 보유 잔액 :" << balance << endl;
+    cout << " ========================== " << endl;
+    cout << ""
+    while (true) {
+        string namePro, numPro;
+        cout << " 주문할 제품명을 띄어쓰기 없이 입력해주세요 : ";
+        getline(cin, namePro);
+        for (int i = 0; i < )
+            cout << " 주문할 제품 수량을 띄어쓰기 없이 입력해주세요 : ";
+        getline(cin, numPro);
+
+
+    }*/
 }
 
 
