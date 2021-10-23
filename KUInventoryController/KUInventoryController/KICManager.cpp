@@ -633,8 +633,125 @@ void KICManager::printFinance()
 
 void KICManager::randomSV()
 {
+    srand((unsigned int)time(NULL));
+
     for (int i = 0; i < count; i++) {
+
         int tempSalesVolume = product[i]->getSalesVolume();
+        int amountOfChange;                      // 판매량의 변화량.
+        int plusOrMinus = (rand() + rand()) % 2; // 난수 두개 더해서 2로 나눈 나머지가 0이면 판매량 증가, 1이면 판매량 감소.
+
+        if (tempSalesVolume >= 0 && tempSalesVolume <= 5) {
+            amountOfChange = (rand() % 2);
+            if (tempSalesVolume == 0) { // 판매량이 0인경우에서 판매량이 감소할 순 없으니까... 0혹은 1만큼 판매량 증가.
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 5 && tempSalesVolume <= 15) {
+            amountOfChange = (rand() % 3);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        } 
+
+        else if (tempSalesVolume > 15 && tempSalesVolume <= 25) {
+            amountOfChange = (rand() % 5);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 25 && tempSalesVolume <= 35) {
+            amountOfChange = (rand() % 7);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 35 && tempSalesVolume <= 50) {
+            amountOfChange = (rand() % 10);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 50 && tempSalesVolume <= 65) {
+            amountOfChange = (rand() % 13);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 65 && tempSalesVolume <= 85) {
+            amountOfChange = (rand() % 16);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else if (tempSalesVolume > 85 && tempSalesVolume <= 110) {
+            amountOfChange = (rand() % 21);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
+
+        else {
+            amountOfChange = (rand() % 25);
+            if (plusOrMinus == 0) {
+                tempSalesVolume = tempSalesVolume + amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+            else {
+                tempSalesVolume = tempSalesVolume - amountOfChange;
+                product[i]->setSalesVolume(tempSalesVolume);
+            }
+        }
     }
 }
 
