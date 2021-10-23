@@ -3,9 +3,9 @@
 #include <iostream>
 
 using namespace std;
-
 int main(void) {
-	printf("This is Mingyu's Branch");
-	printf("Branch Test 01");
-	printf("Branch Test 02");
+	/*main에서는 KICManager 실행만!! 대부분의 기능은 KICManager 내부에서 작동합니다.*/
+
+	KICManager manager0;
+	manager0.start();
 }
