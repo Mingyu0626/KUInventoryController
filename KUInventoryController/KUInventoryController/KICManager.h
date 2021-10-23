@@ -7,6 +7,7 @@
 #include <ctime>
 #include "KICProduct.h"
 #include <fstream>
+#include <random>
 #include "KICProduct.h"
 
 using namespace std;
