@@ -7,7 +7,9 @@
 #include <ctime>
 #include "KICProduct.h"
 #include <fstream>
+#include <random>
 #include "KICProduct.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -15,6 +17,7 @@ class KICManager
 {
 	int property = 1000000;			// 보유 자산
 	string todayDate;				// 날짜
+	int balance;                    // 보유 잔액
 	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
 
@@ -51,7 +54,7 @@ class KICManager
 	void closingWork();												// 업무 마감
 	void searchScrap(KICProduct** kicp[]);							// 폐기 제품을 판별 후 출력
 	void printFinance();											// 재정 상황 출력(당일 매출, 당일 순이익, 보유 자산)
-	void randomSV(KICProduct** kicp[]);								// 판매량을 랜덤 알고리즘에 의해 지정
+	void randomSV();												// 판매량을 랜덤 알고리즘에 의해 지정
 
 	/*----- 6.5 getter. setter -----*/
 	int getProperty();
