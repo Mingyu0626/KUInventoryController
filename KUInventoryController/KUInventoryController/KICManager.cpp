@@ -911,7 +911,7 @@ void KICManager::randomSV()
             }
 
             product[i]->setSVChanged(true);
-            /* 위에서 판매량에 변화를 준 제품과 유통기한만 다른 동일 제품을 찾아 판매량을 바꿔주는 작업 */
+            /* 위에서 랜덤 판매량을 대입한 제품과 유통기한만 다른 동일 제품을 찾아 동일한 판매량을 대입해주는 작업 */
             for (int j = 0; j < count; j++) {
                 if (tempPN.compare(product[j]->getName()) == 0 && product[j]->getIsSVChanged() == false) {
                     product[j]->setSalesVolume(tempSalesVolume);
@@ -920,13 +920,21 @@ void KICManager::randomSV()
             }
         }
     }
+    /*동일 제품을 고려한 랜덤 판매량 대입 작업이 완료되었으므로 다시 IsSVChanged 변수를 false로 돌려놓는다.*/
+    for (int i = 0; i < count; i++) {
+        product[i]->setSVChanged(false);
+    }
 }
+
+
 
 int KICManager::calTodaySales(int ts, int sorsv, int rp)
 {
     ts += (sorsv * rp);
     return ts;
 }
+
+
 
 int KICManager::calTodayProfits(int tp, int sorsv, int rp, int wp)
 {
