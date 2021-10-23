@@ -497,7 +497,7 @@ void KICManager::searchProds()
 
 void KICManager::sortDate()
 {
-    //여기서 sortprod는 유통기한 임박순
+    //여기서 sortprod는 유통기한 임박순!
     cout << "sortdate" << endl;
 
     for (int i = 0; i < count; i++) {
@@ -526,6 +526,7 @@ void KICManager::sortDate()
 
 void KICManager::sortAl()
 {
+    //ㄱㄴㄷ순
     cout << "sortal" << endl;
 }
 
