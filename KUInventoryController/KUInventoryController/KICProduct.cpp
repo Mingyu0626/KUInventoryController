@@ -1,7 +1,7 @@
 #include "KICProduct.h"
 
-
-KICProduct::KICProduct(string name, int stock, int expDate, int wPrice, int rPrice)
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice) 
+    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), wPrice(wPrice), rPrice(rPrice)
 {
 }
 
@@ -11,36 +11,57 @@ KICProduct::~KICProduct()
 
 string KICProduct::getName()
 {
-    return string();
+    return this->name;
 }
 
 void KICProduct::setName(string name)
 {
+    this->name = name;
+}
+
+int KICProduct::getSalesVolume()
+{
+    return this->salesVolume;
+}
+
+void KICProduct::setSalesVolume(int salesVolume)
+{
+    this->salesVolume = salesVolume;
 }
 
 int KICProduct::getExpDate()
 {
-    return 0;
+    return this->expDate;
 }
 
 void KICProduct::setExpDate(int expDate)
 {
+    this->expDate = expDate;
 }
 
 int KICProduct::getWPrice()
 {
-    return 0;
+    return this->wPrice;
 }
 
 void KICProduct::setWPrice(int wPrice)
 {
+    this->wPrice = wPrice;
 }
 
 int KICProduct::getRPrice()
 {
-    return 0;
+    return this->rPrice;
 }
 
 void KICProduct::setRPrice(int rPrice)
 {
+    this->rPrice = rPrice;
+}
+
+
+ostream& operator<<(ostream& out, const KICProduct& p)
+{
+    out << p.name << ' ' << p.stock << ' ' << p.salesVolume << ' ' << p.expDate << ' ' << p.wPrice << ' ' << p.rPrice;
+    return out;
 }

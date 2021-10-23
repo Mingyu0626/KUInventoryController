@@ -6,6 +6,8 @@
 #include <vector>
 #include <ctime>
 #include "KICProduct.h"
+#include <fstream>
+#include "KICProduct.h"
 
 using namespace std;
 
