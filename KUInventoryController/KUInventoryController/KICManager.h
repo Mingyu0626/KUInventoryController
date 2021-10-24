@@ -11,6 +11,7 @@
 #include "KICProduct.h"
 #include <conio.h>
 #include <Windows.h>
+#include<iomanip> 
 
 using namespace std;
 
