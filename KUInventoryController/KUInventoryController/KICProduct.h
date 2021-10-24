@@ -39,8 +39,6 @@ public:
 	void setDiscount(int discount);
 	bool getIsSVChanged();
 	void setSVChanged(bool isSVChanged);
-	int getDiscount();
-	void setDiscount(int discount);
 	int getDisDate();
 	void setDisDate(int disDate);
 

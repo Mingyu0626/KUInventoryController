@@ -507,7 +507,7 @@ void KICManager::printMenu()
         else if (menu == "2")
             searchProds();
         else if (menu == "3")
-            selectDiscountProds(&product);
+            selectDiscountProds();
         else if (menu == "4")
             closingWork();
         else {
@@ -956,30 +956,77 @@ void KICManager::selectMarginRate()
         }
     }
     margin = tempRPrice - tempWPrice;
-    marginRate = 100 * (margin / tempRPrice);
-    cout << "현재 마진율 : " << marginRate << endl;
-    cout << "변경할 마진율을 입력해주세요 : " << endl;
-
+    marginRate = margin / tempRPrice;
+    while (true) { // 올바른 마진율을 입력할때까지 돌아가는 무한루프
+        cout << "현재 마진율 : " << (int)(marginRate * 100)<< "%" << endl;
+        int m;
+        cout << "변경할 마진율을 입력해주세요(10%단위로만 설정가능!) : " << endl;
+        cin >> m;
+        if (!cin) {
+            cout << "올바른 값을 입력해주세요." << endl;
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+        }
+        else if (m % 10 != 0) {
+            cout << "10% 단위의 값을 입력해주세요." << endl;
+        }
+        else
+            marginRate = ((double)m / (double)100);
+            break;
+    }
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) { // 재고가 남아있고 할인을 하지않는 제품
+            double changedRP = (double)product[i]->getWPrice() / (1.0 - marginRate); // 새롭게 변한 마진율에 따른 RP 
+            product[i]->setRPrice((int)changedRP);
+        }
+        else if (product[i]->getDiscount() != 0 && product[i]->getStock() != 0) { // 재고가 남아있고 할인을 진행중인 제품
+            double originRP = (double)product[i]->getWPrice() / (1.0 - marginRate); // 마진율을 올리고 할인을 적용하기 전 RP
+            double dcAppliedRP = originRP * ((100.0 - (double)product[i]->getDiscount()) / 100.0); // 할인이 적용된 RP 
+            product[i]->setRPrice((int)dcAppliedRP);
+        }
+        // 재고가 0인 product는 이미 다 팔린 친구들이므로 아무것도 하지 않는다.   
+    }
 }
 
 
 
 void KICManager::closingWork()
 {
-    cout << "---------- <2021년 10월 24일 업무마감> ----------\n";
-    searchScrap();      // 폐기 제품 판별 및 재고 수 초기화(폐기)
-    financeCalculate(); // 판매에 따른 재고 수 줄인 후, 감당일 매출액, 당일 순이익, 보유 자산 출력
-    randomSV(); // 다음날 판매될 랜덤 판매량 결정
+    cout << "----------";
+    printDate();
+    cout << "----------\n";
+    cout << "업무를 마감합니다." << endl;
+    searchScrap();      // 할인 마감 제품 정상가 복구 및 남은 할인 일수 감소, 폐기 제품 판별 후 폐기
+    financeCalculate(); // 판매에 따른 재고 수 줄인 후, 당일 매출액, 당일 순이익, 보유 자산 출력
+    setDate();
+    randomSV(); // 제품별 랜덤 판매량 결정
+    printDate();
+    cout << "영업으로 넘어갑니다..." << endl;
 }
 
 
 
 void KICManager::searchScrap()
 {
+    /*할인 마감 제품 판별 및 남은 할인 일수 감소*/
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getDisDate() == 0 && product[i]->getStock() != 0) {
+            double tempRP = (double)product[i]->getRPrice();
+            double tempDis = (double)product[i]->getDiscount() / 100.0;
+            product[i]->setRPrice((int)(tempRP * (1.0 + tempDis)));
+            product[i]->setDiscount(0);
+        }
+        else if (product[i]->getDisDate() != 0 && product[i]->getStock() != 0) {
+            product[i]->setDisDate(product[i]->getDisDate() - 1);
+        }
+    }
+
+    /*폐기 제품 판별하여 제품 폐기(재고 수 0으로 초기화) 및 나머지 제품 유통기한 감소*/
+    cout << "------------------------------" << endl;
     cout << "※※폐기 알림※※" << endl;
     int numOfScrapProds = 0;
     for (int i = 0; i < count; i++) {
-        if (product[i]->getExpDate() == 0) { // 유통기한이 만료된 제품의 경우 해당 제품의 재고를 0으로 만들어줘야 한다.
+        if (product[i]->getExpDate() == 0 && product[i]->getStock() != 0) { // 유통기한이 만료된 제품의 경우 해당 제품의 재고를 0으로 만들어줘야 한다.
             numOfScrapProds++;
             cout << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
             product[i]->setStock(0);
@@ -1062,9 +1109,10 @@ void KICManager::financeCalculate()
     }
     property += todayProfits;
     cout << "---------------------------------------------------" << endl;
-    cout << "당일 매출 :" << todaySales << endl;
-    cout << "당일 순이익 :" << todayProfits << endl;
-    cout << "보유 자산 :" << property << endl;
+    cout << "당일 매출 :" << todaySales << "원" << endl;
+    cout << "당일 순이익 :" << todayProfits << "원" << endl;
+    cout << "보유 자산 :" << property << "원" << endl;
+    cout << "---------------------------------------------------" << endl;
 }
 
 

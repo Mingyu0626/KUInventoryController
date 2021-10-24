@@ -99,16 +99,6 @@ void KICProduct::setSVChanged(bool isSVChanged)
     this->isSVChanged = isSVChanged;
 }
 
-int KICProduct::getDiscount()
-{
-    return this->discount;
-}
-
-void KICProduct::setDiscount(int discount)
-{
-    this->discount = discount;
-}
-
 int KICProduct::getDisDate()
 {
     return this->disDate;
