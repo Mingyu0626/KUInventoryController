@@ -11,6 +11,9 @@
 #include "KICProduct.h"
 #include <conio.h>
 #include <Windows.h>
+#include<iomanip>
+#include <algorithm>
+#include <typeinfo>
 
 using namespace std;
 
@@ -47,7 +50,6 @@ class KICManager
 	void sortAl();														// 정렬_ㄱㄴㄷ순
 
 	/*----- 6.3 판매가 지정-----*/
-	void changePrice();													// 판매가 지정
 	void discountProds();												// 현재 할인중인 제품 출력
 	void discountReqProds();											// 할인이 필요한 제품 판별
 	void selectDiscountProds();											// 할인 제품 지정
