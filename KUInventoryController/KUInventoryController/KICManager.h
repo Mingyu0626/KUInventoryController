@@ -43,7 +43,7 @@ class KICManager
 	/*----- 6.2 제품 검색 -----*/
 	void searchProds();													// 제품 검색
 	void sortStock();													// 정렬_재고순
-	void sortDate();													// 정렬_유통기임박순
+	void sortDate();												// 정렬_유통기임박순
 	void sortAl();														// 정렬_ㄱㄴㄷ순
 
 	/*----- 6.3 판매가 지정-----*/
@@ -57,7 +57,7 @@ class KICManager
 	/*----- 6.4 업무 마감 -----*/
 	void closingWork();													// 당일 업무 마감
 	void searchScrap();													// 폐기 제품을 판별 후 출력
-	void financeCalculate();											// 재정 상황 출력(당일 매출, 당일 순이익, 보유 자산)
+	void financeCalculate();											// 재정 상황 출력(당일sear 매출, 당일 순이익, 보유 자산)
 	void randomSV();													// 판매량을 랜덤 알고리즘에 의해 지정
 	int calTodaySales(int ts, int sorsv, int rp);
 	int calTodayProfits(int tp, int sorsv, int rp, int wp);
