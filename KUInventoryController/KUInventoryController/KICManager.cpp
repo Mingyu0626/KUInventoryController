@@ -130,6 +130,11 @@ string KICManager::checkDate(string date)
                         }
                         break;
                     }
+                else {
+                    cout << "날짜를 올바르게 입력하세요." << endl;
+                    system("pause");
+                    return "";
+                }
             }
             else {
                 continue;
@@ -189,6 +194,11 @@ string KICManager::checkDate(string date)
                             break;
                         }
                     }
+                    else {
+                        cout << "날짜를 올바르게 입력하세요." << endl;
+                        system("pause");
+                        return "";
+                    }
                 }
             }
 
@@ -224,6 +234,11 @@ string KICManager::checkDate(string date)
                             dateCheck = true;
                         }
                     }
+                }
+                else {
+                    cout << "날짜를 올바르게 입력하세요." << endl;
+                    system("pause");
+                    return "";
                 }
 
                 // letterCheck
@@ -437,8 +452,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    //fstream fin("source.txt");
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("source.txt");
+    //fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -759,15 +774,28 @@ void KICManager::addOrder()
                         break;
                     }
 
-                    property -= price;
-                    count++;
+                    int p = 0; // 같은제품, 같은 유통기한인지 check
+                   /*같은 제품, 같은 유통기한이면 합치기*/
+                    for (int i = 0; i < count; i++) {
+                        if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
+                        {
+                            product[i]->setStock(product[i]->getStock() + numPro);
+                            p = 1;
+                            break;
+                        }
+                    }
 
-                    /*product, sortprod 주문 내용 추가*/
-                    this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
+                    property -= price;
+                    if (p == 0) {
+                        count++;
+                        /*product, sortprod 주문 내용 추가*/
+                        this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
+                    }
                     cout << "주문 완료했습니다" << endl;
                     cout << "결제금액: " << price << ", 보유금액: " << property << endl;
                     system("pause");
                     break;
+
                 }
                 break;
             }
@@ -855,10 +883,14 @@ void KICManager::searchProds()
             }
         }
 
-        if (namePro[0] == ' ') {
-            cout << "선행 공백 입력은 불가능합니다. 다시 입력하세요." << endl;
+        if (namePro[0] == ' ' || namePro.empty()) {
+            cout << "선행 공백과 미입력은 불가능합니다. 다시 입력하세요." << endl;
             system("pause");
         }
+
+        /*else if (namePro.compare('\n') == 0) {
+            cout << "엔터 키 입력은 */
+
         else if (namePro.find('~') != string::npos || namePro.find('!') != string::npos || namePro.find('@') != string::npos || namePro.find('#') != string::npos || namePro.find('$') != string::npos || namePro.find('%') != string::npos || namePro.find('^') != string::npos ||
             namePro.find('&') != string::npos || namePro.find('*') != string::npos || namePro.find('(') != string::npos || namePro.find(')') != string::npos || namePro.find('-') != string::npos || namePro.find('+') != string::npos || namePro.find('_') != string::npos ||
             namePro.find('=') != string::npos || namePro.find(':') != string::npos || namePro.find(';') != string::npos || namePro.find('"') != string::npos || namePro.find(',') != string::npos || namePro.find('<') != string::npos || namePro.find('>') != string::npos ||
@@ -900,10 +932,12 @@ void KICManager::sortDate()
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
-                temp = *sortprod[i];
-                *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
+            if (sortprod[i]->getExpDate() != 0 && sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
+                if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                    temp = *sortprod[i];
+                    *sortprod[i] = *sortprod[j];
+                    *sortprod[j] = temp;
+                }
             }
         }
     }
@@ -938,15 +972,16 @@ void KICManager::sortAl()
     //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
     cout << "--------------------------------------------------------------------------------------" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
+    /*유통기한 0인것도 출력X*/
+    int k = 0;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
-            cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << endl;
+            if (sortprod[i]->getExpDate() != 0)
+                cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << endl;
             // cout << *sortprod[i] << endl;
         }
     }
-
     cout << endl;
-
 }
 
 
@@ -960,17 +995,18 @@ void KICManager::sortStock()
         this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
     }
     cout << typeid(product[3]->getName()).name() << endl;
-    int result;
     char str = 'd';
     char str1 = 'e';
 
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() > sortprod[j]->getStock()) {
-                temp = *sortprod[i];
-                *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
+            if (sortprod[i]->getExpDate() != 0 && sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
+                if (sortprod[i]->getStock() > sortprod[j]->getStock()) {
+                    temp = *sortprod[i];
+                    *sortprod[i] = *sortprod[j];
+                    *sortprod[j] = temp;
+                }
             }
         }
     }
@@ -1196,15 +1232,16 @@ void KICManager::selectMarginRate()
     int tempWPrice = 0;
     int margin = 0;
     double marginRate; // 마진율
-    for (int i = 0; i < count; i++) {
-        if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) {
-            tempRPrice = product[i]->getRPrice();
-            tempWPrice = product[i]->getWPrice();
-        }
-    }
-    margin = tempRPrice - tempWPrice;
-    marginRate = (double)margin / (double)tempRPrice;
     while (true) { // 올바른 값의 마진율을 입력할때까지 무한루프
+        for (int i = 0; i < count; i++) {
+            if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) {
+                tempRPrice = product[i]->getRPrice();
+                tempWPrice = product[i]->getWPrice();
+            }
+        }
+        margin = tempRPrice - tempWPrice;
+        marginRate = (double)margin / (double)tempRPrice;
+
         system("cls");
         cout << "현재 마진율: " << (int)(marginRate * 100)<< "%" << endl;
         string temp;
@@ -1215,13 +1252,7 @@ void KICManager::selectMarginRate()
         if (temp.compare("q") == 0) {
             printMenu();
         }
-        if (temp.length() == 1) {
-            if (temp.compare("q") == 0) {
-                printMenu();
-            }
-            cout << "올바른 값을 입력해주세요." << endl;
-            system("pause");
-        }
+
         try {
             for (char const& c : temp) {
                 if (std::isdigit(c) == 0) {
@@ -1234,9 +1265,15 @@ void KICManager::selectMarginRate()
                 try {
                     if (stoi(temp) % 10 == 0) {
                         marginRate = (double)stoi(temp) / (double)100;
-                        cout << "마진율이 " << (int)(marginRate * 100) << "%로 변경되었습니다." << endl;
-                        system("pause");
-                        break;
+                        if (marginRate >= 0.1 && marginRate <= 0.9) {
+                            cout << "마진율이 " << (int)(marginRate * 100) << "%로 변경되었습니다." << endl;
+                            system("pause");
+                            break;
+                        }
+                        else {
+                            cout << "마진율의 변경가능 범위는 10%~90%입니다." << endl;
+                            system("pause");           
+                        }
                     }
                     else {
                         cout << "10% 단위로만 입력이 가능합니다." << endl;
@@ -1345,7 +1382,7 @@ void KICManager::financeCalculate()
                 todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // 제품의 당일 매출액 계산 후 합계에 더해주기
                 todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // 제품의 당일 순이익 계산 후 합계에 더해주기
                 product[i]->setStock(0);
-                remainSV = tempSalesVolume - tempStock;
+                remainSV = tempSalesVolume - tempStock; // 남은 판매량
 
                 for (int j = 0; j < count; j++) {
                     if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1번째 재고가 남은 동일 제품 객체 탐색 
@@ -1388,7 +1425,7 @@ void KICManager::financeCalculate()
         }
 
     }
-    property += todayProfits;
+    property += todaySales;
     cout << "---------------------------------------------------" << endl;
 
     cout << "당일 매출 :" << todaySales << "원" << endl;
@@ -1396,7 +1433,7 @@ void KICManager::financeCalculate()
     cout << "보유 자산 :" << property << "원" << endl;
     cout << "---------------------------------------------------" << endl;
 
-
+    
 }
 
 
@@ -1540,6 +1577,10 @@ void KICManager::randomSV()
     /*동일 제품을 고려한 랜덤 판매량 대입 작업이 완료되었으므로 다시 IsSVChanged 변수를 false로 돌려놓는다.*/
     for (int i = 0; i < count; i++) {
         product[i]->setSVChanged(false);
+    }
+
+    for (int i = 0; i < count; i++) {
+        sortprod[i] = product[i];
     }
 }
 
