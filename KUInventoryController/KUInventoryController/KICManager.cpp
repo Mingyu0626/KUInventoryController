@@ -447,10 +447,9 @@ void KICManager::init()
         cout << count << endl;
 
         if (count > 0) {
-            product = new KICProduct * [count];
-            sortprod = new KICProduct * [count]; //정렬위해 추가
+            product = new KICProduct * [100];
+            sortprod = new KICProduct * [100]; //정렬위해 추가
         }
-
 
         for (int i = 0; i < count; i++) {
             string str;
@@ -459,6 +458,9 @@ void KICManager::init()
             fin >> stock >> salesVolume >> expDate >> wPrice >> rPrice;
             this->product[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
             getline(fin, buffer);
+        }
+        for (int i = 0; i < count; i++) {
+            this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
         }
     }
 }
@@ -505,7 +507,7 @@ void KICManager::printMenu()
         else if (menu == "2")
             searchProds();
         else if (menu == "3")
-            selectDiscountProds(&product);
+            selectDiscountProds();
         else if (menu == "4")
             closingWork();
         else {
@@ -514,6 +516,7 @@ void KICManager::printMenu()
         }
     }
 }
+
 
 void KICManager::noStockAlarm()
 {
@@ -542,18 +545,18 @@ void KICManager::setDate()
     g = todayDate[6];
     h = todayDate[7];
 
-	num0 = stoi(a);
-	num1 = stoi(b);
-	num2 = stoi(c);
-	num3 = stoi(d);
-	num4 = stoi(e);
-	num5 = stoi(f);
-	num6 = stoi(g);
-	num7 = stoi(h);
+    num0 = stoi(a);
+    num1 = stoi(b);
+    num2 = stoi(c);
+    num3 = stoi(d);
+    num4 = stoi(e);
+    num5 = stoi(f);
+    num6 = stoi(g);
+    num7 = stoi(h);
 
     year = 1000 * num0 + 100 * num1 + 10 * num2 + num3;
-	month = 10 * num4 + num5;
-	day = 10 * num6 + num7;
+    month = 10 * num4 + num5;
+    day = 10 * num6 + num7;
 
     todayDate = "";
 
@@ -563,7 +566,7 @@ void KICManager::setDate()
             day += 1;
         }
         else {
-            month = 3; 
+            month = 3;
             day = 1;
         }
         break;
@@ -635,49 +638,8 @@ void KICManager::printDate()
     cout << " < " << year << "년 " << month << "월 " << day << "일 > \n" << endl;
 }
 
-
 void KICManager::addOrder()
 {
-
-    /* 주문을 위해 보유 잔액 출력  */
-    cout << " 보유 잔액 : " << property << endl;
-
-    sortAl();
-
-	/*주문 화면 출력*/
-
-	string namePro;
-    int numPro;
-	cout << " 주문할 제품명을 띄어쓰기 없이 입력 : ";
-	getline(cin, namePro);
-	/*검색함수 들어가면돼*/
-
-	cout << " 주문할 제품 수량을 띄어쓰기 없이 입력  : ";
-    cin >> numPro;
-
-    /*주문 상품 찾아서 가격 보여주기*/
- 
-
-    cout <<" 결제금액 " << property <<"원 " << " 보유금액 " << "원" << "주문하시겠습니까? (y/n)" << endl;
-    
-    while (true) {  
-        char yn;
-        cin >> yn;
-        cout << yn << endl;
-
-        if (yn == 'y') {
-            /* 주문 상황 반영*/
-            cout << "주문!" << endl;
-            break;
-        }else if(yn == 'n') {
-            cout << "주문이 취소되었습니다. " << endl;
-            break;
-        }
-        else {
-            cout << "잘못 입력하셨습니다. ";
-            continue;
-        }
-    }
 
 }
 
@@ -718,22 +680,36 @@ void KICManager::sortAl()
 {
     //ㄱㄴㄷ순 정렬
     cout << "sortal" << endl;
+    cout << count << endl;
+    /*for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }*/
+    cout << "hi" << endl;
+   
+    KICProduct temp = *sortprod[0];
+    cout << sortprod[1]->getExpDate() << endl;
 
     for (int i = 0; i < count; i++) {
-        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-    }
+            cout << *sortprod[i] << endl;
 
-    KICProduct temp = *sortprod[0];
+    }
+    cout << "hi" << endl;
+
+   // cout << sortprod[3]->getName() << endl;
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
            // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
-            if ((sortprod[i]->getName().compare(sortprod[j]->getName()))>0) {
-                temp = *sortprod[i];
+            if ((sortprod[i]->getName().compare(sortprod[j]->getName()))==0) {
+
+                /*temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
+                *sortprod[j] = temp;*/
             }
+            cout << i << endl;
         }
+        cout << i << endl;
     }
+    
     cout << "********************주문 품목창*********************" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
     for (int i = 0; i < count; i++) {
@@ -754,7 +730,7 @@ void KICManager::sortStock()
     cout << "sortstock" << endl;
     int t = 0;
     
-    for (int i = 0; i < count; i++) {
+   /* for (int i = 0; i < count; i++) {
         this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
     } 
     cout << typeid(product[3]->getName()).name() << endl;
@@ -789,18 +765,156 @@ void KICManager::changePrice()
 
 void KICManager::discountProds()
 {
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getDiscount() != 0) {
+                if (sortprod[i]->getDiscount() > sortprod[j]->getDiscount()) {
+                    temp = *sortprod[i];
+                    *sortprod[i] = *sortprod[j];
+                    *sortprod[j] = temp;
+                }
+            }
+        }
+    } // discount 많은 순으로 정렬
+    temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getDiscount() != 0) {
+                if (sortprod[i]->getDiscount() == sortprod[j]->getDiscount()) {
+                    if (sortprod[i]->getDisDate() > sortprod[j]->getDisDate()) {
+                        temp = *sortprod[i];
+                        *sortprod[i] = *sortprod[j];
+                        *sortprod[j] = temp;
+                    }
+                }
+            }
+        }
+    } // discount 같은 것들 중 disDate 순으로 정렬
+
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getDiscount() != 0) {
+            cout << sortprod[i] << endl;
+        }
+    } //discount 하는 것들 sorted 된대로 print
 }
 
 
 
 void KICManager::discountReqProds()
 {
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() > sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    } //  (같은제품, 유통기한 다른거 => 다른제품 취급 : 남은 재고 수 / 전날 판매량 순으로 정렬)
+    bool accept = true;
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
+            for (int j = 0; j < count; j++) {
+                if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
+                    if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                        accept = false;
+                        break;
+                    } // expDate가 같은 제품 상에서 가장 최신꺼인지 확인
+                }
+            }
+            if (accept) {
+                cout << sortprod[i] << endl;
+            }
+        }
+    }// 남은 재고 수 >= 전날 파매량 *3 인 제품만 sorted 된대로 출력
 }
 
 
 
 void KICManager::selectDiscountProds()
 {
+
+    /*KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    }*/
+    cout << "할인 할 제품명을 입력하세요 : ";
+    string select;
+    getline(cin, select);
+    if (select.compare("q") == 0) {
+        exit(0);
+    }
+    int status = -1;
+    for (int i = 0; i < count; i++) {
+        if (select.compare(product[i]->getName()) == 0 && status == -1) {
+            if (product[i]->getStock() != 0) {
+                if (sortprod[i]->getDiscount() != 0) {
+                    status = 0;
+                    break;
+                }
+                else {
+                    if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3) {
+                        status = 2;
+                    }
+                    else {
+                        status = 1;
+                    }
+                }
+            }
+        }
+    }
+    // 유통기한이 빠른 순으로 product는 정렬되어있을 가능성이 크다. 만약 그렇지 않으면 앞에 정렬 함수 추가
+
+    if (status == -1) {
+        cout << "그러한 제품명이 없습니다." << endl;
+    }
+    if (status == 0) {
+        cout << "이미 할인 중인 제품입니다." << endl;
+    }
+    else if (status == 1) {
+        cout << "선택하신 제품명은 할인할 수 있는 제품이 아닙니다." << endl;
+    }
+    else if (status == 2) {
+        while(true){
+            string line;
+            int percentage = 0;
+            cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) : ";
+            getline(cin, line);
+            if (line.compare("q") == 0) {
+                exit(0);
+            }
+            try {
+                percentage = stoi(line);
+            }catch (const exception& e) {
+                cerr << "입력하신 수가 정수가 아닙니다." << endl;
+            }
+            if (percentage < 10 && percentage > 90) {
+                cout << "범위가 알맞지 않습니다." << endl;
+            }
+            else if (percentage % 10 != 0) {
+                cout << "10 단위로 입력해야 합니다." << endl;
+            }
+            else {
+                for (int i = 0; i < count; i++) {
+                    if (select.compare(product[i]->getName()) == 0 && product[i]->getStock() != 0) {
+                        product[i]->setDiscount(percentage);
+                        product[i]->setDisDate(3);
+                        int newprice = product[i]->getRPrice() * (100 + percentage / 100);
+                        product[i]->setRPrice(newprice);
+                    }
+                }
+                break;
+            }
+        }
+    }
 }
 
 
