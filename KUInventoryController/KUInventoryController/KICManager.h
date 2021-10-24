@@ -10,6 +10,7 @@
 #include <random>
 #include "KICProduct.h"
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ class KICManager
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
 	KICProduct** searchprod = nullptr;  //검색 위한 동적 1차원 배열
 	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
+//	KICProduct** fixedprod = nullptr; //기존 정보를 담고있는 동적 1차원 배열(고정됨)
 
 	void init();													// 텍스트 파일 읽어오기	
 
@@ -30,8 +32,10 @@ class KICManager
 	string checkDate(string date);										// 날짜 입력 예외 처리를 통해 8자리 숫자(ex 20211023) 형식의 string 형성
 	vector<string> split(string str, char delimiter);					// 특수 문자에 따른 string 분할
 
-	void printMenu();													// 메인 화면의 메뉴 출력
-	void noStockAlarm();												// 재고 부족 알림
+	void printMenu();												// 메인 화면의 메뉴 출력
+	void noStockAlarm();											// 재고 부족 알림
+	void setDate();													// 업무 마감 시 다음날로 날짜 이동(폐기 처리한 후 실행하기)
+	void printDate();												// 상단에 날짜 출력하는 함수
 
 	/*----- 6.1 제품 주문 -----*/
 	void addOrder();													// 주문 추가
