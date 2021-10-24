@@ -1028,17 +1028,17 @@ void KICManager::discountReqProds()
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() > sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() < sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
                 temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
                 *sortprod[j] = temp;
             }
         }
     } //  (같은제품, 유통기한 다른거 => 다른제품 취급 : 남은 재고 수 / 전날 판매량 순으로 정렬)
-    bool accept = true;
     bool check = false;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
+            bool accept = true;
             for (int j = 0; j < count; j++) {
                 if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
                     if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
@@ -1136,11 +1136,9 @@ void KICManager::selectDiscountProds()
                 bool num = true;
                 try {
                     for (char const& c : line) {
-                        throw c;
                         if (std::isdigit(c) == 0) {
-                            cout << "숫자가 아닙니다" << endl;
                             num = false;
-                            break;
+                            throw c;
                         }
                     }
                 }
