@@ -1030,7 +1030,7 @@ void KICManager::discountProds()
         for (int j = i + 1; j < count; j++) {
             if (sortprod[i]->getDiscount() != 0) {
                 if (sortprod[i]->getDiscount() == sortprod[j]->getDiscount()) {
-                    if (sortprod[i]->getDisDate() > sortprod[j]->getDisDate()) {
+                    if (sortprod[i]->getDisDate() < sortprod[j]->getDisDate()) {
                         temp = *sortprod[i];
                         *sortprod[i] = *sortprod[j];
                         *sortprod[j] = temp;
