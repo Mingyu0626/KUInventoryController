@@ -437,8 +437,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    fstream fin("source.txt");
-    //fstream fin("절대경로");
+    //fstream fin("source.txt");
+    fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -979,6 +979,7 @@ void KICManager::sortStock()
         cout << *sortprod[i] << endl;
     }
 
+}
 
 void KICManager::discountProds()
 {
