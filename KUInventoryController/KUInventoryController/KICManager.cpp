@@ -1646,7 +1646,7 @@ void KICManager::randomSV()
     }
 
     for (int i = 0; i < count; i++) {
-        sortprod[i] = product[i];
+        *sortprod[i] = *product[i];
     }
 }
 
