@@ -507,6 +507,7 @@ void KICManager::printMenu()
 
 void KICManager::addOrder()
 {
+    cout << "addorder" << endl;
 
     /* 주문을 위해 보유 잔액 출력  */
     cout << " 보유 잔액 : " << property << endl;
@@ -522,6 +523,8 @@ void KICManager::addOrder()
     int k = 0; //반복문 탈출 위한 변수
     int productnum = -1; //주문할 물건의 인덱스번호
 
+
+    //while
     while (true) {
 	cout << " 주문할 제품명을 띄어쓰기 없이 입력(q누르면 종료.) : ";
 	getline(cin, namePro);
@@ -568,7 +571,7 @@ void KICManager::addOrder()
         //    cout << "주문!" << endl;
             if (property < price) {
                 cout << "결제 금액이 부족합니다." << endl;
-                addOrder();
+              //  addOrder();
             }
             else {
                 /*주문 성공*/
