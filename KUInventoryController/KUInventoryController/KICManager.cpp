@@ -507,7 +507,7 @@ void KICManager::printMenu()
         else if (menu == "2")
             searchProds();
         else if (menu == "3")
-            selectDiscountProds(&product);
+            selectDiscountProds();
         else if (menu == "4")
             closingWork();
         else {
@@ -516,6 +516,7 @@ void KICManager::printMenu()
         }
     }
 }
+
 
 void KICManager::noStockAlarm()
 {
@@ -544,46 +545,60 @@ void KICManager::setDate()
     g = todayDate[6];
     h = todayDate[7];
 
-	num0 = stoi(a);
-	num1 = stoi(b);
-	num2 = stoi(c);
-	num3 = stoi(d);
-	num4 = stoi(e);
-	num5 = stoi(f);
-	num6 = stoi(g);
-	num7 = stoi(h);
+    num0 = stoi(a);
+    num1 = stoi(b);
+    num2 = stoi(c);
+    num3 = stoi(d);
+    num4 = stoi(e);
+    num5 = stoi(f);
+    num6 = stoi(g);
+    num7 = stoi(h);
 
-    sortAl();
+    year = 1000 * num0 + 100 * num1 + 10 * num2 + num3;
+    month = 10 * num4 + num5;
+    day = 10 * num6 + num7;
 
-	/*주문 화면 출력*/
+    todayDate = "";
 
-	string namePro="";
-    int numPro=0;
-    int price = 0;
-    int k = 0; //반복문 탈출 위한 변수
-    int productnum = -1; //주문할 물건의 인덱스번호
-    while (true) {
-	cout << " 주문할 제품명을 띄어쓰기 없이 입력(q누르면 종료.) : ";
-	getline(cin, namePro);
-    if (namePro.compare("q")) {
-        cout << namePro << endl;
-        break;
-    }
-    /*주문 상품 검색, 가격 계산*/
-        for (int i = 0; i < count; i++) {
-            if (((product[i]->getName().compare(namePro)) == 0)) {
-                price = product[i]->getRPrice();
-                productnum = i;
-                cout << productnum << endl;
-                // price = product[i]->getRPrice() * numPro;
-                k = 1;
-                break;
-            }
+    switch (month) {
+    case 2:
+        if (day >= 1 && day <= 27) {
+            day += 1;
         }
-        if (k == 1)
-            break;
         else {
-            cout << "잘못된 제품명입니다." << endl;
+            month = 3;
+            day = 1;
+        }
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        if (day >= 1 && day <= 29) {
+            day += 1;
+        }
+        else {
+            month += 1;
+            day = 1;
+        }
+        break;
+    case 12:
+        if (day >= 1 && day <= 30) {
+            day += 1;
+        }
+        else {
+            year += 1;
+            month = 1;
+            day = 1;
+        }
+        break;
+    default:
+        if (day >= 1 && day <= 30) {
+            day += 1;
+        }
+        else {
+            month += 1;
+            day = 1;
         }
         break;
     }
@@ -591,48 +606,40 @@ void KICManager::setDate()
     //cout << todayDate << endl;
 }
 
-    }
-    cout << " 주문할 제품 수량을 띄어쓰기 없이 입력  : ";
-    cin >> numPro;
-    price *= numPro;
+void KICManager::printDate()
+{
+    int year = 0, month = 0, day = 0;
 
-    cout <<" 결제금액 " << price <<"원, " << " 보유금액 " <<property<<"원" << "주문하시겠습니까? (y/n)" << endl;
-    
-    while (true) {  
-        char yn;
-        cin >> yn;
-        cout << yn << endl;
+    string a, b, c, d, e, f, g, h = "0";
+    int num0, num1, num2, num3, num4, num5, num6, num7 = 0;
 
-        if (yn == 'y') {
-            /* 주문 상황 반영*/
-        //    cout << "주문!" << endl;
-            if (property < price) {
-                cout << "결제 금액이 부족합니다." << endl;
-                cout << "주문을 종료합니다." << endl;
-                break;
-            }
-            else {
-                /*주문 성공*/
-                property -= price;
-                product[productnum]->setStock(product[productnum]->getStock() - numPro);
-                count++;
+    a = todayDate[0];
+    b = todayDate[1];
+    c = todayDate[2];
+    d = todayDate[3];
+    e = todayDate[4];
+    f = todayDate[5];
+    g = todayDate[6];
+    h = todayDate[7];
 
-                /*product, sortprod 주문 내용 추가*/
-                this->product[count] = new KICProduct(product[productnum]->getName(),numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
-                this->sortprod[count] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
-            }
-            break;
-        }else if(yn == 'n') {
-            cout << "주문이 취소되었습니다. " << endl;
-            //addOrder();
-            //break;
-        }
-        else {
-            cout << "잘못 입력하셨습니다. ";
-           // cout << yn << endl;
-            continue;
-        }
-    }
+    num0 = stoi(a);
+    num1 = stoi(b);
+    num2 = stoi(c);
+    num3 = stoi(d);
+    num4 = stoi(e);
+    num5 = stoi(f);
+    num6 = stoi(g);
+    num7 = stoi(h);
+
+    year = 1000 * num0 + 100 * num1 + 10 * num2 + num3;
+    month = 10 * num4 + num5;
+    day = 10 * num6 + num7;
+
+    cout << " < " << year << "년 " << month << "월 " << day << "일 > \n" << endl;
+}
+
+void KICManager::addOrder()
+{
 
 }
 
@@ -687,7 +694,7 @@ void KICManager::sortAl()
 
     }
     cout << "hi" << endl;
-    KICProduct temp = *sortprod[0];
+
    // cout << sortprod[3]->getName() << endl;
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
