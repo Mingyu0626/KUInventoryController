@@ -27,7 +27,6 @@ class KICManager
 
 	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
 //	KICProduct** fixedprod = nullptr; //기존 정보를 담고있는 동적 1차원 배열(고정됨)
-
 	void init();													// 텍스트 파일 읽어오기	
 
 	/*----- 5. 시작 화면 및 메인 화면-----*/

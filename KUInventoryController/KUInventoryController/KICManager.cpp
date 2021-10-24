@@ -1,6 +1,5 @@
 #include "KICManager.h"
 
-
 void KICManager::start()
 {
     while (true) {
@@ -21,6 +20,8 @@ void KICManager::start()
     printMenu();
 }
 
+
+// 날짜 입력 예외처리
 
 // 날짜 입력 예외처리
 string KICManager::checkDate(string date)
@@ -97,6 +98,11 @@ string KICManager::checkDate(string date)
                                 return n.insert(2, date);
                             }
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                         break;
                     case 4:
                     case 6:
@@ -114,6 +120,11 @@ string KICManager::checkDate(string date)
                                 return n.insert(2, date);
                             }
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                         break;
                     default:
                         if (day >= 1 && day <= 31) {
@@ -128,8 +139,18 @@ string KICManager::checkDate(string date)
                                 return n.insert(2, date);
                             }
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                         break;
                     }
+                else {
+                    cout << "날짜를 올바르게 입력하세요." << endl;
+                    system("pause");
+                    return "";
+                }
             }
             else {
                 continue;
@@ -171,6 +192,11 @@ string KICManager::checkDate(string date)
                                 finalCheck = true;
                                 return date;
                             }
+                            else {
+                                cout << "날짜를 올바르게 입력하세요." << endl;
+                                system("pause");
+                                return "";
+                            }
                             break;
                         case 4:
                         case 6:
@@ -180,14 +206,29 @@ string KICManager::checkDate(string date)
                                 finalCheck = true;
                                 return date;
                             }
+                            else {
+                                cout << "날짜를 올바르게 입력하세요." << endl;
+                                system("pause");
+                                return "";
+                            }
                             break;
                         default:
                             if (day >= 1 && day <= 31) {
                                 finalCheck = true;
                                 return date;
                             }
+                            else {
+                                cout << "날짜를 올바르게 입력하세요." << endl;
+                                system("pause");
+                                return "";
+                            }
                             break;
                         }
+                    }
+                    else {
+                        cout << "날짜를 올바르게 입력하세요." << endl;
+                        system("pause");
+                        return "";
                     }
                 }
             }
@@ -213,17 +254,37 @@ string KICManager::checkDate(string date)
                         if (day >= 1 && day <= 28) {
                             dateCheck = true;
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                     }
                     else if (month == 4 || month == 6 || month == 9 || month == 11) {
                         if (day >= 1 && day <= 30) {
                             dateCheck = true;
+                        }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
                         }
                     }
                     else {
                         if (day >= 1 && day <= 31) {
                             dateCheck = true;
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                     }
+                }
+                else {
+                    cout << "날짜를 올바르게 입력하세요." << endl;
+                    system("pause");
+                    return "";
                 }
 
                 // letterCheck
@@ -351,15 +412,30 @@ string KICManager::checkDate(string date)
                         if (day >= 1 && day <= 28) {
                             dateCheck = true;
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                     }
                     else if (month == 4 || month == 6 || month == 9 || month == 11) {
                         if (day >= 1 && day <= 30) {
                             dateCheck = true;
                         }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
+                        }
                     }
                     else {
                         if (day >= 1 && day <= 31) {
                             dateCheck = true;
+                        }
+                        else {
+                            cout << "날짜를 올바르게 입력하세요." << endl;
+                            system("pause");
+                            return "";
                         }
                     }
                 }
@@ -438,7 +514,7 @@ void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
     //fstream fin("source.txt");
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -519,7 +595,7 @@ void KICManager::printMenu()
             cout << "=================================================" << endl;
             cout << "메뉴를 선택하세요 : ";
             string subMenu;
-            getline(cin,subMenu);
+            getline(cin, subMenu);
             if (subMenu == "1") {
                 selectDiscountProds();
             }
@@ -759,15 +835,29 @@ void KICManager::addOrder()
                         break;
                     }
 
-                    property -= price;
-                    count++;
+                    int p = 0; // 같은제품, 같은 유통기한인지 check
+                    /*같은 제품, 같은 유통기한이면 합치기*/
+                    for (int i = 0; i < count; i++) {
+                        if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
+                        {
+                            product[i]->setStock(product[i]->getStock() + numPro);
+                            p = 1;
+                            break;
+                        }
+                    }
 
-                    /*product, sortprod 주문 내용 추가*/
-                    this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
-                    cout << "주문 완료했습니다" << endl;
-                    cout << "결제금액: " << price << ", 보유금액: " << property << endl;
-                    system("pause");
-                    break;
+                    property -= price;
+                    if (p == 0) {
+                        count++;
+                        /*product, sortprod 주문 내용 추가*/
+                        this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
+                        this->sortprod[count-1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
+                    }
+                        cout << "주문 완료했습니다" << endl;
+                        cout << "결제금액: " << price << ", 보유금액: " << property << endl;
+                        system("pause");
+                        break;
+           
                 }
                 break;
             }
@@ -785,107 +875,40 @@ void KICManager::addOrder()
     }
 }
 
-
-void KICManager::searchProds()
+void KICManager::sortAl()
 {
-    while (true) {
-        system("cls");
-        cout << "================================ < 제품 검색 > ================================" << endl;
-        cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << endl;
-        cout << "--------------------------------------------------------------------------------------" << endl;
-        // 검색 초기화면은 ㄱㄴㄷ 순 출력
-        for (int i = 0; i < count; i++) {
-            this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-        }
+    //ㄱㄴㄷ순 정렬
 
-        KICProduct temp_ = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }
 
-        for (int i = 0; i < count; i++) {
-            for (int j = i + 1; j < count; j++) {
-                if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
-                    temp_ = *sortprod[i];
-                    *sortprod[i] = *sortprod[j];
-                    *sortprod[j] = temp_;
-                }
+    KICProduct temp = *sortprod[0];
+
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
             }
-        }
-
-
-        for (int i = 0; i < count; i++) {
-            cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << endl;
-        }
-
-        cout << endl;
-
-        string namePro;
-        cout << endl;
-        cout << endl;
-        cout << "검색할 제품 이름을 띄어쓰기 없이 입력 (q : 메뉴 종료) : ";
-        getline(cin, namePro);
-        cout << endl;
-
-        /*q누르면 종료*/
-        if (namePro.compare("q") == 0) {
-            // cout << "종료" << endl;
-            printMenu();
-        }
-
-        // 검색 결과 출력은 유통기한 짧은 순으로 정렬
-        KICProduct temp = *sortprod[0];
-        for (int i = 0; i < count; i++) {
-            for (int j = i + 1; j < count; j++) {
-                if (sortprod[i]->getStock() != 0) { // 재고 0인거 출력안함
-                    if (sortprod[i]->getName() == sortprod[j]->getName()) {
-                        if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
-                            temp = *sortprod[i];
-                            *sortprod[i] = *sortprod[j];
-                            *sortprod[j] = temp;
-                        }
-                    }
-                }
-            }
-        }
-
-        int status = -1;
-
-        for (int j = 0; j < count; j++) {
-            if ((sortprod[j]->getName()).find(namePro) != string::npos) {
-                status = 0;
-                break;
-            }
-        }
-
-        if (namePro[0] == ' ') {
-            cout << "선행 공백 입력은 불가능합니다. 다시 입력하세요." << endl;
-            system("pause");
-        }
-        else if (namePro.find('~') != string::npos || namePro.find('!') != string::npos || namePro.find('@') != string::npos || namePro.find('#') != string::npos || namePro.find('$') != string::npos || namePro.find('%') != string::npos || namePro.find('^') != string::npos ||
-            namePro.find('&') != string::npos || namePro.find('*') != string::npos || namePro.find('(') != string::npos || namePro.find(')') != string::npos || namePro.find('-') != string::npos || namePro.find('+') != string::npos || namePro.find('_') != string::npos ||
-            namePro.find('=') != string::npos || namePro.find(':') != string::npos || namePro.find(';') != string::npos || namePro.find('"') != string::npos || namePro.find(',') != string::npos || namePro.find('<') != string::npos || namePro.find('>') != string::npos ||
-            namePro.find('?') != string::npos || namePro.find('/') != string::npos || namePro.find('`') != string::npos || namePro.find('.') != string::npos || namePro.find('\'') != string::npos)
-        {
-            cout << "특수문자 입력은 불가능합니다. 다시 입력하세요." << endl;
-            system("pause");
-        }
-
-        else if (status != 0) { // 오타 등 기획서에 명시한 예외 빼고는 모두 else로 처리
-            cout << "잘못된 입력입니다. 다시 입력하세요." << endl;
-            system("pause");
-        }
-        else if (status == 0) {
-            cout << " ======================== " << namePro << " 의 검색 결과" << " ========================\n" << endl;
-            cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << endl;
-            cout << "--------------------------------------------------------------------------------------" << endl;
-            cout << endl;
-            for (int j = 0; j < count; j++) {
-                if ((sortprod[j]->getName()).find(namePro) != string::npos) {
-                    cout << setw(15) << sortprod[j]->getName() << setw(15) << sortprod[j]->getStock() << setw(15) << sortprod[j]->getSalesVolume() << setw(15) << sortprod[j]->getExpDate() << setw(15) << sortprod[j]->getWPrice() << setw(15) << sortprod[j]->getRPrice() << endl;
-                }
-            }
-            cout << endl;
-            system("pause");
         }
     }
+    cout.setf(ios::left);
+    cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << endl;
+    //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
+    cout << "--------------------------------------------------------------------------------------" << endl;
+    /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getExpDate() != 0 || sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
+            if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
+                cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << endl;
+                // cout << *sortprod[i] << endl;
+            }
+        }
+    }
+
+    cout << endl;
 }
 
 
@@ -914,42 +937,6 @@ void KICManager::sortDate()
 }
 
 
-void KICManager::sortAl()
-{
-    //ㄱㄴㄷ순 정렬
-
-    for (int i = 0; i < count; i++) {
-        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-    }
-
-    KICProduct temp = *sortprod[0];
-
-    for (int i = 0; i < count; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
-                temp = *sortprod[i];
-                *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
-            }
-        }
-    }
-    cout.setf(ios::left);
-    cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << endl;
-    //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
-    cout << "--------------------------------------------------------------------------------------" << endl;
-    /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
-    for (int i = 0; i < count; i++) {
-        if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
-            cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << endl;
-            // cout << *sortprod[i] << endl;
-        }
-    }
-
-    cout << endl;
-
-}
-
-
 void KICManager::sortStock()
 {
     //재고 적은순 정렬
@@ -957,7 +944,8 @@ void KICManager::sortStock()
     int t = 0;
 
     for (int i = 0; i < count; i++) {
-        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+        this->sortprod[i] = product[i];
+        //this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
     }
     cout << typeid(product[3]->getName()).name() << endl;
     int result;
@@ -1196,17 +1184,18 @@ void KICManager::selectMarginRate()
     int tempWPrice = 0;
     int margin = 0;
     double marginRate; // 마진율
-    for (int i = 0; i < count; i++) {
-        if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) {
-            tempRPrice = product[i]->getRPrice();
-            tempWPrice = product[i]->getWPrice();
-        }
-    }
-    margin = tempRPrice - tempWPrice;
-    marginRate = (double)margin / (double)tempRPrice;
     while (true) { // 올바른 값의 마진율을 입력할때까지 무한루프
+        for (int i = 0; i < count; i++) {
+            if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) {
+                tempRPrice = product[i]->getRPrice();
+                tempWPrice = product[i]->getWPrice();
+            }
+        }
+        margin = tempRPrice - tempWPrice;
+        marginRate = (double)margin / (double)tempRPrice;
+
         system("cls");
-        cout << "현재 마진율: " << (int)(marginRate * 100)<< "%" << endl;
+        cout << "현재 마진율: " << (int)(marginRate * 100) << "%" << endl;
         string temp;
         cout << "변경할 마진율을 입력하세요(10% 단위의 숫자만 입력가능) : ";
         getline(cin, temp);
@@ -1215,13 +1204,7 @@ void KICManager::selectMarginRate()
         if (temp.compare("q") == 0) {
             printMenu();
         }
-        if (temp.length() == 1) {
-            if (temp.compare("q") == 0) {
-                printMenu();
-            }
-            cout << "올바른 값을 입력해주세요." << endl;
-            system("pause");
-        }
+
         try {
             for (char const& c : temp) {
                 if (std::isdigit(c) == 0) {
@@ -1234,9 +1217,15 @@ void KICManager::selectMarginRate()
                 try {
                     if (stoi(temp) % 10 == 0) {
                         marginRate = (double)stoi(temp) / (double)100;
-                        cout << "마진율이 " << (int)(marginRate * 100) << "%로 변경되었습니다." << endl;
-                        system("pause");
-                        break;
+                        if (marginRate >= 0.1 && marginRate <= 0.9) {
+                            cout << "마진율이 " << (int)(marginRate * 100) << "%로 변경되었습니다." << endl;
+                            system("pause");
+                            break;
+                        }
+                        else {
+                            cout << "마진율의 변경가능 범위는 10%~90%입니다." << endl;
+                            system("pause");
+                        }
                     }
                     else {
                         cout << "10% 단위로만 입력이 가능합니다." << endl;
@@ -1306,26 +1295,19 @@ void KICManager::searchScrap()
 
     /*폐기 제품 판별 및 남은 유통기한 조정*/
     int numOfScrapProds = 0;
+    cout << "※※폐기 알림※※" << endl;
     for (int i = 0; i < count; i++) {
         if (product[i]->getExpDate() == 0 && product[i]->getStock() != 0) { // 유통기한이 0일이고 남은 재고가 0이 아닌 제품의 경우 폐기해줘야 한다.
-
-            cout << "※※폐기 알림※※" << endl;
-            int numOfScrapProds = 0;
-            for (int i = 0; i < count; i++) {
-                if (product[i]->getExpDate() == 0) { // 유통기한이 만료된 제품의 경우 해당 제품의 재고를 0으로 만들어줘야 한다.
-
-                    numOfScrapProds++;
-                    cout << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
-                    product[i]->setStock(0);
-                }
-                else { // 유통기한이 만료되지 않은 제품의 경우 유통기한을 1일 감소시켜준다.
-                    product[i]->setExpDate(product[i]->getExpDate() - 1);
-                }
-            }
-            if (numOfScrapProds == 0) {
-                cout << "오늘은 폐기된 제품이 없습니다." << endl;
-            }
+            numOfScrapProds++;
+            cout << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
+            product[i]->setStock(0);
         }
+        else if (product[i]->getExpDate() != 0 && product[i]->getStock() != 0) { // 유통기한이 만료되지 않은 제품의 경우 유통기한을 1일 감소시켜준다.
+            product[i]->setExpDate(product[i]->getExpDate() - 1);
+        }
+    }
+    if (numOfScrapProds == 0) {
+        cout << "오늘은 폐기된 제품이 없습니다." << endl;
     }
 }
 
