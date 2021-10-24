@@ -745,13 +745,13 @@ void KICManager::addOrder()
 
         while (true) {
 
-            cout << " 결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까? (y/n) ";
+            //cout << " 결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까? (y/n) ";
             price = product[productnum]->getWPrice() * numPro; //결제금액_너무 길어서 price로 했습니당
 
             string yn;
             getline(cin, yn);
 
-            if (yn.compare("y") == 0) {
+            //if (yn.compare("y") == 0) {
                 /* 주문 상황 반영*/
                 if (property < price) {
                     cout << "결제 금액이 부족합니다." << endl;
@@ -759,7 +759,7 @@ void KICManager::addOrder()
                     tmp = 1;
                     if (tmp == 1)
                         break;
-                }
+               // }
                 else {
                     /*주문 성공*/
                     int k = 0;//주문 횟수
