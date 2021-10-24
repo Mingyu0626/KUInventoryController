@@ -1,6 +1,8 @@
 ﻿#include "KICManager.h"
 #include <algorithm>
 #include <typeinfo>
+#include <iostream>
+using namespace std;
 
 
 void KICManager::start()
