@@ -433,7 +433,7 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -444,7 +444,6 @@ void KICManager::init()
         string buffer;
         fin >> this->count;
         getline(fin, buffer);
-        cout << count << endl;
 
         if (count > 0) {
             product = new KICProduct * [100];
@@ -497,17 +496,37 @@ void KICManager::printMenu()
         cout << "--------------- < 메뉴 > ---------------" << endl;
         cout << " 1) 제품 주문 " << endl;
         cout << " 2) 제품 검색 " << endl;
-        cout << " 3) 할인 제품 지정 " << endl;
+        cout << " 3) 판매가 지정 " << endl;
         cout << " 4) 업무 마감 " << endl;
         cout << "=================================================" << endl;
         cout << "메뉴를 선택하세요 : ";
         cin >> menu;
+        string buffer;
+        getline(cin, buffer);
         if (menu == "1")
             addOrder();
         else if (menu == "2")
             searchProds();
-        else if (menu == "3")
-            selectDiscountProds();
+        else if (menu == "3") {
+            system("cls");
+            cout << "--------------- < 메뉴 > ---------------" << endl;
+            cout << " 1) 할인 제품 지정 " << endl;
+            cout << " 2) 판매가 지정 " << endl;
+            cout << "=================================================" << endl;
+            cout << "메뉴를 선택하세요 : ";
+            string subMenu;
+            cin >> subMenu;
+            getline(cin, buffer);
+            if (menu == "1") {
+                discountProds();												// 현재 할인중인 제품 출력
+                discountReqProds();
+                selectDiscountProds();
+            }
+            else if (menu == "2")
+                selectMarginRate();
+            else 
+                cout << "올바른 숫자를 입력하세요 !" << endl;
+        }
         else if (menu == "4")
             closingWork();
         else {
@@ -877,14 +896,18 @@ void KICManager::discountProds()
             }
         }
     } // discount 같은 것들 중 disDate 순으로 정렬
-
+    bool check = false;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getDiscount() != 0) {
             cout << sortprod[i] << endl;
+            check = true;
         }
     } //discount 하는 것들 sorted 된대로 print
+    if (!check) {
+        cout << "현재 discount하는 제품 없음" << endl;
+    }
+     
 }
-
 
 
 void KICManager::discountReqProds()
@@ -900,6 +923,7 @@ void KICManager::discountReqProds()
         }
     } //  (같은제품, 유통기한 다른거 => 다른제품 취급 : 남은 재고 수 / 전날 판매량 순으로 정렬)
     bool accept = true;
+    bool check = false;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
             for (int j = 0; j < count; j++) {
@@ -912,9 +936,13 @@ void KICManager::discountReqProds()
             }
             if (accept) {
                 cout << sortprod[i] << endl;
+                check = true;
             }
         }
     }// 남은 재고 수 >= 전날 파매량 *3 인 제품만 sorted 된대로 출력
+    if (!check) {
+        cout << "현재 할인 가능한 제품 없음" << endl;
+    }
 }
 
 
@@ -932,71 +960,91 @@ void KICManager::selectDiscountProds()
             }
         }
     }
-    cout << "할인 할 제품명을 입력하세요 : ";
-    string select;
-    getline(cin, select);
-    if (select.compare("q") == 0) {
-        exit(0);
-    }
-    int status = -1;
-    for (int i = 0; i < count; i++) {
-        if (select.compare(product[i]->getName()) == 0 && status == -1) {
-            if (product[i]->getStock() != 0) {
-                if (sortprod[i]->getDiscount() != 0) {
-                    status = 0;
-                    break;
-                }
-                else {
-                    if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3) {
-                        status = 2;
+    while (true) {
+        cout << "할인 할 제품명을 입력하세요 : ";
+        string select;
+        getline(cin, select);
+        if (select.compare("q") == 0) {
+            exit(0);
+        }
+        int status = -1;
+        for (int i = 0; i < count; i++) {
+            if (select.compare(product[i]->getName()) == 0 && status == -1) {
+                if (product[i]->getStock() != 0) {
+                    if (sortprod[i]->getDiscount() != 0) {
+                        status = 0;
+                        break;
                     }
                     else {
-                        status = 1;
+                        if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3) {
+                            status = 2;
+                        }
+                        else {
+                            status = 1;
+                        }
                     }
                 }
             }
         }
-    }
-    // 유통기한이 빠른 순으로 product는 정렬되어있을 가능성이 크다. 만약 그렇지 않으면 앞에 정렬 함수 추가
+        // 유통기한이 빠른 순으로 product는 정렬되어있을 가능성이 크다. 만약 그렇지 않으면 앞에 정렬 함수 추가
 
-    if (status == -1) {
-        cout << "그러한 제품명이 없습니다." << endl;
-    }
-    if (status == 0) {
-        cout << "이미 할인 중인 제품입니다." << endl;
-    }
-    else if (status == 1) {
-        cout << "선택하신 제품명은 할인할 수 있는 제품이 아닙니다." << endl;
-    }
-    else if (status == 2) {
-        while(true){
-            string line;
-            int percentage = 0;
-            cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) : ";
-            getline(cin, line);
-            if (line.compare("q") == 0) {
-                exit(0);
-            }
-            try {
-                percentage = stoi(line);
-            }catch (const exception& e) {
-                cerr << "입력하신 수가 정수가 아닙니다." << endl;
-            }
-            if (percentage < 10 && percentage > 90) {
-                cout << "범위가 알맞지 않습니다." << endl;
-            }
-            else if (percentage % 10 != 0) {
-                cout << "10 단위로 입력해야 합니다." << endl;
-            }
-            else {
-                for (int i = 0; i < count; i++) {
-                    if (select.compare(product[i]->getName()) == 0 && product[i]->getStock() != 0) {
-                        product[i]->setDiscount(percentage);
-                        product[i]->setDisDate(3);
-                        int newprice = product[i]->getRPrice() * (100 + percentage / 100);
-                        product[i]->setRPrice(newprice);
-                    }
+        if (status == -1) {
+            cout << "그러한 제품명이 없습니다." << endl;
+            system("cls");
+            continue;
+        }
+        else if (status == 0) {
+            cout << "이미 할인 중인 제품입니다." << endl;
+            system("cls");
+            continue;
+        }
+        else if (status == 1) {
+            cout << "선택하신 제품명은 할인할 수 있는 제품이 아닙니다." << endl;
+            system("cls");
+            continue;
+        }
+        else if (status == 2) {
+            bool check = false;
+            while (true) {
+                string line;
+                int percentage = 0;
+                cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) : ";
+                getline(cin, line);
+                if (line.compare("q") == 0) {
+                    exit(0);
                 }
+                try {
+                    percentage = stoi(line);
+                }
+                catch (const exception & e) {
+                    cerr << "입력하신 수가 정수가 아닙니다." << endl;
+                    system("cls");
+                    continue;
+                }
+                if (percentage < 10 && percentage > 90) {
+                    cout << "범위가 알맞지 않습니다." << endl;
+                    system("cls");
+                    continue;
+                }
+                else if (percentage % 10 != 0) {
+                    cout << "10 단위로 입력해야 합니다." << endl;
+                    system("cls");
+                    continue;
+                }
+                else {
+                    for (int i = 0; i < count; i++) {
+                        if (select.compare(product[i]->getName()) == 0 && product[i]->getStock() != 0) {
+                            product[i]->setDiscount(percentage);
+                            product[i]->setDisDate(3);
+                            int newprice = product[i]->getRPrice() * (100 + percentage / 100);
+                            product[i]->setRPrice(newprice);
+                        }
+                    }
+                    check = true;
+                    break;
+                }
+            }
+            if (check) {
                 break;
             }
         }
