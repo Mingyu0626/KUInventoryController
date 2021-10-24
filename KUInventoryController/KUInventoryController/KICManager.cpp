@@ -730,7 +730,7 @@ void KICManager::sortStock()
     cout << "sortstock" << endl;
     int t = 0;
     
-   /* for (int i = 0; i < count; i++) {
+   for (int i = 0; i < count; i++) {
         this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
     } 
     cout << typeid(product[3]->getName()).name() << endl;
@@ -836,7 +836,7 @@ void KICManager::discountReqProds()
 void KICManager::selectDiscountProds()
 {
 
-    /*KICProduct temp = *sortprod[0];
+    KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
             if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
@@ -845,7 +845,7 @@ void KICManager::selectDiscountProds()
                 *sortprod[j] = temp;
             }
         }
-    }*/
+    }
     cout << "할인 할 제품명을 입력하세요 : ";
     string select;
     getline(cin, select);
