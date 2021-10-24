@@ -1037,8 +1037,6 @@ void KICManager::sortAl()
     //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
     cout << "--------------------------------------------------------------------------------------" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
-    /*유통기한 0인것도 출력X*/
-    int k = 0;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getExpDate() != 0 || sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
             if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
