@@ -840,7 +840,7 @@ void KICManager::addOrder()
                     }
 
                     int p = 0; // 같은제품, 같은 유통기한인지 check
-                    /*같은 제품, 같은 유통기한이면 합치기*/
+                   /*같은 제품, 같은 유통기한이면 합치기*/
                     for (int i = 0; i < count; i++) {
                         if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
                         {
@@ -1037,6 +1037,8 @@ void KICManager::sortAl()
     //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
     cout << "--------------------------------------------------------------------------------------" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
+    /*유통기한 0인것도 출력X*/
+    int k = 0;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getExpDate() != 0 || sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
             if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
@@ -1129,17 +1131,17 @@ void KICManager::discountReqProds()
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() > sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() < sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
                 temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
                 *sortprod[j] = temp;
             }
         }
     } //  (같은제품, 유통기한 다른거 => 다른제품 취급 : 남은 재고 수 / 전날 판매량 순으로 정렬)
-    bool accept = true;
     bool check = false;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
+            bool accept = true;
             for (int j = 0; j < count; j++) {
                 if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
                     if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
@@ -1237,11 +1239,9 @@ void KICManager::selectDiscountProds()
                 bool num = true;
                 try {
                     for (char const& c : line) {
-                        throw c;
                         if (std::isdigit(c) == 0) {
-                            cout << "숫자가 아닙니다" << endl;
                             num = false;
-                            break;
+                            throw c;
                         }
                     }
                 }
@@ -1338,7 +1338,7 @@ void KICManager::selectMarginRate()
                         }
                         else {
                             cout << "마진율의 변경가능 범위는 10%~90%입니다." << endl;
-                            system("pause");
+                            system("pause");           
                         }
                     }
                     else {
@@ -1448,7 +1448,7 @@ void KICManager::financeCalculate()
                 todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // 제품의 당일 매출액 계산 후 합계에 더해주기
                 todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // 제품의 당일 순이익 계산 후 합계에 더해주기
                 product[i]->setStock(0);
-                remainSV = tempSalesVolume - tempStock;
+                remainSV = tempSalesVolume - tempStock; // 남은 판매량
 
                 for (int j = 0; j < count; j++) {
                     if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1번째 재고가 남은 동일 제품 객체 탐색 
@@ -1491,7 +1491,7 @@ void KICManager::financeCalculate()
         }
 
     }
-    property += todayProfits;
+    property += todaySales;
     cout << "---------------------------------------------------" << endl;
 
     cout << "당일 매출 :" << todaySales << "원" << endl;
@@ -1499,7 +1499,7 @@ void KICManager::financeCalculate()
     cout << "보유 자산 :" << property << "원" << endl;
     cout << "---------------------------------------------------" << endl;
 
-
+    
 }
 
 
@@ -1643,6 +1643,10 @@ void KICManager::randomSV()
     /*동일 제품을 고려한 랜덤 판매량 대입 작업이 완료되었으므로 다시 IsSVChanged 변수를 false로 돌려놓는다.*/
     for (int i = 0; i < count; i++) {
         product[i]->setSVChanged(false);
+    }
+
+    for (int i = 0; i < count; i++) {
+        sortprod[i] = product[i];
     }
 }
 
