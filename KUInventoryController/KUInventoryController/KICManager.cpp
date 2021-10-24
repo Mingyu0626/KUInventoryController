@@ -1,4 +1,4 @@
-#include "KICManager.h"
+ï»¿#include "KICManager.h"
 #include <algorithm>
 #include <typeinfo>
 
@@ -7,52 +7,41 @@ void KICManager::start()
 {
     while (true) {
         string date, result;
-        cout << "½ÃÀÛ ³¯Â¥ ÀÔ·Â : ";
+        cout << "ì‹œì‘ ë‚ ì§œ ì…ë ¥ : ";
         getline(cin, date);
         result = checkDate(date);
 
         if (finalCheck == true) {
             todayDate = result;
-
-            cout << todayDate << endl;
             break;
         }
     }
+    system("cls");
 	init();
-    addOrder(); //ÁÖ¹® Ãß°¡
+    printMenu();
+    //addOrder(); //ì£¼ë¬¸ ì¶”ê°€
+    
+    addOrder(); //ì£¼ë¬¸ ì¶”ê°€
 
   //  sortDate();
-    //sortAl();
-  //sortStock();
-    //addOrder();
+    //sortStock();
+    addOrder();
 }
 
 
-// ³¯Â¥ ÀÔ·Â ¿¹¿ÜÃ³¸®
+// ë‚ ì§œ ì…ë ¥ ì˜ˆì™¸ì²˜ë¦¬
 string KICManager::checkDate(string date) 
 {
     int year = 0, month = 0, day = 0;
 
-    string a, b = "0";
-    int num0, num1 = 0;
+    string a, b, c, d, e, f, g, h, i ,j = "0";
+    int num0, num1, num2, num3, num4, num5, num6, num7, num8, num9 = 0;
 
-    string c, d = "0";
-    int num2, num3 = 0;
-
-    string e, f = "0";
-    int num4, num5 = 0;
-
-    string g, h = "0";
-    int num6, num7 = 0;
-
-    string i, j = "0";
-    int num8, num9 = 0;
-
-    // dateCheck : ³âµµ/¿ù/ÀÏÀÇ Çü½ÄÀ» ¸¸Á·ÇÏ°í ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
-    // letterCheck : Á¤ÇØÁø À§Ä¡¿¡ Æ¯¼ö¹®ÀÚ°¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎ 
+    // dateCheck : ë…„ë„/ì›”/ì¼ì˜ í˜•ì‹ì„ ë§Œì¡±í•˜ê³  ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
+    // letterCheck : ì •í•´ì§„ ìœ„ì¹˜ì— íŠ¹ìˆ˜ë¬¸ìê°€ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸ 
     bool dateCheck = false, letterCheck = false;
 
-    // letterCheck ½Ã '.' Ã³¸® À§ÇÔ 
+    // letterCheck ì‹œ '.' ì²˜ë¦¬ ìœ„í•¨ 
     string finalDate0 = "";
     string finalDate1 = "";
     string finalDate2 = "";
@@ -60,12 +49,12 @@ string KICManager::checkDate(string date)
     while (true) {
         int z = 0;
 
-        // ¼±Çà °ø¹é ¿¹¿Ü Ã³¸® 
+        // ì„ í–‰ ê³µë°± ì˜ˆì™¸ ì²˜ë¦¬ 
         if (date[0] == ' ') {
-            cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ¼±Çà °ø¹éÀ» Çã¿ëÇÏÁö ¾Ê½À´Ï´Ù." << endl;
+            cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ì„ í–‰ ê³µë°±ì„ í—ˆìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << endl;
             return "";
         }
-        // 6ÀÚ¸® ÀÔ·Â ½Ã(ex. 011028)
+        // 6ìë¦¬ ì…ë ¥ ì‹œ(ex. 011028)
         if (date.length() == 6) {
             for (int k = 0; k < date.length(); k++) {
                 string tmp = "0";
@@ -153,7 +142,7 @@ string KICManager::checkDate(string date)
             }
         }
 
-        // 8 ÀÚ¸® ÀÔ·Â ½Ã(ex.20011028, 01-10-28)
+        // 8 ìë¦¬ ì…ë ¥ ì‹œ(ex.20011028, 01-10-28)
         else if (date.length() == 8) {
             a = date[0];
             b = date[1];
@@ -164,7 +153,7 @@ string KICManager::checkDate(string date)
             g = date[6];
             h = date[7];
 
-            // 20011028ÀÇ °æ¿ì
+            // 20011028ì˜ ê²½ìš°
             if (date.find("-") == string::npos && date.find("/") == string::npos
                 && date.find(".") == string::npos && date.find("_") == string::npos) {
                 num0 = stoi(a);
@@ -209,7 +198,7 @@ string KICManager::checkDate(string date)
                 }
             }
 
-            // 01-10-28ÀÇ °æ¿ì 
+            // 01-10-28ì˜ ê²½ìš° 
             else if (date.find("-") != string::npos || date.find("/") != string::npos || date.find(".") != string::npos || date.find("_") != string::npos) {
                 num0 = stoi(a);
                 num1 = stoi(b);
@@ -325,13 +314,13 @@ string KICManager::checkDate(string date)
                     }
                 }
                 else {
-                    cout << "³¯Â¥¸¦ ¿Ã¹Ù¸£°Ô ÀÔ·ÂÇÏ¼¼¿ä." << endl;
+                    cout << "ë‚ ì§œë¥¼ ì˜¬ë°”ë¥´ê²Œ ì…ë ¥í•˜ì„¸ìš”." << endl;
                     return "";
                 }
             }
         }
         
-        // 10 ÀÚ¸® ÀÔ·Â ½Ã (ex.2021-03-29)
+        // 10 ìë¦¬ ì…ë ¥ ì‹œ (ex.2021-03-29)
         else if (date.length() == 10) {
             if (date.find("-") != string::npos || date.find("/") != string::npos 
                 || date.find(".") != string::npos || date.find("_") != string::npos) {
@@ -430,13 +419,13 @@ string KICManager::checkDate(string date)
                     }
                 }
                 else {
-                    cout << "³¯Â¥¸¦ ¿Ã¹Ù¸£°Ô ÀÔ·ÂÇÏ¼¼¿ä." << endl;
+                    cout << "ë‚ ì§œë¥¼ ì˜¬ë°”ë¥´ê²Œ ì…ë ¥í•˜ì„¸ìš”." << endl;
                     return "";
                 }
             }
         }
         else {
-            cout << "³¯Â¥¸¦ ¿Ã¹Ù¸£°Ô ÀÔ·ÂÇÏ¼¼¿ä." << endl;
+            cout << "ë‚ ì§œë¥¼ ì˜¬ë°”ë¥´ê²Œ ì…ë ¥í•˜ì„¸ìš”." << endl;
             return "";
         }
     }
@@ -444,10 +433,10 @@ string KICManager::checkDate(string date)
 
 void KICManager::init()
 {
-    fstream fin("source.txt");
+    fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
-        cerr << "ÆÄÀÏ ÀĞ±â ½ÇÆĞ\n";
+        cerr << "íŒŒì¼ ì½ê¸° ì‹¤íŒ¨\n";
         exit(0);
     }
     while (!fin.eof()) {
@@ -459,10 +448,9 @@ void KICManager::init()
 
         if (count > 0) {
             product = new KICProduct * [count];
-            sortprod = new KICProduct * [count]; //Á¤·ÄÀ§ÇØ Ãß°¡
+            sortprod = new KICProduct * [count]; //ì •ë ¬ìœ„í•´ ì¶”ê°€
             searchprod = new KICProduct * [count]; /*searchPro*/
         }
-
 
         for (int i = 0; i < count; i++) {
             string str;
@@ -472,9 +460,10 @@ void KICManager::init()
             this->product[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
             getline(fin, buffer);
         }
+        for (int i = 0; i < count; i++) {
+            this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+        }
     }
-
-    
 }
 
 
@@ -496,92 +485,160 @@ vector<string> KICManager::split(string str, char delimiter)
 
 void KICManager::printMenu()
 {
+    // ë©”ë‰´ ì…ë ¥ ì˜ˆì™¸ì²˜ë¦¬?
+    string menu;
+    while (true) {
+        system("cls");
+        printDate();
+        cout << "=================================================" << endl;
+        cout << "  ë³´ìœ  ìì‚° : " << property << "ì›  " << endl;
+        cout << "=================================================" << endl;
+        cout << "  ì¬ê³  ë¶€ì¡± ì•Œë¦¼  " << endl;
+        noStockAlarm();
+        cout << "--------------- < ë©”ë‰´ > ---------------" << endl;
+        cout << " 1) ì œí’ˆ ì£¼ë¬¸ " << endl;
+        cout << " 2) ì œí’ˆ ê²€ìƒ‰ " << endl;
+        cout << " 3) í• ì¸ ì œí’ˆ ì§€ì • " << endl;
+        cout << " 4) ì—…ë¬´ ë§ˆê° " << endl;
+        cout << "=================================================" << endl;
+        cout << "ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ";
+        cin >> menu;
+        if (menu == "1")
+            addOrder();
+        else if (menu == "2")
+            searchProds();
+        else if (menu == "3")
+            selectDiscountProds(&product);
+        else if (menu == "4")
+            closingWork();
+        else {
+            cout << "ì˜¬ë°”ë¥¸ ìˆ«ìë¥¼ ì…ë ¥í•˜ì„¸ìš” !" << endl;
+            system("pause");
+        }
+    }
 }
-
-
 
 void KICManager::noStockAlarm()
 {
+    // ì¬ê³  5ê°œ ì´í•˜ë©´ ì•Œë¦¼ ì¶œë ¥
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getStock() <= 5) {
+            cout << product[i]->getName() << " : ì¬ê³  " << product[i]->getStock() << "ê°œ" << endl;
+        }
+    }
 }
 
-
-
-void KICManager::addOrder()
+void KICManager::setDate()
 {
+    // íê¸° ì²˜ë¦¬ í•˜ê³  í•¨ìˆ˜ ì‹¤í–‰í•˜ê¸°
+    int year = 0, month = 0, day = 0;
 
-    /* ÁÖ¹®À» À§ÇØ º¸À¯ ÀÜ¾× Ãâ·Â  */
-    cout << " º¸À¯ ÀÜ¾× : " << property << endl;
+    string a, b, c, d, e, f, g, h = "0";
+    int num0, num1, num2, num3, num4, num5, num6, num7 = 0;
 
-    cout << "********************ÁÖ¹® Ç°¸ñÃ¢*********************" << endl;
+    a = todayDate[0];
+    b = todayDate[1];
+    c = todayDate[2];
+    d = todayDate[3];
+    e = todayDate[4];
+    f = todayDate[5];
+    g = todayDate[6];
+    h = todayDate[7];
+
+	num0 = stoi(a);
+	num1 = stoi(b);
+	num2 = stoi(c);
+	num3 = stoi(d);
+	num4 = stoi(e);
+	num5 = stoi(f);
+	num6 = stoi(g);
+	num7 = stoi(h);
+
+    cout << "********************ì£¼ë¬¸ í’ˆëª©ì°½*********************" << endl;
     sortAl();
     cout << "*****************************************************" << endl;
 
-    /*ÁÖ¹® È­¸é Ãâ·Â*/
+    /*ì£¼ë¬¸ í™”ë©´ ì¶œë ¥*/
     string namePro = "";
     int numPro = 0;
     int price = 0;
-    int k = 0; //¹İº¹¹® Å»Ãâ À§ÇÑ º¯¼ö
-    int productnum = -1; //ÁÖ¹®ÇÒ ¹°°ÇÀÇ ÀÎµ¦½º¹øÈ£
+    int k = 0; //ë°˜ë³µë¬¸ íƒˆì¶œ ìœ„í•œ ë³€ìˆ˜
+    int productnum = -1; //ì£¼ë¬¸í•  ë¬¼ê±´ì˜ ì¸ë±ìŠ¤ë²ˆí˜¸
 
-    //while (true) {
-    cout << " ÁÖ¹®ÇÒ Á¦Ç°¸íÀ» ¶ç¾î¾²±â ¾øÀÌ Á¤È®È÷ ÀÔ·Â(q´©¸£¸é Á¾·á.) : ";
-    getline(cin, namePro);
-
-    /*q´©¸£¸é Á¾·á*/
-    //if (namePro.compare("q")) {
-    //    cout << namePro << endl;
-    //    //break;
-    //}
-
-    /*ÁÖ¹® »óÇ° °Ë»ö, °¡°İ °è»ê*/
-    for (int i = 0; i < count; i++) {
-        if (((product[i]->getName().compare(namePro)) == 0)) {
-            price = product[i]->getWPrice();
-            cout << "   " << product[i]->getName() << "      " << product[i]->getStock() << "           " << product[i]->getSalesVolume() << "         " << product[i]->getExpDate() << "         " << product[i]->getWPrice() << "        " << product[i]->getRPrice() << endl;; // °Ë»öÇÑ »óÇ° Ãâ·Â ¾ê´Â ÀÏºÎ°Ë»ö¾ÈµÅ Ç®³×ÀÓÀ¸·Î
-            break;
-        }
-      
+	string namePro="";
+    int numPro=0;
+    int price = 0;
+    int k = 0; //ë°˜ë³µë¬¸ íƒˆì¶œ ìœ„í•œ ë³€ìˆ˜
+    int productnum = -1; //ì£¼ë¬¸í•  ë¬¼ê±´ì˜ ì¸ë±ìŠ¤ë²ˆí˜¸
+    while (true) {
+	cout << " ì£¼ë¬¸í•  ì œí’ˆëª…ì„ ë„ì–´ì“°ê¸° ì—†ì´ ì…ë ¥(qëˆ„ë¥´ë©´ ì¢…ë£Œ.) : ";
+	getline(cin, namePro);
+    if (namePro.compare("q")) {
+        cout << namePro << endl;
+        break;
     }
+    /*ì£¼ë¬¸ ìƒí’ˆ ê²€ìƒ‰, ê°€ê²© ê³„ì‚°*/
+        for (int i = 0; i < count; i++) {
+            if (((product[i]->getName().compare(namePro)) == 0)) {
+                price = product[i]->getRPrice();
+                productnum = i;
+                cout << productnum << endl;
+                // price = product[i]->getRPrice() * numPro;
+                k = 1;
+                break;
+            }
+        }
+        if (k == 1)
+            break;
+        else {
+            cout << "ì˜ëª»ëœ ì œí’ˆëª…ì…ë‹ˆë‹¤." << endl;
+        }
+        break;
+    }
+    todayDate = to_string(10000 * year + 100 * month + day);
+    //cout << todayDate << endl;
+}
 
-    cout << " ÁÖ¹®ÇÒ Á¦Ç° ¼ö·®À» ¶ç¾î¾²±â ¾øÀÌ ÀÔ·Â  : ";
+    cout << " ì£¼ë¬¸í•  ì œí’ˆ ìˆ˜ëŸ‰ì„ ë„ì–´ì“°ê¸° ì—†ì´ ì…ë ¥  : ";
     cin >> numPro;
     price *= numPro;
 
+    cout <<" ê²°ì œê¸ˆì•¡ " << price <<"ì›, " << " ë³´ìœ ê¸ˆì•¡ " <<property<<"ì›" << "ì£¼ë¬¸í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n)" << endl;
     
-
-    while (true) {
-        cout << " °áÁ¦±İ¾× " << price << "¿ø, " << " º¸À¯±İ¾× " << property << "¿ø" << "ÁÖ¹®ÇÏ½Ã°Ú½À´Ï±î? (y/n)" << endl;
-        string yn;
-        getline(cin, yn);
+    while (true) {  
+        char yn;
+        cin >> yn;
+        cout << yn << endl;
 
         if(yn.compare("y") == 0) {
-            /* ÁÖ¹® »óÈ² ¹İ¿µ*/
-        //    cout << "ÁÖ¹®!" << endl;
+            /* ì£¼ë¬¸ ìƒí™© ë°˜ì˜*/
+        //    cout << "ì£¼ë¬¸!" << endl;
             if (property < price) {
-                cout << "ÀÜ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù." << endl;
-                addOrder();
+                cout << "ê²°ì œ ê¸ˆì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤." << endl;
+                cout << "ì£¼ë¬¸ì„ ì¢…ë£Œí•©ë‹ˆë‹¤." << endl;
+                break;
             }
             else {
-                /*ÁÖ¹® ¼º°ø*/
+                /*ì£¼ë¬¸ ì„±ê³µ*/
                 property -= price;
                 product[productnum]->setStock(product[productnum]->getStock() - numPro);
                 count++;
 
-                /*product, sortprod ÁÖ¹® ³»¿ë Ãß°¡*/
-                this->product[count] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
-                // this->sortprod[count] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
-                cout << "ÀÜ¾× : " << property << "°áÁ¦ ±İ¾× : " << price << endl;
+                /*product, sortprod ì£¼ë¬¸ ë‚´ìš© ì¶”ê°€*/
+                this->product[count] = new KICProduct(product[productnum]->getName(),numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
+                this->sortprod[count] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice());
             }
             break;
-        }
-        else if (yn.compare("n") == 0) {
-        cout << "ÁÖ¹®ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù. " << endl;
-        break;
+        }else if(yn == 'n') {
+            cout << "ì£¼ë¬¸ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤. " << endl;
+            //addOrder();
+            //break;
         }
 
         else {
-        cout << "Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù. ";
-        continue;
+            cout << "ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤. ";
+           // cout << yn << endl;
+            continue;
         }
         
     }
@@ -598,38 +655,38 @@ void KICManager::searchProds()
         string namePro;
 
         cout << "searchProds" << endl;
-        cout << "°Ë»öÇÏ°íÀÚ ÇÏ´Â »óÇ°ÀÇ ÀÌ¸§À» ¶ç¾î¾²±â ¾øÀÌ ÀÔ·Â : ";
+        cout << "ê²€ìƒ‰í•˜ê³ ì í•˜ëŠ” ìƒí’ˆì˜ ì´ë¦„ì„ ë„ì–´ì“°ê¸° ì—†ì´ ì…ë ¥ : ";
         getline(cin, namePro);
 
-        cout << " =============== " << namePro << " ÀÇ °Ë»ö °á°ú" << " ============== " << endl;
+        cout << " =============== " << namePro << " ì˜ ê²€ìƒ‰ ê²°ê³¼" << " ============== " << endl;
         cout << endl;
         cout << endl;
-        cout << "   »óÇ°¸í   " << "   Àç°í   " << "  Àü³¯ ÆÇ¸Å·® " << "   À¯Åë±âÇÑ   " << "   µµ¸Å°¡   " << "   ÆÇ¸Å°¡   " << endl;
+        cout << "   ìƒí’ˆëª…   " << "   ì¬ê³    " << "  ì „ë‚  íŒë§¤ëŸ‰ " << "   ìœ í†µê¸°í•œ   " << "   ë„ë§¤ê°€   " << "   íŒë§¤ê°€   " << endl;
         cout << endl;
 
         
 		for (int j = 0; j < count; j++) {
 
 			if ((product[j]->getName()).find(namePro) != string::npos) {
-				if (product[j]->getStock() != 0) { // Àç°í 0ÀÎ°Ç Ãâ·Â ¾ÈÇÔ
+				if (product[j]->getStock() != 0) { // ì¬ê³  0ì¸ê±´ ì¶œë ¥ ì•ˆí•¨
 					cout << "   " << product[j]->getName() << "      " << product[j]->getStock() << "           " << product[j]->getSalesVolume() << "         " << product[j]->getExpDate() << "         " << product[j]->getWPrice() << "        " << product[j]->getRPrice() << endl;
 				}
 			}
 		}
 
 		if (namePro[0] == ' ') {
-			cout << "¼±Çà °ø¹éÀº ºÒ°¡´ÉÇÕ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä" << endl;;
+			cout << "ì„ í–‰ ê³µë°±ì€ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”" << endl;;
 		}
 
 		else if (namePro.find('~') != string::npos | namePro.find('!') != string::npos | namePro.find('@') != string::npos | namePro.find('#') != string::npos | namePro.find('$') != string::npos | namePro.find('%') != string::npos | namePro.find('^') != string::npos |
 			namePro.find('&') != string::npos | namePro.find('*') != string::npos | namePro.find('(') != string::npos | namePro.find(')') != string::npos | namePro.find('-') != string::npos | namePro.find('+') != string::npos | namePro.find('_') != string::npos |
 			namePro.find('=')) {
-			cout << "Æ¯¼ö¹®ÀÚ ÀÔ·ÂÀº ºÒ°¡ÇÕ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä" << endl;
+			cout << "íŠ¹ìˆ˜ë¬¸ì ì…ë ¥ì€ ë¶ˆê°€í•©ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”" << endl;
 		}
 
 
-		else { // ¿ÀÅ¸ µî ±âÈ¹¼­¿¡ ¸í½ÃÇÑ ¿¹¿Ü »©°í´Â ¸ğµÎ else·Î Ã³¸®
-			cout << " Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. " << endl;
+		else { // ì˜¤íƒ€ ë“± ê¸°íšì„œì— ëª…ì‹œí•œ ì˜ˆì™¸ ë¹¼ê³ ëŠ” ëª¨ë‘ elseë¡œ ì²˜ë¦¬
+			cout << " ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. " << endl;
 
 		}
 
@@ -642,7 +699,7 @@ void KICManager::searchProds()
 
 void KICManager::sortDate()
 {
-    //À¯Åë±âÇÑ ÀÓ¹Ú¼ø Á¤·Ä
+    //ìœ í†µê¸°í•œ ì„ë°•ìˆœ ì •ë ¬
     cout << "sortdate" << endl;
 
     /*for (int i = 0; i < count; i++) {
@@ -668,22 +725,43 @@ void KICManager::sortDate()
 
 void KICManager::sortAl()
 {
-    //¤¡¤¤¤§¼ø Á¤·Ä
+    //ã„±ã„´ã„·ìˆœ ì •ë ¬
     cout << "sortal" << endl;
+    cout << count << endl;
+    /*for (int i = 0; i < count; i++) {
+        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+    }*/
+    cout << "hi" << endl;
+   
+    KICProduct temp = *sortprod[0];
+    cout << sortprod[1]->getExpDate() << endl;
 
     for (int i = 0; i < count; i++) {
-        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-    }
+            cout << *sortprod[i] << endl;
 
+    }
+    cout << "hi" << endl;
     KICProduct temp = *sortprod[0];
+   // cout << sortprod[3]->getName() << endl;
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
-            if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
-                temp = *sortprod[i];
+           // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
+            if ((sortprod[i]->getName().compare(sortprod[j]->getName()))==0) {
+
+                /*temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
+                *sortprod[j] = temp;*/
             }
+            cout << i << endl;
+        }
+        cout << i << endl;
+    }
+    
+    cout << "********************ì£¼ë¬¸ í’ˆëª©ì°½*********************" << endl;
+    /*addOrder í’ˆëª©ì°½ì—ì„œ ì „ë‚ íŒë§¤ëŸ‰*3 ì´ìƒì¸ê²ƒì€ ì¶œë ¥X*/
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
+            cout << *sortprod[i] << endl;
         }
     }
 
@@ -696,12 +774,12 @@ void KICManager::sortAl()
 
 void KICManager::sortStock()
 {
-    //Àç°í ÀûÀº¼ø Á¤·Ä
+    //ì¬ê³  ì ì€ìˆœ ì •ë ¬
 
     cout << "sortstock" << endl;
     int t = 0;
     
-    for (int i = 0; i < count; i++) {
+   /* for (int i = 0; i < count; i++) {
         this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
     } 
     cout << typeid(product[3]->getName()).name() << endl;
@@ -736,18 +814,156 @@ void KICManager::changePrice()
 
 void KICManager::discountProds()
 {
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getDiscount() != 0) {
+                if (sortprod[i]->getDiscount() > sortprod[j]->getDiscount()) {
+                    temp = *sortprod[i];
+                    *sortprod[i] = *sortprod[j];
+                    *sortprod[j] = temp;
+                }
+            }
+        }
+    } // discount ë§ì€ ìˆœìœ¼ë¡œ ì •ë ¬
+    temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getDiscount() != 0) {
+                if (sortprod[i]->getDiscount() == sortprod[j]->getDiscount()) {
+                    if (sortprod[i]->getDisDate() > sortprod[j]->getDisDate()) {
+                        temp = *sortprod[i];
+                        *sortprod[i] = *sortprod[j];
+                        *sortprod[j] = temp;
+                    }
+                }
+            }
+        }
+    } // discount ê°™ì€ ê²ƒë“¤ ì¤‘ disDate ìˆœìœ¼ë¡œ ì •ë ¬
+
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getDiscount() != 0) {
+            cout << sortprod[i] << endl;
+        }
+    } //discount í•˜ëŠ” ê²ƒë“¤ sorted ëœëŒ€ë¡œ print
 }
 
 
 
 void KICManager::discountReqProds()
 {
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() > sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    } //  (ê°™ì€ì œí’ˆ, ìœ í†µê¸°í•œ ë‹¤ë¥¸ê±° => ë‹¤ë¥¸ì œí’ˆ ì·¨ê¸‰ : ë‚¨ì€ ì¬ê³  ìˆ˜ / ì „ë‚  íŒë§¤ëŸ‰ ìˆœìœ¼ë¡œ ì •ë ¬)
+    bool accept = true;
+    for (int i = 0; i < count; i++) {
+        if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
+            for (int j = 0; j < count; j++) {
+                if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
+                    if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                        accept = false;
+                        break;
+                    } // expDateê°€ ê°™ì€ ì œí’ˆ ìƒì—ì„œ ê°€ì¥ ìµœì‹ êº¼ì¸ì§€ í™•ì¸
+                }
+            }
+            if (accept) {
+                cout << sortprod[i] << endl;
+            }
+        }
+    }// ë‚¨ì€ ì¬ê³  ìˆ˜ >= ì „ë‚  íŒŒë§¤ëŸ‰ *3 ì¸ ì œí’ˆë§Œ sorted ëœëŒ€ë¡œ ì¶œë ¥
 }
 
 
 
 void KICManager::selectDiscountProds()
 {
+
+    /*KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                temp = *sortprod[i];
+                *sortprod[i] = *sortprod[j];
+                *sortprod[j] = temp;
+            }
+        }
+    }*/
+    cout << "í• ì¸ í•  ì œí’ˆëª…ì„ ì…ë ¥í•˜ì„¸ìš” : ";
+    string select;
+    getline(cin, select);
+    if (select.compare("q") == 0) {
+        exit(0);
+    }
+    int status = -1;
+    for (int i = 0; i < count; i++) {
+        if (select.compare(product[i]->getName()) == 0 && status == -1) {
+            if (product[i]->getStock() != 0) {
+                if (sortprod[i]->getDiscount() != 0) {
+                    status = 0;
+                    break;
+                }
+                else {
+                    if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3) {
+                        status = 2;
+                    }
+                    else {
+                        status = 1;
+                    }
+                }
+            }
+        }
+    }
+    // ìœ í†µê¸°í•œì´ ë¹ ë¥¸ ìˆœìœ¼ë¡œ productëŠ” ì •ë ¬ë˜ì–´ìˆì„ ê°€ëŠ¥ì„±ì´ í¬ë‹¤. ë§Œì•½ ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ ì•ì— ì •ë ¬ í•¨ìˆ˜ ì¶”ê°€
+
+    if (status == -1) {
+        cout << "ê·¸ëŸ¬í•œ ì œí’ˆëª…ì´ ì—†ìŠµë‹ˆë‹¤." << endl;
+    }
+    if (status == 0) {
+        cout << "ì´ë¯¸ í• ì¸ ì¤‘ì¸ ì œí’ˆì…ë‹ˆë‹¤." << endl;
+    }
+    else if (status == 1) {
+        cout << "ì„ íƒí•˜ì‹  ì œí’ˆëª…ì€ í• ì¸í•  ìˆ˜ ìˆëŠ” ì œí’ˆì´ ì•„ë‹™ë‹ˆë‹¤." << endl;
+    }
+    else if (status == 2) {
+        while(true){
+            string line;
+            int percentage = 0;
+            cout << "í• ì¸í•  %ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš” (10 ë‹¨ìœ„) (10 ì´ìƒ 90 ì´í•˜) : ";
+            getline(cin, line);
+            if (line.compare("q") == 0) {
+                exit(0);
+            }
+            try {
+                percentage = stoi(line);
+            }catch (const exception& e) {
+                cerr << "ì…ë ¥í•˜ì‹  ìˆ˜ê°€ ì •ìˆ˜ê°€ ì•„ë‹™ë‹ˆë‹¤." << endl;
+            }
+            if (percentage < 10 && percentage > 90) {
+                cout << "ë²”ìœ„ê°€ ì•Œë§ì§€ ì•ŠìŠµë‹ˆë‹¤." << endl;
+            }
+            else if (percentage % 10 != 0) {
+                cout << "10 ë‹¨ìœ„ë¡œ ì…ë ¥í•´ì•¼ í•©ë‹ˆë‹¤." << endl;
+            }
+            else {
+                for (int i = 0; i < count; i++) {
+                    if (select.compare(product[i]->getName()) == 0 && product[i]->getStock() != 0) {
+                        product[i]->setDiscount(percentage);
+                        product[i]->setDisDate(3);
+                        int newprice = product[i]->getRPrice() * (100 + percentage / 100);
+                        product[i]->setRPrice(newprice);
+                    }
+                }
+                break;
+            }
+        }
+    }
 }
 
 
@@ -760,30 +976,30 @@ void KICManager::selectMarginRate()
 
 void KICManager::closingWork()
 {
-    cout << "---------- <2021³â 10¿ù 24ÀÏ ¾÷¹«¸¶°¨> ----------\n";
-    searchScrap();      // Æó±â Á¦Ç° ÆÇº° ¹× Àç°í ¼ö ÃÊ±âÈ­(Æó±â)
-    financeCalculate(); // ÆÇ¸Å¿¡ µû¸¥ Àç°í ¼ö ÁÙÀÎ ÈÄ, °¨´çÀÏ ¸ÅÃâ¾×, ´çÀÏ ¼øÀÌÀÍ, º¸À¯ ÀÚ»ê Ãâ·Â
-    randomSV(); // ´ÙÀ½³¯ ÆÇ¸ÅµÉ ·£´ı ÆÇ¸Å·® °áÁ¤
+    cout << "---------- <2021ë…„ 10ì›” 24ì¼ ì—…ë¬´ë§ˆê°> ----------\n";
+    searchScrap();      // íê¸° ì œí’ˆ íŒë³„ ë° ì¬ê³  ìˆ˜ ì´ˆê¸°í™”(íê¸°)
+    financeCalculate(); // íŒë§¤ì— ë”°ë¥¸ ì¬ê³  ìˆ˜ ì¤„ì¸ í›„, ê°ë‹¹ì¼ ë§¤ì¶œì•¡, ë‹¹ì¼ ìˆœì´ìµ, ë³´ìœ  ìì‚° ì¶œë ¥
+    randomSV(); // ë‹¤ìŒë‚  íŒë§¤ë  ëœë¤ íŒë§¤ëŸ‰ ê²°ì •
 }
 
 
 
 void KICManager::searchScrap()
 {
-    cout << "¡Ø¡ØÆó±â ¾Ë¸²¡Ø¡Ø" << endl;
+    cout << "â€»â€»íê¸° ì•Œë¦¼â€»â€»" << endl;
     int numOfScrapProds = 0;
     for (int i = 0; i < count; i++) {
-        if (product[i]->getExpDate() == 0) { // À¯Åë±âÇÑÀÌ ¸¸·áµÈ Á¦Ç°ÀÇ °æ¿ì ÇØ´ç Á¦Ç°ÀÇ Àç°í¸¦ 0À¸·Î ¸¸µé¾îÁà¾ß ÇÑ´Ù.
+        if (product[i]->getExpDate() == 0) { // ìœ í†µê¸°í•œì´ ë§Œë£Œëœ ì œí’ˆì˜ ê²½ìš° í•´ë‹¹ ì œí’ˆì˜ ì¬ê³ ë¥¼ 0ìœ¼ë¡œ ë§Œë“¤ì–´ì¤˜ì•¼ í•œë‹¤.
             numOfScrapProds++;
-            cout << product[i]->getName() << " " << product[i]->getStock() << "°³ Æó±â" << endl;
+            cout << product[i]->getName() << " " << product[i]->getStock() << "ê°œ íê¸°" << endl;
             product[i]->setStock(0);
         }
-        else { // À¯Åë±âÇÑÀÌ ¸¸·áµÇÁö ¾ÊÀº Á¦Ç°ÀÇ °æ¿ì À¯Åë±âÇÑÀ» 1ÀÏ °¨¼Ò½ÃÄÑÁØ´Ù.
+        else { // ìœ í†µê¸°í•œì´ ë§Œë£Œë˜ì§€ ì•Šì€ ì œí’ˆì˜ ê²½ìš° ìœ í†µê¸°í•œì„ 1ì¼ ê°ì†Œì‹œì¼œì¤€ë‹¤.
             product[i]->setExpDate(product[i]->getExpDate() - 1);
         }
     }
     if (numOfScrapProds == 0) {
-        cout << "¿À´ÃÀº Æó±âµÈ Á¦Ç°ÀÌ ¾ø½À´Ï´Ù." << endl;
+        cout << "ì˜¤ëŠ˜ì€ íê¸°ëœ ì œí’ˆì´ ì—†ìŠµë‹ˆë‹¤." << endl;
     }
 }
 
@@ -792,12 +1008,12 @@ void KICManager::searchScrap()
 void KICManager::financeCalculate()
 {
     int tempStock = 0;
-    int tempSalesVolume; // Á¦Ç°ÀÇ ´çÀÏ ÆÇ¸Å·®
+    int tempSalesVolume; // ì œí’ˆì˜ ë‹¹ì¼ íŒë§¤ëŸ‰
     int remainSV;
     int tempWPrice;
     int tempRPrice;
-    int todaySales = 0; // ´çÀÏ ¸ÅÃâ¾× ÇÕ°è
-    int todayProfits = 0; // ´çÀÏ ¼øÀÌÀÍ ÇÕ°è
+    int todaySales = 0; // ë‹¹ì¼ ë§¤ì¶œì•¡ í•©ê³„
+    int todayProfits = 0; // ë‹¹ì¼ ìˆœì´ìµ í•©ê³„
     for (int i = 0; i < count; i++) {
         if (product[i]->getStock() != 0) {
             tempStock = product[i]->getStock();
@@ -805,31 +1021,31 @@ void KICManager::financeCalculate()
             tempWPrice = product[i]->getWPrice();
             tempRPrice = product[i]->getRPrice();
 
-            if (tempStock < tempSalesVolume) { // Á¦Ç°ÀÇ ³²Àº Àç°í ¼öº¸´Ù ÆÇ¸Å·®ÀÌ ¸¹À» °æ¿ì
+            if (tempStock < tempSalesVolume) { // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³  ìˆ˜ë³´ë‹¤ íŒë§¤ëŸ‰ì´ ë§ì„ ê²½ìš°
                 string remainPN = product[i]->getName();
 
-                todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // Á¦Ç°ÀÇ ´çÀÏ ¸ÅÃâ¾× °è»ê ÈÄ ÇÕ°è¿¡ ´õÇØÁÖ±â
-                todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // Á¦Ç°ÀÇ ´çÀÏ ¼øÀÌÀÍ °è»ê ÈÄ ÇÕ°è¿¡ ´õÇØÁÖ±â
+                todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // ì œí’ˆì˜ ë‹¹ì¼ ë§¤ì¶œì•¡ ê³„ì‚° í›„ í•©ê³„ì— ë”í•´ì£¼ê¸°
+                todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // ì œí’ˆì˜ ë‹¹ì¼ ìˆœì´ìµ ê³„ì‚° í›„ í•©ê³„ì— ë”í•´ì£¼ê¸°
                 product[i]->setStock(0);
                 remainSV = tempSalesVolume - tempStock;
 
                 for (int j = 0; j < count; j++) {
-                    if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1¹øÂ° Àç°í°¡ ³²Àº µ¿ÀÏ Á¦Ç° °´Ã¼ Å½»ö 
-                        if (product[j]->getStock() < remainSV) { // Á¦Ç°ÀÇ ³²Àº Àç°í ¼öº¸´Ù remainSV°¡ ¸¹À» °æ¿ì
+                    if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1ë²ˆì§¸ ì¬ê³ ê°€ ë‚¨ì€ ë™ì¼ ì œí’ˆ ê°ì²´ íƒìƒ‰ 
+                        if (product[j]->getStock() < remainSV) { // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³  ìˆ˜ë³´ë‹¤ remainSVê°€ ë§ì„ ê²½ìš°
                             todaySales = calTodaySales(todaySales, product[j]->getStock(), tempRPrice);
                             todayProfits = calTodayProfits(todayProfits, product[j]->getStock(), tempRPrice, tempWPrice);
                             product[j]->setStock(0);
                             remainSV = remainSV - product[j]->getStock();
 
-                            for (int k = 0; k < count; k++) {   // 2¹øÂ° Àç°í°¡ ³²Àº µ¿ÀÏ Á¦Ç° °´Ã¼ Å½»ö 
+                            for (int k = 0; k < count; k++) {   // 2ë²ˆì§¸ ì¬ê³ ê°€ ë‚¨ì€ ë™ì¼ ì œí’ˆ ê°ì²´ íƒìƒ‰ 
                                 if (remainPN.compare(product[k]->getName()) == 0 && product[k]->getStock() > 0) {
-                                    if (product[k]->getStock() < remainSV) { // Á¦Ç°ÀÇ ³²Àº Àç°í ¼öº¸´Ù remainSV°¡ ¸¹À» °æ¿ì
+                                    if (product[k]->getStock() < remainSV) { // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³  ìˆ˜ë³´ë‹¤ remainSVê°€ ë§ì„ ê²½ìš°
                                         todaySales = calTodaySales(todaySales, product[k]->getStock(), tempRPrice);
                                         todayProfits = calTodayProfits(todayProfits, product[k]->getStock(), tempRPrice, tempWPrice);
                                         product[j]->setStock(0);
-                                        /* µ¿ÀÏÁ¦Ç°Àº ÃÖ´ë 3È¸¸¸ ÁÖ¹® °¡´ÉÇÏ¹Ç·Î ¿©±â¼­ ³¡ */
+                                        /* ë™ì¼ì œí’ˆì€ ìµœëŒ€ 3íšŒë§Œ ì£¼ë¬¸ ê°€ëŠ¥í•˜ë¯€ë¡œ ì—¬ê¸°ì„œ ë */
                                     }
-                                    else { // // Á¦Ç°ÀÇ ³²Àº Àç°í¼ö°¡ remainSVº¸´Ù ¸¹Àº °æ¿ì
+                                    else { // // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³ ìˆ˜ê°€ remainSVë³´ë‹¤ ë§ì€ ê²½ìš°
                                         todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
                                         todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
                                         product[k]->setStock(product[k]->getStock() - remainSV);
@@ -837,7 +1053,7 @@ void KICManager::financeCalculate()
                                 }
                             }
                         }
-                        else { // Á¦Ç°ÀÇ ³²Àº Àç°í¼ö°¡ remainSVº¸´Ù ¸¹Àº °æ¿ì
+                        else { // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³ ìˆ˜ê°€ remainSVë³´ë‹¤ ë§ì€ ê²½ìš°
                             todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
                             todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
                             product[j]->setStock(product[j]->getStock() - remainSV);
@@ -846,9 +1062,9 @@ void KICManager::financeCalculate()
                 }
 
             }
-            else { // Á¦Ç°ÀÇ ³²Àº Àç°í ¼ö°¡ ÆÇ¸Å·®º¸´Ù ¸¹À» °æ¿ì
-                todaySales = calTodaySales(todaySales, tempSalesVolume, tempRPrice); // Á¦Ç°ÀÇ ¸ÅÃâ¾× °è»ê ÈÄ ÇÕ°è¿¡ ´õÇØÁÖ±â
-                todayProfits = calTodayProfits(todayProfits, tempSalesVolume, tempRPrice, tempWPrice); // Á¦Ç°ÀÇ ¼øÀÌÀÍ °è»ê ÈÄ ÇÕ°è¿¡ ´õÇØÁÖ±â
+            else { // ì œí’ˆì˜ ë‚¨ì€ ì¬ê³  ìˆ˜ê°€ íŒë§¤ëŸ‰ë³´ë‹¤ ë§ì„ ê²½ìš°
+                todaySales = calTodaySales(todaySales, tempSalesVolume, tempRPrice); // ì œí’ˆì˜ ë§¤ì¶œì•¡ ê³„ì‚° í›„ í•©ê³„ì— ë”í•´ì£¼ê¸°
+                todayProfits = calTodayProfits(todayProfits, tempSalesVolume, tempRPrice, tempWPrice); // ì œí’ˆì˜ ìˆœì´ìµ ê³„ì‚° í›„ í•©ê³„ì— ë”í•´ì£¼ê¸°
                 product[i]->setStock(tempStock - tempSalesVolume);
             }
         }
@@ -856,9 +1072,9 @@ void KICManager::financeCalculate()
     }
     property += todayProfits;
     cout << "---------------------------------------------------" << endl;
-    cout << "´çÀÏ ¸ÅÃâ :" << todaySales << endl;
-    cout << "´çÀÏ ¼øÀÌÀÍ :" << todayProfits << endl;
-    cout << "º¸À¯ ÀÚ»ê :" << property << endl;
+    cout << "ë‹¹ì¼ ë§¤ì¶œ :" << todaySales << endl;
+    cout << "ë‹¹ì¼ ìˆœì´ìµ :" << todayProfits << endl;
+    cout << "ë³´ìœ  ìì‚° :" << property << endl;
 }
 
 
@@ -871,12 +1087,12 @@ void KICManager::randomSV()
         if (product[i]->getIsSVChanged() == false) {
             int tempSalesVolume = product[i]->getSalesVolume();
             string tempPN = product[i]->getName();
-            int amountOfChange;                      // ÆÇ¸Å·®ÀÇ º¯È­·®.
-            int plusOrMinus = (rand() + rand()) % 2; // ³­¼ö µÎ°³ ´õÇØ¼­ 2·Î ³ª´« ³ª¸ÓÁö°¡ 0ÀÌ¸é ÆÇ¸Å·® Áõ°¡, 1ÀÌ¸é ÆÇ¸Å·® °¨¼Ò.
+            int amountOfChange;                      // íŒë§¤ëŸ‰ì˜ ë³€í™”ëŸ‰.
+            int plusOrMinus = (rand() + rand()) % 2; // ë‚œìˆ˜ ë‘ê°œ ë”í•´ì„œ 2ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ê°€ 0ì´ë©´ íŒë§¤ëŸ‰ ì¦ê°€, 1ì´ë©´ íŒë§¤ëŸ‰ ê°ì†Œ.
 
             if (tempSalesVolume >= 0 && tempSalesVolume <= 5) {
                 amountOfChange = (rand() % 2);
-                if (tempSalesVolume == 0) { // ÆÇ¸Å·®ÀÌ 0ÀÎ°æ¿ì¿¡¼­ ÆÇ¸Å·®ÀÌ °¨¼ÒÇÒ ¼ø ¾øÀ¸´Ï±î... 0È¤Àº 1¸¸Å­ ÆÇ¸Å·® Áõ°¡.
+                if (tempSalesVolume == 0) { // íŒë§¤ëŸ‰ì´ 0ì¸ê²½ìš°ì—ì„œ íŒë§¤ëŸ‰ì´ ê°ì†Œí•  ìˆœ ì—†ìœ¼ë‹ˆê¹Œ... 0í˜¹ì€ 1ë§Œí¼ íŒë§¤ëŸ‰ ì¦ê°€.
                     tempSalesVolume += amountOfChange;
                     product[i]->setSalesVolume(tempSalesVolume);
                 }
@@ -976,7 +1192,7 @@ void KICManager::randomSV()
 
             else {
                 amountOfChange = (rand() % 25);
-                if (tempSalesVolume >= 150) { // ÆÇ¸Å·®ÀÌ 150ÀÌ»óÀÌ µÇ¸é ÆÇ¸Å·®ÀÌ °¨¼ÒÇÏ°Ô²û ¼³Á¤
+                if (tempSalesVolume >= 150) { // íŒë§¤ëŸ‰ì´ 150ì´ìƒì´ ë˜ë©´ íŒë§¤ëŸ‰ì´ ê°ì†Œí•˜ê²Œë” ì„¤ì •
                     tempSalesVolume -= amountOfChange;
                     product[i]->setSalesVolume(tempSalesVolume);
                 }
@@ -991,7 +1207,7 @@ void KICManager::randomSV()
             }
 
             product[i]->setSVChanged(true);
-            /* À§¿¡¼­ ·£´ı ÆÇ¸Å·®À» ´ëÀÔÇÑ Á¦Ç°°ú À¯Åë±âÇÑ¸¸ ´Ù¸¥ µ¿ÀÏ Á¦Ç°À» Ã£¾Æ µ¿ÀÏÇÑ ÆÇ¸Å·®À» ´ëÀÔÇØÁÖ´Â ÀÛ¾÷ */
+            /* ìœ„ì—ì„œ ëœë¤ íŒë§¤ëŸ‰ì„ ëŒ€ì…í•œ ì œí’ˆê³¼ ìœ í†µê¸°í•œë§Œ ë‹¤ë¥¸ ë™ì¼ ì œí’ˆì„ ì°¾ì•„ ë™ì¼í•œ íŒë§¤ëŸ‰ì„ ëŒ€ì…í•´ì£¼ëŠ” ì‘ì—… */
             for (int j = 0; j < count; j++) {
                 if (tempPN.compare(product[j]->getName()) == 0 && product[j]->getIsSVChanged() == false) {
                     product[j]->setSalesVolume(tempSalesVolume);
@@ -1000,7 +1216,7 @@ void KICManager::randomSV()
             }
         }
     }
-    /*µ¿ÀÏ Á¦Ç°À» °í·ÁÇÑ ·£´ı ÆÇ¸Å·® ´ëÀÔ ÀÛ¾÷ÀÌ ¿Ï·áµÇ¾úÀ¸¹Ç·Î ´Ù½Ã IsSVChanged º¯¼ö¸¦ false·Î µ¹·Á³õ´Â´Ù.*/
+    /*ë™ì¼ ì œí’ˆì„ ê³ ë ¤í•œ ëœë¤ íŒë§¤ëŸ‰ ëŒ€ì… ì‘ì—…ì´ ì™„ë£Œë˜ì—ˆìœ¼ë¯€ë¡œ ë‹¤ì‹œ IsSVChanged ë³€ìˆ˜ë¥¼ falseë¡œ ëŒë ¤ë†“ëŠ”ë‹¤.*/
     for (int i = 0; i < count; i++) {
         product[i]->setSVChanged(false);
     }

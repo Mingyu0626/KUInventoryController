@@ -1,6 +1,6 @@
 #include "KICProduct.h"
 
-KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice)
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice) 
     : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(expDate), wPrice(wPrice), rPrice(rPrice)
 {
 }
