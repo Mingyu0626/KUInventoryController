@@ -1308,26 +1308,19 @@ void KICManager::searchScrap()
 
     /*폐기 제품 판별 및 남은 유통기한 조정*/
     int numOfScrapProds = 0;
+    cout << "※※폐기 알림※※" << endl;
     for (int i = 0; i < count; i++) {
         if (product[i]->getExpDate() == 0 && product[i]->getStock() != 0) { // 유통기한이 0일이고 남은 재고가 0이 아닌 제품의 경우 폐기해줘야 한다.
-
-            cout << "※※폐기 알림※※" << endl;
-            int numOfScrapProds = 0;
-            for (int i = 0; i < count; i++) {
-                if (product[i]->getExpDate() == 0) { // 유통기한이 만료된 제품의 경우 해당 제품의 재고를 0으로 만들어줘야 한다.
-
-                    numOfScrapProds++;
-                    cout << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
-                    product[i]->setStock(0);
-                }
-                else { // 유통기한이 만료되지 않은 제품의 경우 유통기한을 1일 감소시켜준다.
-                    product[i]->setExpDate(product[i]->getExpDate() - 1);
-                }
-            }
-            if (numOfScrapProds == 0) {
-                cout << "오늘은 폐기된 제품이 없습니다." << endl;
-            }
+            numOfScrapProds++;
+            cout << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
+            product[i]->setStock(0);
         }
+        else if (product[i]->getExpDate() != 0 && product[i]->getStock() != 0) { // 유통기한이 만료되지 않은 제품의 경우 유통기한을 1일 감소시켜준다.
+            product[i]->setExpDate(product[i]->getExpDate() - 1);
+        }
+    }
+    if (numOfScrapProds == 0) {
+        cout << "오늘은 폐기된 제품이 없습니다." << endl;
     }
 }
 
