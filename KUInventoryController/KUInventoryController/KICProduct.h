@@ -35,10 +35,10 @@ public:
 	void setWPrice(int wPrice);
 	int getRPrice();
 	void setRPrice(int rPrice);
-	bool getIsSVChanged();
-	void setSVChanged(bool isSVChanged);
 	int getDiscount();
 	void setDiscount(int discount);
+	bool getIsSVChanged();
+	void setSVChanged(bool isSVChanged);
 	int getDisDate();
 	void setDisDate(int disDate);
 
