@@ -49,6 +49,16 @@ void KICProduct::setExpDate(int expDate)
     this->expDate = expDate;
 }
 
+int KICProduct::getFixedExpDate()
+{
+    return this->fixedExpDate;
+}
+
+void KICProduct::setFixedExpDate(int fiexedExpDate)
+{
+    this->fixedExpDate = fixedExpDate;
+}
+
 int KICProduct::getWPrice()
 {
     return this->wPrice;
