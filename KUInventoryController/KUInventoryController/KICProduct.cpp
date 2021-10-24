@@ -69,6 +69,16 @@ void KICProduct::setRPrice(int rPrice)
     this->rPrice = rPrice;
 }
 
+bool KICProduct::getIsSVChanged()
+{
+    return this->isSVChanged;
+}
+
+void KICProduct::setSVChanged(bool isSVChanged)
+{
+    this->isSVChanged = isSVChanged;
+}
+
 
 ostream& operator<<(ostream& out, const KICProduct& p)
 {
