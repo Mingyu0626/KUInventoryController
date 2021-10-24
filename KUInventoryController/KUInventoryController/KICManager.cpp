@@ -752,8 +752,49 @@ void KICManager::addOrder()
 
 void KICManager::searchProds()
 {
-    cout << "searchProds" << endl;
-    cout << "searchProds" << endl;
+    sortAl();
+
+    while (true) {
+
+        string namePro;
+
+        cout << "searchProds" << endl;
+        cout << "검색하고자 하는 상품의 이름을 띄어쓰기 없이 입력 : ";
+        getline(cin, namePro);
+
+        cout << " =============== " << namePro << " 의 검색 결과" << " ============== " << endl;
+        cout << endl;
+        cout << endl;
+        cout << "   상품명   " << "   재고   " << "  전날 판매량 " << "   유통기한   " << "   도매가   " << "   판매가   " << endl;
+        cout << endl;
+
+
+        for (int j = 0; j < count; j++) {
+
+            if ((product[j]->getName()).find(namePro) != string::npos) {
+                if (product[j]->getStock() != 0) { // 재고 0인건 출력 안함
+                    cout << "   " << product[j]->getName() << "      " << product[j]->getStock() << "           " << product[j]->getSalesVolume() << "         " << product[j]->getExpDate() << "         " << product[j]->getWPrice() << "        " << product[j]->getRPrice() << endl;
+                }
+            }
+        }
+
+        if (namePro[0] == ' ') {
+            cout << "선행 공백은 불가능합니다. 다시 입력하세요" << endl;;
+        }
+
+        else if (namePro.find('~') != string::npos | namePro.find('!') != string::npos | namePro.find('@') != string::npos | namePro.find('#') != string::npos | namePro.find('$') != string::npos | namePro.find('%') != string::npos | namePro.find('^') != string::npos |
+            namePro.find('&') != string::npos | namePro.find('*') != string::npos | namePro.find('(') != string::npos | namePro.find(')') != string::npos | namePro.find('-') != string::npos | namePro.find('+') != string::npos | namePro.find('_') != string::npos |
+            namePro.find('=')) {
+            cout << "특수문자 입력은 불가합니다. 다시 입력하세요" << endl;
+        }
+
+
+        else { // 오타 등 기획서에 명시한 예외 빼고는 모두 else로 처리
+            cout << " 잘못된 입력입니다. " << endl;
+
+        }
+
+    }
 }
 
 void KICManager::sortDate()
