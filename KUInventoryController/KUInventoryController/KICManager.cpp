@@ -851,17 +851,6 @@ void KICManager::addOrder()
                         }
                     }
 
-                    int p = 0; // 같은제품, 같은 유통기한인지 check
-                    /*같은 제품, 같은 유통기한이면 합치기*/
-                    for (int i = 0; i < count; i++) {
-                        if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
-                        {
-                            product[i]->setStock(product[i]->getStock() + numPro);
-                            p = 1;
-                            break;
-                        }
-                    }
-
                     property -= price;
                     if (p == 0) {
                         count++;
