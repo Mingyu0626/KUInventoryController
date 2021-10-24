@@ -37,6 +37,10 @@ public:
 	void setRPrice(int rPrice);
 	bool getIsSVChanged();
 	void setSVChanged(bool isSVChanged);
+	int getDiscount();
+	void setDiscount(int discount);
+	int getDisDate();
+	void setDisDate(int disDate);
 
 	friend ostream& operator<<(ostream& out, const KICProduct& p);
 };
