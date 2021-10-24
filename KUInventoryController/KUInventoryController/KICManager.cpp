@@ -629,36 +629,6 @@ void KICManager::sortDate()
     }
 }
 
-void KICManager::sortAl()
-{
-    //ㄱㄴㄷ순 정렬
-    cout << "sortal" << endl;
-
-    for (int i = 0; i < count; i++) {
-        this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-    }
-
-    KICProduct temp = *sortprod[0];
-    for (int i = 0; i < count; i++) {
-        for (int j = i + 1; j < count; j++) {
-            // cout << (*sortprod[i]->getName() < *sortprod[j]->getName()) << endl;
-            if ((sortprod[i]->getName().compare(sortprod[j]->getName())) > 0) {
-                temp = *sortprod[i];
-                *sortprod[i] = *sortprod[j];
-                *sortprod[j] = temp;
-            }
-        }
-    }
-    cout << "********************주문 품목창*********************" << endl;
-    /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
-    for (int i = 0; i < count; i++) {
-        if (sortprod[i]->getStock() <= sortprod[i]->getSalesVolume() * 3) {
-            cout << *sortprod[i] << endl;
-        }
-    }
-    cout << "*****************************************************" << endl;
-    cout << endl;
-}
 
 void KICManager::sortAl()
 {
@@ -680,8 +650,7 @@ void KICManager::sortAl()
             }
         }
     }
-
-
+    
 }
 
 
