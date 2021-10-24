@@ -437,8 +437,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    fstream fin("source.txt");
-    //fstream fin("절대경로");
+    //fstream fin("source.txt");
+    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -1029,17 +1029,17 @@ void KICManager::discountReqProds()
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() > sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() < sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
                 temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
                 *sortprod[j] = temp;
             }
         }
     } //  (같은제품, 유통기한 다른거 => 다른제품 취급 : 남은 재고 수 / 전날 판매량 순으로 정렬)
-    bool accept = true;
     bool check = false;
     for (int i = 0; i < count; i++) {
         if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0) {
+            bool accept = true;
             for (int j = 0; j < count; j++) {
                 if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
                     if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
@@ -1137,11 +1137,9 @@ void KICManager::selectDiscountProds()
                 bool num = true;
                 try {
                     for (char const& c : line) {
-                        throw c;
                         if (std::isdigit(c) == 0) {
-                            cout << "숫자가 아닙니다" << endl;
                             num = false;
-                            break;
+                            throw c;
                         }
                     }
                 }
