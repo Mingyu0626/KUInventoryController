@@ -1153,6 +1153,9 @@ void KICManager::sortStock()
 
 void KICManager::discountProds()
 {
+    for (int i = 0; i < count; i++) {
+        *sortprod[i] = *product[i];
+    }
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
@@ -1203,6 +1206,9 @@ void KICManager::discountProds()
 
 void KICManager::discountReqProds()
 {
+    for (int i = 0; i < count; i++) {
+        *sortprod[i] = *product[i];
+    }
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
