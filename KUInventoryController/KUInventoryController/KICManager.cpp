@@ -124,11 +124,6 @@ string KICManager::checkDate(string date)
                             system("pause");
                             return "";
                         }
-                        else {
-                            cout << "날짜를 올바르게 입력하세요." << endl;
-                            system("pause");
-                            return "";
-                        }
                         break;
                     default:
                         if (day >= 1 && day <= 31) {
@@ -765,7 +760,7 @@ void KICManager::printDate()
 }
 
 
-vvoid KICManager::addOrder()
+void KICManager::addOrder()
 {
 
     while (true) {
@@ -808,6 +803,9 @@ vvoid KICManager::addOrder()
             continue;
         }
 
+        cout << endl;
+        cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
+        cout << endl;
         cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
         cin >> numPro;
         string buffer;
@@ -872,6 +870,9 @@ vvoid KICManager::addOrder()
                     this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
                 }
                 cout << "주문 완료했습니다" << endl;
+                cout << endl;
+                cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
+                cout << endl;
                 cout << "결제금액: " << price << ", 보유금액: " << property << endl;
                 system("pause");
                 break;
