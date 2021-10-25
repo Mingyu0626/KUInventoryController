@@ -1417,7 +1417,7 @@ void KICManager::selectMarginRate()
                         }
                         else {
                             cout << "마진율의 변경가능 범위는 10%~90%입니다." << endl;
-                            system("pause");           
+                            system("pause");
                         }
                     }
                     else {
