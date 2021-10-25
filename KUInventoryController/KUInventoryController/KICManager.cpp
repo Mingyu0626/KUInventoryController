@@ -513,8 +513,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    fstream fin("source.txt");
-    //fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+   // fstream fin("source.txt");
+    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -829,6 +829,13 @@ void KICManager::addOrder()
             if (numPro < 0) {
                 cout << "0보다 큰 수를 입력하세요" << endl;
                 system("pause");
+                break;
+            }
+            if (numPro > 214748) {
+                cout << "다시 입력하세요" << endl;
+                system("pause");
+                cin.clear();
+                getline(cin, buffer);
                 break;
             }
             if (cin.fail()) {
@@ -1273,9 +1280,11 @@ void KICManager::selectDiscountProds()
                     else {
                         if (product[i]->getStock() >= product[i]->getSalesVolume() * 3) {
                             status = 2;
+                            break;
                         }
                         else {
                             status = 1;
+                            break;
                         }
                     }
                 }
