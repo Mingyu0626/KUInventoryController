@@ -1,5 +1,6 @@
 #include "KICManager.h"
 
+using namespace std;
 
 void KICManager::start()
 {
@@ -512,8 +513,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    //fstream fin("source.txt");
     fstream fin("source.txt");
+    //fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -1141,6 +1142,7 @@ void KICManager::sortStock()
 
 }
 
+
 void KICManager::discountProds()
 {
     cout.setf(ios::left);
@@ -1491,6 +1493,7 @@ void KICManager::searchScrap()
         if (product[i]->getExpDate() <= 1 && product[i]->getStock() != 0) { // 유통기한이 0일이고 남은 재고가 0이 아닌 제품의 경우 폐기해줘야 한다.
             numOfScrapProds++;
             cout << numOfScrapProds << ") " << product[i]->getName() << " " << product[i]->getStock() << "개 폐기" << endl;
+            product[i]->setExpDate(0);
             product[i]->setStock(0);
         }
         else if (product[i]->getExpDate() >= 2 && product[i]->getStock() != 0) { // 유통기한이 만료되지 않은 제품의 경우 유통기한을 1일 감소시켜준다.
@@ -1508,13 +1511,13 @@ void KICManager::financeCalculate()
 {
     int tempStock = 0;
     int tempSalesVolume; // 제품의 당일 판매량
-    int remainSV;
-    int tempWPrice;
-    int tempRPrice;
+    int remainSV = 0;
+    int tempWPrice = 0;
+    int tempRPrice = 0;
     int todaySales = 0; // 당일 매출액 합계
     int todayProfits = 0; // 당일 순이익 합계
     for (int i = 0; i < count; i++) {
-        if (product[i]->getStock() != 0) {
+        if (product[i]->getStock() != 0 && product[i]->getExpDate() != 0) {
             tempStock = product[i]->getStock();
             tempSalesVolume = product[i]->getSalesVolume();
             tempWPrice = product[i]->getWPrice();
@@ -1522,47 +1525,54 @@ void KICManager::financeCalculate()
 
             if (tempStock < tempSalesVolume) { // 제품의 판매량이 남은 재고 수보다 많을 경우
                 string remainPN = product[i]->getName();
-
                 todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // 제품의 당일 매출액 계산 후 합계에 더해주기
                 todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // 제품의 당일 순이익 계산 후 합계에 더해주기
                 product[i]->setStock(0);
+                product[i]->setExpDate(0);
                 product[i]->setIsStockDeclined(true);
                 remainSV = tempSalesVolume - tempStock; // 남은 판매량
 
                 for (int j = 0; j < count; j++) {
-                    if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1번째 재고가 남은 동일 제품 객체 탐색 
-                        if (product[j]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
-                            todaySales = calTodaySales(todaySales, product[j]->getStock(), tempRPrice);
-                            todayProfits = calTodayProfits(todayProfits, product[j]->getStock(), tempRPrice, tempWPrice);
-                            remainSV = remainSV - product[j]->getStock();
-                            product[j]->setStock(0);
-                            product[j]->setIsStockDeclined(true);
+                    if (i != j) {
+                        if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1번째 재고가 남은 동일 제품 객체 탐색 
+                            if (product[j]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
+                                todaySales = calTodaySales(todaySales, product[j]->getStock(), tempRPrice);
+                                todayProfits = calTodayProfits(todayProfits, product[j]->getStock(), tempRPrice, tempWPrice);
+                                remainSV = remainSV - product[j]->getStock();
+                                product[j]->setStock(0);
+                                product[j]->setExpDate(0);
+                                product[j]->setIsStockDeclined(true);
 
-                            for (int k = 0; k < count; k++) {   // 2번째 재고가 남은 동일 제품 객체 탐색 
-                                if (remainPN.compare(product[k]->getName()) == 0 && product[k]->getStock() > 0) {
-                                    if (product[k]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
-                                        todaySales = calTodaySales(todaySales, product[k]->getStock(), tempRPrice);
-                                        todayProfits = calTodayProfits(todayProfits, product[k]->getStock(), tempRPrice, tempWPrice);
-                                        product[k]->setStock(0);
-                                        product[k]->setIsStockDeclined(true);
-                                        /* 동일제품은 최대 3회만 주문 가능하므로 여기서 끝 */
-                                    }
-                                    else { // // 제품의 남은 재고 수가 remainSV보다 많은 경우
-                                        todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
-                                        todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
-                                        product[k]->setStock(product[k]->getStock() - remainSV);
+                                for (int k = 0; k < count; k++) {   // 2번째 재고가 남은 동일 제품 객체 탐색
+                                    if (i != k && j != k) {
+                                        if (remainPN.compare(product[k]->getName()) == 0 && product[k]->getStock() > 0) {
+                                            if (product[k]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
+                                                todaySales = calTodaySales(todaySales, product[k]->getStock(), tempRPrice);
+                                                todayProfits = calTodayProfits(todayProfits, product[k]->getStock(), tempRPrice, tempWPrice);
+                                                product[k]->setStock(0);
+                                                product[k]->setExpDate(0);
+                                                product[k]->setIsStockDeclined(true);
+                                                /* 동일제품은 최대 3회만 주문 가능하므로 여기서 끝 */
+                                            }
+                                            else { // // 제품의 남은 재고 수가 remainSV보다 많은 경우
+                                                todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
+                                                todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
+                                                product[k]->setStock(product[k]->getStock() - remainSV);
+                                                product[k]->setIsStockDeclined(true);
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            else { // 제품의 남은 재고수가 remainSV보다 많은 경우
+                                todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
+                                todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
+                                product[j]->setStock(product[j]->getStock() - remainSV);
+                                product[j]->setIsStockDeclined(true);
+                            }
                         }
-                        else { // 제품의 남은 재고수가 remainSV보다 많은 경우
-                            todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
-                            todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
-                            product[j]->setStock(product[j]->getStock() - remainSV);
-                        }
-                    }
+                    }                 
                 }
-
             }
             else { // 제품의 남은 재고 수가 판매량보다 많을 경우
                 if (product[i]->getIsStockDeclined() == false) {
