@@ -588,21 +588,32 @@ void KICManager::printMenu()
             searchProds();
 
         else if (menu == "3") {
-            system("cls");
-            cout << "---------------------------------------- < 메뉴 > ----------------------------------------" << endl;
-            cout << " 1) 할인 제품 지정 " << endl;
-            cout << " 2) 마진율 지정 " << endl;
-            cout << "===========================================================================================" << endl;
-            cout << "메뉴를 선택하세요 : ";
-            string subMenu;
-            getline(cin, subMenu);
-            if (subMenu == "1") {
-                selectDiscountProds();
+            while (true) {
+                system("cls");
+                cout << "---------------------------------------- < 메뉴 > ----------------------------------------" << endl;
+                cout << " 1) 할인 제품 지정 " << endl;
+                cout << " 2) 마진율 지정 " << endl;
+                cout << "===========================================================================================" << endl;
+                cout << "메뉴를 선택하세요 (q : 메뉴 종료) :";
+                string subMenu;
+                getline(cin, subMenu);
+                if (subMenu == "1") {
+                    selectDiscountProds();
+                    break;
+                }
+                else if (subMenu == "2") {
+                    selectMarginRate();
+                    break;
+                }
+                else if (subMenu == "q")
+                    break;
+                else {
+                    cout << "올바른 숫자를 입력하세요 !" << endl;
+                    system("pause");
+                    continue;
+                }
+                break;
             }
-            else if (subMenu == "2")
-                selectMarginRate();
-            else
-                cout << "올바른 숫자를 입력하세요 !" << endl;
         }
         else if (menu == "4")
             closingWork();
@@ -836,7 +847,7 @@ void KICManager::addOrder()
                 break;
             }
 
-            cout << " 결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까 (q : 메뉴 종료) ? (y/n) ";
+            cout << "결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까 (q : 메뉴 종료) ? (y/n) ";
             string yn;
             getline(cin, yn);
 
@@ -892,6 +903,7 @@ void KICManager::addOrder()
                 break;
             }
         }
+        cout << "break" << endl;
     }
 }
 
@@ -1145,7 +1157,7 @@ void KICManager::discountProds()
         for (int j = i + 1; j < count; j++) {
             if (sortprod[i]->getDiscount() != 0) {
                 if (sortprod[i]->getDiscount() == sortprod[j]->getDiscount()) {
-                    if (sortprod[i]->getDisDate() < sortprod[j]->getDisDate()) {
+                    if (sortprod[i]->getDisDate() > sortprod[j]->getDisDate()) {
                         temp = *sortprod[i];
                         *sortprod[i] = *sortprod[j];
                         *sortprod[j] = temp;
