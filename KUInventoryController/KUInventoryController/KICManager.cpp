@@ -792,7 +792,7 @@ void KICManager::addOrder()
         int tmp = 0; //반복문 탈출 위한 변수
         int productnum = -1; //주문할 물건의 인덱스번호
 
-        cout << "주문할 제품명을 띄어쓰기 없이 입력 (q : 메뉴 종료) : ";
+        cout << "주문할 제품명을 띄어쓰기 없이 정확히 입력 (q : 메뉴 종료) : ";
         //  cin.ignore();
         getline(cin, namePro);
 
