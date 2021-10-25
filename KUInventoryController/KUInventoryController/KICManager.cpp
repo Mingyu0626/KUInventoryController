@@ -1153,9 +1153,6 @@ void KICManager::sortStock()
 
 void KICManager::discountProds()
 {
-    for (int i = 0; i < count; i++) {
-        *sortprod[i] = *product[i];
-    }
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
@@ -1191,7 +1188,7 @@ void KICManager::discountProds()
     cout << "-------------------------------------------------------------------------------------------" << endl;
     cout << endl;
     for (int i = 0; i < count; i++) {
-        if (sortprod[i]->getDiscount() != 0) {
+        if (sortprod[i]->getDiscount() != 0 && sortprod[i]->getStock()!=0) {
             cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getRPrice() * 100 / (100 - sortprod[i]->getDiscount())  << setw(15) << sortprod[i]->getDisDate() << endl;
             check = true;
         }
@@ -1206,9 +1203,6 @@ void KICManager::discountProds()
 
 void KICManager::discountReqProds()
 {
-    for (int i = 0; i < count; i++) {
-        *sortprod[i] = *product[i];
-    }
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
@@ -1480,6 +1474,9 @@ void KICManager::closingWork()
     searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
     setDate();
     cout << "다음날 영업으로 넘어갑니다..." << endl;
+    for (int i = 0; i < count; i++) {
+        *sortprod[i] = *product[i];
+    }
     system("pause");
     system("cls");
 }
@@ -1771,9 +1768,6 @@ void KICManager::randomSV()
         product[i]->setSVChanged(false);
     }
 
-    for (int i = 0; i < count; i++) {
-        *sortprod[i] = *product[i];
-    }
 }
 
 
