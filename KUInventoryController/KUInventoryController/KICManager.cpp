@@ -1,5 +1,6 @@
 #include "KICManager.h"
 
+
 void KICManager::start()
 {
     while (true) {
@@ -511,8 +512,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
+    //fstream fin("source.txt");
     fstream fin("source.txt");
-   // fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -791,7 +792,7 @@ void KICManager::addOrder()
         int tmp = 0; //반복문 탈출 위한 변수
         int productnum = -1; //주문할 물건의 인덱스번호
 
-        cout << "주문할 제품명을 띄어쓰기 없이 입력 (q : 메뉴 종료) : ";
+        cout << "주문할 제품명을 띄어쓰기 없이 정확히 입력 (q : 메뉴 종료) : ";
         //  cin.ignore();
         getline(cin, namePro);
 
@@ -937,25 +938,10 @@ void KICManager::searchProds()
             }
         }
 
-        int y = 0; // for문 위한 변수(출력:0  출력X:1)
-
 
         for (int i = 0; i < count; i++) {
-            if (sortprod[i]->getStock() == 0) {
-                for (int j = count-1; j > i; j--) {
-                    cout << j;
-                    if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
-                        y = 0;
-                        break;
-                    }
-                    else {
-                        y = 1;
-                    }
-                }
-            }
-            if (y == 0) {
-                if(sortprod[i]->getExpDate() != 0)
-                    cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
+            if (sortprod[i]->getExpDate() != 0 && sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
+                cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
             }
         }
 
