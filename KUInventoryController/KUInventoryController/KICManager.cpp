@@ -513,7 +513,7 @@ void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
     //fstream fin("source.txt");
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -815,7 +815,9 @@ void KICManager::addOrder()
             continue;
         }
 
-
+        cout << endl;
+        cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
+        cout << endl;
         cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
         cin >> numPro;
         string buffer;
@@ -885,6 +887,9 @@ void KICManager::addOrder()
                     this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
                 }
                 cout << "주문 완료했습니다" << endl;
+                cout << endl;
+                cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
+                cout << endl;
                 cout << "결제금액: " << price << ", 보유금액: " << property << endl;
                 system("pause");
                 break;
@@ -903,7 +908,6 @@ void KICManager::addOrder()
                 break;
             }
         }
-        cout << "break" << endl;
     }
 }
 
@@ -1041,6 +1045,7 @@ void KICManager::sortDate()
 }
 
 
+
 void KICManager::sortAl()
 {
     //ㄱㄴㄷ순 정렬
@@ -1135,7 +1140,6 @@ void KICManager::sortStock()
     }
 
 }
-
 
 void KICManager::discountProds()
 {
