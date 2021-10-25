@@ -765,7 +765,7 @@ void KICManager::printDate()
 }
 
 
-void KICManager::addOrder()
+vvoid KICManager::addOrder()
 {
 
     while (true) {
@@ -786,8 +786,8 @@ void KICManager::addOrder()
         int productnum = -1; //주문할 물건의 인덱스번호
 
         cout << "주문할 제품명을 띄어쓰기 없이 입력 (q : 메뉴 종료) : ";
+        //  cin.ignore();
         getline(cin, namePro);
-
 
         /*q누르면 종료*/
         if (namePro.compare("q") == 0) {
@@ -808,73 +808,81 @@ void KICManager::addOrder()
             continue;
         }
 
-        cout << " 주문할 제품 수량을 띄어쓰기 없이 입력 : ";
+        cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
         cin >> numPro;
         string buffer;
         getline(cin, buffer);
 
-
         while (true) {
-
- 
             price = product[productnum]->getWPrice() * numPro; //결제금액_너무 길어서 price로 했습니당
-            cout << " 결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까? (y/n) ";
+            if (numPro < 0) {
+                cout << "0보다 큰 수를 입력하세요" << endl;
+                system("pause");
+                break;
+            }
+            if (price < 0) {
+                cout << "너무 많은 수량을 입력하였습니다. 다시 입력하세요" << endl;
+                numPro = 0;
+                system("pause");
+                break;
+            }
+
+
+            if (property < price) {
+                cout << "결제 금액이 부족합니다." << endl;
+                system("pause");
+                break;
+            }
+
+            cout << " 결제금액 " << product[productnum]->getWPrice() * numPro << "원, " << " 보유금액 " << property << "원" << "주문하시겠습니까 (q : 메뉴 종료) ? (y/n) ";
             string yn;
             getline(cin, yn);
 
             if (yn.compare("y") == 0) {
-                /* 주문 상황 반영*/
-                if (property < price) {
-                    cout << "결제 금액이 부족합니다." << endl;
-                    system("pause");
-                    tmp = 1;
-                    if (tmp == 1)
-                        break;
+
+                /*주문 성공*/
+                int k = 0;//주문 횟수
+                for (int i = 0; i < count; i++) {
+                    if (product[i]->getName().compare(namePro) == 0 && product[i]->getStock() != 0)
+                        k++;
                 }
-                else {
-                    /*주문 성공*/
-                    int k = 0;//주문 횟수
-                    for (int i = 0; i < count; i++) {
-                        if (product[i]->getName().compare(namePro) == 0 && product[i]->getStock() != 0)
-                            k++;
-                    }
-                    /*3번 이상 주문X*/
-                    if (k >= 3) {
-                        cout << "해당 제품은 더 이상 주문할 수 없습니다." << endl;
-                        system("pause");
-                        break;
-                    }
-
-                    int p = 0; // 같은제품, 같은 유통기한인지 check
-                   /*같은 제품, 같은 유통기한이면 합치기*/
-                    for (int i = 0; i < count; i++) {
-                        if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
-                        {
-                            product[i]->setStock(product[i]->getStock() + numPro);
-                            p = 1;
-                            break;
-                        }
-                    }
-
-                    property -= price;
-                    if (p == 0) {
-                        count++;
-                        /*product, sortprod 주문 내용 추가*/
-                        this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
-                        this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
-                    }
-                    cout << "주문 완료했습니다" << endl;
-                    cout << "결제금액: " << price << ", 보유금액: " << property << endl;
+                /*3번 이상 주문X*/
+                if (k >= 3) {
+                    cout << "해당 제품은 더 이상 주문할 수 없습니다." << endl;
                     system("pause");
                     break;
-
                 }
+
+                int p = 0; // 같은제품, 같은 유통기한인지 check
+               /*같은 제품, 같은 유통기한이면 합치기*/
+                for (int i = 0; i < count; i++) {
+                    if (product[i]->getName().compare(namePro) == 0 && product[i]->getExpDate() == product[i]->getFixedExpDate())
+                    {
+                        product[i]->setStock(product[i]->getStock() + numPro);
+                        p = 1;
+                        break;
+                    }
+                }
+
+                property -= price;
+                if (p == 0) {
+                    count++;
+                    /*product, sortprod 주문 내용 추가*/
+                    this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
+                    this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
+                }
+                cout << "주문 완료했습니다" << endl;
+                cout << "결제금액: " << price << ", 보유금액: " << property << endl;
+                system("pause");
                 break;
             }
             else if (yn.compare("n") == 0) {
                 cout << "주문이 취소되었습니다. " << endl;
                 system("pause");
                 break;
+            }
+            else if (yn.compare("q") == 0) {
+                return;
             }
             else {
                 cout << "잘못 입력하셨습니다. 다시 입력하세요." << endl;
