@@ -792,7 +792,7 @@ void KICManager::addOrder()
         int tmp = 0; //반복문 탈출 위한 변수
         int productnum = -1; //주문할 물건의 인덱스번호
 
-        cout << "주문할 제품명을 띄어쓰기 없이 입력 (q : 메뉴 종료) : ";
+        cout << "주문할 제품명을 띄어쓰기 없이 정확히 입력 (q : 메뉴 종료) : ";
         //  cin.ignore();
         getline(cin, namePro);
 
@@ -815,9 +815,7 @@ void KICManager::addOrder()
             continue;
         }
 
-        cout << endl;
-        cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
-        cout << endl;
+
         cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
         cin >> numPro;
         string buffer;
@@ -887,9 +885,6 @@ void KICManager::addOrder()
                     this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
                 }
                 cout << "주문 완료했습니다" << endl;
-                cout << endl;
-                cout << setw(15) << product[productnum]->getName() << setw(15) << product[productnum]->getStock() << setw(15) << product[productnum]->getSalesVolume() << setw(15) << product[productnum]->getExpDate() << setw(15) << product[productnum]->getWPrice() << setw(15) << product[productnum]->getRPrice() << setw(15) << product[productnum]->getDiscount() << setw(15) << product[productnum]->getDisDate() << endl;
-                cout << endl;
                 cout << "결제금액: " << price << ", 보유금액: " << property << endl;
                 system("pause");
                 break;
@@ -919,7 +914,7 @@ void KICManager::searchProds()
     while (true) {
         system("cls");
         cout << "================================================== < 제품 검색 > ====================================================" << endl;
-        cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << "할인율" << setw(15) << "할인남은기간" <<  endl;
+        cout << setw(15) << "제품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << "할인율" << setw(15) << "할인남은기간" <<  endl;
         cout << "--------------------------------------------------------------------------------------------------------------------" << endl;
         // 검색 초기화면은 ㄱㄴㄷ 순 출력
         for (int i = 0; i < count; i++) {
@@ -1003,7 +998,7 @@ void KICManager::searchProds()
         }
         else if (status == 0) {
             cout << "=========================================== " << namePro << " 의 검색 결과" << " ============================================\n" << endl;
-            cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << "할인율" << setw(15) << "할인남은기간" << endl;
+            cout << setw(15) << "제품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << "할인율" << setw(15) << "할인남은기간" << endl;
             cout << "--------------------------------------------------------------------------------------------------------------------" << endl;
             for (int j = 0; j < count; j++) {
                 if (sortprod[j]->getExpDate() != 0 || sortprod[j]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
@@ -1067,7 +1062,7 @@ void KICManager::sortAl()
     }
 
     cout.setf(ios::left);
-    cout << setw(15) << "상품명" << setw(10) << "총재고"  << setw(15) << "빠른유통기한" << setw(10) << "의재고" << setw(15) << "전날판매량" << setw(15) << "도매가" << setw(15) << "판매가" << setw(8) << "할인율" << setw(8) << "할인남은기간" << endl;
+    cout << setw(15) << "제품명" << setw(10) << "총재고"  << setw(15) << "빠른유통기한" << setw(10) << "의재고" << setw(15) << "전날판매량" << setw(15) << "도매가" << setw(15) << "판매가" << setw(8) << "할인율" << setw(8) << "할인남은기간" << endl;
     //  cout << " 상품명 " << " 재고 " << " 전날 판매량 " << " 유통기한 " << " 도매가 " << " 판매가 " << endl;
     cout << "--------------------------------------------------------------------------------------------------------------------" << endl;
     /*addOrder 품목창에서 전날판매량*3 이상인것은 출력X*/
@@ -1175,7 +1170,7 @@ void KICManager::discountProds()
     cout << endl;
     cout << "현재 discount 하는 제품들 : " << endl;
     cout << endl;
-    cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "유통기한" << setw(15) << "할인판매가" << setw(15) << "원래판매가" << setw(15) << "할인남은기간" << endl;
+    cout << setw(15) << "제품명" << setw(15) << "재고" << setw(15) << "유통기한" << setw(15) << "할인판매가" << setw(15) << "원래판매가" << setw(15) << "할인남은기간" << endl;
     cout << "-------------------------------------------------------------------------------------------" << endl;
     cout << endl;
     for (int i = 0; i < count; i++) {
@@ -1208,7 +1203,7 @@ void KICManager::discountReqProds()
     cout << endl;
     cout << "현재 discount 가능한 제품들 : " << endl;
     cout << endl;
-    cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << endl;
+    cout << setw(15) << "제품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << endl;
     cout << "-------------------------------------------------------------------------------------------" << endl;
     bool check = false;
     for (int i = 0; i < count; i++) {
@@ -1348,7 +1343,7 @@ void KICManager::selectDiscountProds()
                             product[i]->setSalesVolume(newSalesVolume);
                             cout << "다음과 같이 할인이 적용되었습니다." << endl;
                             cout << endl;
-                            cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "유통기한" << setw(15) << "할인판매가" << setw(15) << "원래판매가" << setw(15) << "할인남은기간" << endl;
+                            cout << setw(15) << "제품명" << setw(15) << "재고" << setw(15) << "유통기한" << setw(15) << "할인판매가" << setw(15) << "원래판매가" << setw(15) << "할인남은기간" << endl;
                             cout << "-------------------------------------------------------------------------------------------" << endl;
                             cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getExpDate() << setw(15) << product[i]->getRPrice() << setw(15) << product[i]->getRPrice() * 100 / (100 - product[i]->getDiscount()) << setw(15) << product[i]->getDisDate() << endl;
                             system("pause");
