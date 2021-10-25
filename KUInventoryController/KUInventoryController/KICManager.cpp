@@ -831,9 +831,15 @@ void KICManager::addOrder()
                 system("pause");
                 break;
             }
+            if (numPro > 214748) {
+                cout << "다시 입력하세요" << endl;
+                system("pause");
+                cin.clear();
+                getline(cin, buffer);
+                break;
+            }
             if (cin.fail()) {
-
-                cout << "다시 입력하세요" << endl; //여기안됨
+                cout << "다시 입력하세요" << endl; 
                 buffer = "";
                 system("pause");
                 numPro = 0;
