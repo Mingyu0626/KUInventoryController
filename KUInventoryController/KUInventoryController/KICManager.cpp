@@ -514,7 +514,7 @@ void KICManager::init()
 {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
    // fstream fin("source.txt");
-    fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -632,11 +632,15 @@ void KICManager::printMenu()
 
 void KICManager::noStockAlarm()
 {
-    // 재고 5개 이하면 알림 출력
+    // 재고 <= 전날 판매량일 때 알람 출력
     bool check = false;
+    int total = 0;
+    int productNum = 0;
+
     for (int i = 0; i < count; i++) {
         bool print = true;
-        int total = product[i]->getStock();
+        int dcheck = 0;
+        total = product[i]->getStock();
         for (int j = 0; j < count; j++) {
             if (product[i]->getName().compare(product[j]->getName()) == 0) {
                 if (product[i]->getExpDate() > product[j]->getExpDate()) {
@@ -644,16 +648,20 @@ void KICManager::noStockAlarm()
                 }
                 if (i != j) {
                     total += product[j]->getStock();
+                    dcheck++;
                 }
+                productNum = j;
             }
         }
+
         if (print) {
-            if (total <= 5) {
-                cout << product[i]->getName() << " : 재고 " << total << "개" << endl;
+            if (total <= product[i]->getSalesVolume() && productNum == i) {
                 check = true;
+                cout << product[i]->getName() << " : 재고 " << total << "개" << endl;
             }
         }
     }
+
     if (!check) {
         cout << "재고 부족한 제품 없음" << endl;
     }
