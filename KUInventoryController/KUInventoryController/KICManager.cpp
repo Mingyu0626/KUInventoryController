@@ -1,4 +1,5 @@
 #include "KICManager.h"
+#include <string>
 
 using namespace std;
 
@@ -514,7 +515,7 @@ void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
    // fstream fin("source.txt");
-	fstream fin("C:\\Users\\samsung\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\source.txt");
+    fstream fin("source.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -578,8 +579,9 @@ void KICManager::printMenu()
 		cout << " 1) 제품 주문 " << endl;
 		cout << " 2) 제품 검색 " << endl;
 		cout << " 3) 판매가 지정 " << endl;
-		cout << " 4) 업무 마감 " << endl;
-		cout << " 5) 프로그램 종료 " << endl;
+		cout << " 4) 제품 추가/삭제 " << endl;
+		cout << " 5) 업무 마감 " << endl;
+		cout << " 6) 프로그램 종료 " << endl;
 		cout << "=================================================" << endl;
 		cout << "메뉴를 선택하세요 : ";
 		getline(cin, menu);
@@ -616,9 +618,37 @@ void KICManager::printMenu()
 				break;
 			}
 		}
-		else if (menu == "4")
+		else if (menu == "4") {
+			while (true) {
+				system("cls");
+				cout << "---------------------------------------- < 메뉴 > ----------------------------------------" << endl;
+				cout << " 1) 제품 추가 " << endl;
+				cout << " 2) 제품 삭제 " << endl;
+				cout << "===========================================================================================" << endl;
+				cout << "메뉴를 선택하세요 (q : 메뉴 종료) :";
+				string subMenu;
+				getline(cin, subMenu);
+				if (subMenu == "1") {
+					addlist();
+					break;
+				}
+				else if (subMenu == "2") {
+					removelist();
+					break;
+				}
+				else if (subMenu == "q")
+					break;
+				else {
+					cout << "올바른 숫자를 입력하세요 !" << endl;
+					system("pause");
+					continue;
+				}
+				break;
+			}
+		}
+		else if (menu == "5")
 			closingWork();
-		else if (menu == "5") {
+		else if (menu == "6") {
 			cout << "프로그램을 종료합니다.\n" << endl;
 			exit(0);
 		}
@@ -637,10 +667,17 @@ void KICManager::noStockAlarm()
 	int total = 0;
 	int productNum = 0;
 
+	//bool isRemove = false; //삭제된 제품인지 check
 	for (int i = 0; i < count; i++) {
 		bool print = true;
 		int dcheck = 0;
-		total = product[i]->getStock();
+		if (product[i]->getStock() < 0) {
+			total = 0;
+
+		}
+		else
+			total = product[i]->getStock();
+	
 		for (int j = 0; j < count; j++) {
 			if (product[i]->getName().compare(product[j]->getName()) == 0) {
 				if (product[i]->getExpDate() > product[j]->getExpDate()) {
@@ -848,7 +885,7 @@ void KICManager::addOrder()
 			}
 			if (cin.fail()) {
 
-				cout << "다시 입력하세요" << endl; //여기안됨
+				cout << "다시 입력하세요" << endl;
 				buffer = "";
 				system("pause");
 				numPro = 0;
@@ -1098,6 +1135,7 @@ void KICManager::sortAl()
 			}
 		}
 	}*/
+
 	for (int i = 0; i < count; i++) {
 		if (sortprod[i]->getExpDate() != 0 || sortprod[i]->getStock() != 0) {
 			bool print = true;
@@ -1472,21 +1510,134 @@ void KICManager::selectMarginRate()
 	}
 }
 
+void KICManager::addlist()
+{
+
+}
+
+void KICManager::removelist()
+{
+	cout << "remove" << endl;
+
+	fstream fin("addlist.txt");
+	if (!fin.is_open()) {
+		cerr << "파일 읽기 실패\n";
+		exit(0);
+	}
+
+	string buffer;
+	while (!fin.eof()) {
+		//fin >> this->count;
+		getline(fin, buffer);
+
+		//cout << buffer << endl;
+	}
+	fin.close();
+
+	ofstream out("addlist.txt", ios::app);
+
+	while (true) {
+
+		for (int i = 0; i < count; i++) {
+			if (sortprod[i]->getStock() == 0) { //재고 0인제품 출력
+				cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
+			}
+		}
+
+		cout << "삭제할 제품명을 입력하세요: ";
+		string removeproduct;
+		getline(cin, removeproduct);
+		int flag = 0; //재고 0인 제품인지
+		int num;
+
+		if (removeproduct.compare("q") == 0) {
+			cout << "q" << endl;
+			break;
+		}
+
+		for (int i = 0; i < count; i++) {
+			if (sortprod[i]->getStock() == 0 && ((sortprod[i]->getName().compare(removeproduct)) == 0)) {
+				cout << "삭제하시겠습니까?(y/n): ";
+				string yn;
+				getline(cin, yn);
+
+				if (yn.compare("y") == 0) {
+					string name = sortprod[i]->getName();
+					out << *sortprod[i] << endl;
+					sortprod[i]->setStock(-1);
+					product[i]->setStock(-1);    //삭제하면 재고 -1로 만들어줌.
+					
+					cout << "삭제되었습니다" << endl;
+				//	cout << sortprod[i]->getStock() << " ! ! " << endl;
+					flag = 1;
+					system("pause");
+
+					return;
+				}
+				else if (yn.compare("n") == 0) {
+					cout << "삭제가 취소되었습니다" << endl;
+					system("pause");
+					return;
+				}
+				else {
+					cout << "잘못입력하셨습니다" << endl;
+
+					system("pause");
+					break;
+				}
+			}
+		}
+		if (flag == 0) {
+			cout << "재고가 0인 제품이 아닙니다" << endl;
+			system("pause");
+		}
+	}
+}
+
+
 
 void KICManager::closingWork()
 {
-	system("cls");
-	printDate();
-	cout << "업무를 마감합니다." << endl;
-	randomSV(); // 제품별 랜덤 판매량 지정
-	searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
-	setDate();
-	cout << "다음날 영업으로 넘어갑니다..." << endl;
+	//for (int i = 0; i < count; i++) {
+	//	cout << sortprod[i]->getStock() << endl;;
+	//}
+	system("pause");
+
 	for (int i = 0; i < count; i++) {
 		*sortprod[i] = *product[i];
 	}
-	system("pause");
 	system("cls");
+	printDate();
+	bool state = false;
+
+	for (int i = 0; i < count; i++) {
+		if (sortprod[i]->getStock() == 0) {
+			state = true;
+		}
+	}
+
+	if (!state) {
+		cout << "업무를 마감합니다." << endl;
+		randomSV(); // 제품별 랜덤 판매량 지정
+		searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
+		setDate();
+		cout << "다음날 영업으로 넘어갑니다..." << endl;
+		system("pause");
+		system("cls");
+	}
+	else {
+		cout << "총 재고가 0인 제품이 다음과 같이 존재합니다. 업무 마감이 불가능합니다." << endl;
+		for (int i = 0; i < count; i++) {
+			if (sortprod[i]->getStock() == 0) {
+				cout << sortprod[i]->getStock() << endl;
+				cout << sortprod[i]->getName() << endl;
+			}
+		}
+		system("pause");
+		printMenu();
+
+	}
+
 }
 
 
