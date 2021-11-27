@@ -21,10 +21,10 @@ class KICManager
 {
 	int property = 1000000;			// 보유 자산
 	string todayDate;				// 날짜
-	int balance = 100000;                    // 보유 잔액
+	int balance;                    // 보유 잔액
 	int count = 0;					// 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
 	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
-	KICProduct** searchprod = nullptr;  //검색 위한 동적 1차원 배열
+
 	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
 //	KICProduct** fixedprod = nullptr; //기존 정보를 담고있는 동적 1차원 배열(고정됨)
 
