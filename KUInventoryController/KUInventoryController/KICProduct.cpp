@@ -5,6 +5,11 @@ KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int
 {
 }
 
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice, int discount, int disDate)
+    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(expDate), wPrice(wPrice), rPrice(rPrice), discount(discount), disDate(disDate)
+{
+}
+
 KICProduct::~KICProduct()
 {
 }
@@ -107,6 +112,16 @@ int KICProduct::getDisDate()
 void KICProduct::setDisDate(int disDate)
 {
     this->disDate = disDate;
+}
+
+int KICProduct::getIsStockDeclined()
+{
+    return this->isStockDeclined;
+}
+
+void KICProduct::setIsStockDeclined(bool isStockDeclined)
+{
+    this->isStockDeclined = isStockDeclined;
 }
 
 
