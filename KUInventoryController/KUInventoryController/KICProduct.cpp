@@ -1,7 +1,12 @@
 #include "KICProduct.h"
 
-KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice) 
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice)
     : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(expDate), wPrice(wPrice), rPrice(rPrice)
+{
+}
+
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice, int discount, int disDate)
+    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(expDate), wPrice(wPrice), rPrice(rPrice), discount(discount), disDate(disDate)
 {
 }
 
@@ -79,16 +84,6 @@ void KICProduct::setRPrice(int rPrice)
     this->rPrice = rPrice;
 }
 
-bool KICProduct::getIsSVChanged()
-{
-    return this->isSVChanged;
-}
-
-void KICProduct::setSVChanged(bool isSVChanged)
-{
-    this->isSVChanged = isSVChanged;
-}
-
 int KICProduct::getDiscount()
 {
     return this->discount;
@@ -99,6 +94,16 @@ void KICProduct::setDiscount(int discount)
     this->discount = discount;
 }
 
+bool KICProduct::getIsSVChanged()
+{
+    return this->isSVChanged;
+}
+
+void KICProduct::setSVChanged(bool isSVChanged)
+{
+    this->isSVChanged = isSVChanged;
+}
+
 int KICProduct::getDisDate()
 {
     return this->disDate;
@@ -107,6 +112,16 @@ int KICProduct::getDisDate()
 void KICProduct::setDisDate(int disDate)
 {
     this->disDate = disDate;
+}
+
+int KICProduct::getIsStockDeclined()
+{
+    return this->isStockDeclined;
+}
+
+void KICProduct::setIsStockDeclined(bool isStockDeclined)
+{
+    this->isStockDeclined = isStockDeclined;
 }
 
 
