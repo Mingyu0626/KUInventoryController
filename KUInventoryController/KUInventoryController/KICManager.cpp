@@ -990,17 +990,17 @@ void KICManager::addOrder()
             continue;
         }
 
-		cout << endl;
-		for (int i = 0; i < count; i++) {
-			if (((product[i]->getName().compare(namePro)) == 0) && product[i]->getStock() >= 0) {
-				cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getSalesVolume() << setw(15) << product[i]->getExpDate() << setw(15) << product[i]->getWPrice() << setw(15) << product[i]->getRPrice() << setw(15) << product[i]->getDiscount() << setw(15) << product[i]->getDisDate() << endl;
-			}
-		}
-		cout << endl;
-		cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
-		cin >> numPro;
-		string buffer;
-		getline(cin, buffer);
+        cout << endl;
+        for (int i = 0; i < count; i++) {
+            if (((product[i]->getName().compare(namePro)) == 0) && product[i]->getStock() >= 0) {
+                cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getSalesVolume() << setw(15) << product[i]->getExpDate() << setw(15) << product[i]->getWPrice() << setw(15) << product[i]->getRPrice() << setw(15) << product[i]->getDiscount() << setw(15) << product[i]->getDisDate() << endl;
+            }
+        }
+        cout << endl;
+        cout << "주문할 제품 수량을 띄어쓰기 없이 입력 : ";
+        cin >> numPro;
+        string buffer;
+        getline(cin, buffer);
 
         while (true) {
             if (numPro < 0) {
@@ -1072,16 +1072,16 @@ void KICManager::addOrder()
                     /*product, sortprod 주문 내용 추가*/
                     this->product[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
                     this->sortprod[count - 1] = new KICProduct(product[productnum]->getName(), numPro, product[productnum]->getSalesVolume(), product[productnum]->getFixedExpDate(), product[productnum]->getWPrice(), product[productnum]->getRPrice(), product[productnum]->getDiscount(), product[productnum]->getDisDate());
-                
+
                     for (int i = 0; i < count; i++) {
                         if (product[i]->getName().compare(namePro) == 0) {
                             if (product[i]->getStock() == 0) {
                                 product[i]->setStock(-1);
                                 sortprod[i]->setStock(-1);
-                            }                               
+                            }
                         }
                     }
-                
+
                 }
                 cout << "주문 완료했습니다" << endl;
                 cout << endl;
@@ -1225,18 +1225,22 @@ void KICManager::sortDate()
 {
     //유통기한 임박순 정렬
 
-	KICProduct temp = *sortprod[0];
-	for (int i = 0; i < count; i++) {
-		for (int j = i + 1; j < count; j++) {
-			if (sortprod[i]->getExpDate() != 0 && sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
-				if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
-					temp = *sortprod[i];
-					*sortprod[i] = *sortprod[j];
-					*sortprod[j] = temp;
-				}
-			}
-		}
-	}
+    /*for (int i = 0; i < count; i++) {
+       this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(),product[i]->getRPrice());
+    }*/
+
+    KICProduct temp = *sortprod[0];
+    for (int i = 0; i < count; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (sortprod[i]->getExpDate() != 0 && sortprod[i]->getStock() != 0) { // 재고 0인거나 유통기한 0일이면 출력안함
+                if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
+                    temp = *sortprod[i];
+                    *sortprod[i] = *sortprod[j];
+                    *sortprod[j] = temp;
+                }
+            }
+        }
+    }
 
     for (int i = 0; i < count; i++) {
         cout << *sortprod[i] << endl;
@@ -1738,9 +1742,9 @@ void KICManager::removelist()
                 string yn;
                 getline(cin, yn);
 
-				if (yn.compare("y") == 0) {
-					string name = sortprod[i]->getName();
-					out << *sortprod[i] << endl;
+                if (yn.compare("y") == 0) {
+                    string name = sortprod[i]->getName();
+                    out << *sortprod[i] << endl;
 
                     sortprod[i]->setStock(-1);
                     product[i]->setStock(-1);
@@ -1767,7 +1771,6 @@ void KICManager::removelist()
 
 void KICManager::closingWork()
 {
-	system("pause");
 
     for (int i = 0; i < count; i++) {
         *sortprod[i] = *product[i];
@@ -1775,53 +1778,46 @@ void KICManager::closingWork()
     system("cls");
     printDate();
 
-	
+    bool isZero = false;
 
-	int total = -1;
-	bool isZero = false;
-	for (int i = 0; i < count; i++) {
-		if (sortprod[i]->getStock() == 0) {
-			cout << sortprod[i]->getName() << endl;
-			total = 0;
-			for (int j = i + 1; j < count; j++) {
-				if (sortprod[j]->getName().compare(sortprod[i]->getName())) {
-					total += sortprod[j]->getStock();
-					isZero = true;
-				}
-			}
-		}
-		if (total == 0 && isZero == true) { //총재고 0
-			cout<< sortprod[i]->getStock() << endl;
-			cout << sortprod[i]->getName() << endl;
-		}
-	}
-	if (isZero == true) {
-		cout << "총 재고가 0인 제품이 존재하므로 업무 마감이 불가능합니다." << endl;
-		system("pause");
-		printMenu();
-	}
-	else if (!isZero) {
-		cout << "업무를 마감합니다." << endl;
-		randomSV(); // 제품별 랜덤 판매량 지정
-		searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
-		setDate();
-		cout << "다음날 영업으로 넘어갑니다..." << endl;
-		system("pause");
-		system("cls");
-	}
-	//else {
-	//	cout << "총 재고가 0인 제품이 다음과 같이 존재합니다. 업무 마감이 불가능합니다." << endl;
-	//	for (int i = 0; i < count; i++) {
-	//		if (sortprod[i]->getStock() == 0) {
-	//			cout << sortprod[i]->getStock() << endl;
-	//			cout << sortprod[i]->getName() << endl;
-	//		}
-	//	}
-	//	system("pause");
-	//	printMenu();
+    for (int i = 0; i < count; i++) {
+        int total = -1;
+        if (sortprod[i]->getStock() == 0) {
+            total = sortprod[i]->getStock();
 
-	//}
+            for (int j = i + 1; j < count; j++) {
+                if (sortprod[j]->getStock() != -1) {
 
+                    if (sortprod[j]->getName().compare(sortprod[i]->getName()) == 0) {
+                        total += sortprod[j]->getStock();
+
+                    }
+                }
+            }
+        }
+
+        if (total == 0) { //총재고 0
+            isZero = true;
+            cout << endl;
+            cout << sortprod[i]->getStock() << endl;
+            cout << sortprod[i]->getName() << endl;
+        }
+    }
+    if (isZero == true) {
+        cout << count << endl;
+        cout << "총 재고가 0인 제품이 존재하므로 업무 마감이 불가능합니다." << endl;
+        system("pause");
+        printMenu();
+    }
+    else if (isZero == false) {
+        cout << "업무를 마감합니다." << endl;
+        randomSV(); // 제품별 랜덤 판매량 지정
+        searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
+        setDate();
+        cout << "다음날 영업으로 넘어갑니다..." << endl;
+        system("pause");
+        system("cls");
+    }
 }
 
 void KICManager::searchScrap()
@@ -1862,287 +1858,4 @@ void KICManager::searchScrap()
 }
 
 
-void KICManager::financeCalculate()
-{
-    int tempStock = 0;
-    int tempSalesVolume; // 제품의 당일 판매량
-    int remainSV = 0;
-    int tempWPrice = 0;
-    int tempRPrice = 0;
-    int todaySales = 0; // 당일 매출액 합계
-    int todayProfits = 0; // 당일 순이익 합계
-    for (int i = 0; i < count; i++) {
-        if (product[i]->getStock() != 0 && product[i]->getExpDate() != 0) {
-            tempStock = product[i]->getStock();
-            tempSalesVolume = product[i]->getSalesVolume();
-            tempWPrice = product[i]->getWPrice();
-            tempRPrice = product[i]->getRPrice();
-
-            if (tempStock < tempSalesVolume) { // 제품의 판매량이 남은 재고 수보다 많을 경우
-                string remainPN = product[i]->getName();
-                todaySales = calTodaySales(todaySales, tempStock, tempRPrice);  // 제품의 당일 매출액 계산 후 합계에 더해주기
-                todayProfits = calTodayProfits(todayProfits, tempStock, tempRPrice, tempWPrice); // 제품의 당일 순이익 계산 후 합계에 더해주기
-                product[i]->setStock(0);
-                product[i]->setExpDate(0);
-                product[i]->setIsStockDeclined(true);
-                remainSV = tempSalesVolume - tempStock; // 남은 판매량
-
-                for (int j = 0; j < count; j++) {
-                    if (i != j) {
-                        if (remainPN.compare(product[j]->getName()) == 0 && product[j]->getStock() > 0) { // 1번째 재고가 남은 동일 제품 객체 탐색 
-                            if (product[j]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
-                                todaySales = calTodaySales(todaySales, product[j]->getStock(), tempRPrice);
-                                todayProfits = calTodayProfits(todayProfits, product[j]->getStock(), tempRPrice, tempWPrice);
-                                remainSV = remainSV - product[j]->getStock();
-                                product[j]->setStock(0);
-                                product[j]->setExpDate(0);
-                                product[j]->setIsStockDeclined(true);
-
-                                for (int k = 0; k < count; k++) {   // 2번째 재고가 남은 동일 제품 객체 탐색
-                                    if (i != k && j != k) {
-                                        if (remainPN.compare(product[k]->getName()) == 0 && product[k]->getStock() > 0) {
-                                            if (product[k]->getStock() < remainSV) { // 제품의 남은 재고 수보다 remainSV가 많을 경우
-                                                todaySales = calTodaySales(todaySales, product[k]->getStock(), tempRPrice);
-                                                todayProfits = calTodayProfits(todayProfits, product[k]->getStock(), tempRPrice, tempWPrice);
-                                                product[k]->setStock(0);
-                                                product[k]->setExpDate(0);
-                                                product[k]->setIsStockDeclined(true);
-                                                /* 동일제품은 최대 3회만 주문 가능하므로 여기서 끝 */
-                                            }
-                                            else { // // 제품의 남은 재고 수가 remainSV보다 많은 경우
-                                                todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
-                                                todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
-                                                product[k]->setStock(product[k]->getStock() - remainSV);
-                                                product[k]->setIsStockDeclined(true);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else { // 제품의 남은 재고수가 remainSV보다 많은 경우
-                                todaySales = calTodaySales(todaySales, remainSV, tempRPrice);
-                                todayProfits = calTodayProfits(todayProfits, remainSV, tempRPrice, tempWPrice);
-                                product[j]->setStock(product[j]->getStock() - remainSV);
-                                product[j]->setIsStockDeclined(true);
-                            }
-                        }
-                    }
-                }
-            }
-            else { // 제품의 남은 재고 수가 판매량보다 많을 경우
-                if (product[i]->getIsStockDeclined() == false) {
-                    todaySales = calTodaySales(todaySales, tempSalesVolume, tempRPrice); // 제품의 매출액 계산 후 합계에 더해주기
-                    todayProfits = calTodayProfits(todayProfits, tempSalesVolume, tempRPrice, tempWPrice); // 제품의 순이익 계산 후 합계에 더해주기
-                    product[i]->setStock(tempStock - tempSalesVolume);
-                    product[i]->setIsStockDeclined(true);
-
-                    string tempPN = product[i]->getName();
-                    for (int j = 0; j < count; j++) {
-                        if (i != j) {
-                            if (tempPN.compare(product[j]->getName()) == 0 && product[j]->getIsStockDeclined() == false) {
-                                /*if (product[i]->getExpDate() <= product[j]->getExpDate()) {
-                                   product[j]->setIsStockDeclined(true);
-                                }*/
-                                product[j]->setIsStockDeclined(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-    property += todaySales;
-    cout << "---------------------------------------------------" << endl;
-    cout << "당일 매출 :" << todaySales << "원" << endl;
-    cout << "당일 순이익 :" << todayProfits << "원" << endl;
-    cout << "보유 자산 :" << property << "원" << endl;
-    cout << "---------------------------------------------------" << endl;
-
-    for (int i = 0; i < count; i++) {
-        product[i]->setIsStockDeclined(false);
-    }
-}
-
-
-void KICManager::randomSV()
-{
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dis(0, 1000000);
-    srand((unsigned int)time(NULL));
-
-    for (int i = 0; i < count; i++) {
-        if (product[i]->getIsSVChanged() == false) {
-            int tempSalesVolume = product[i]->getSalesVolume();
-            string tempPN = product[i]->getName();
-            int amountOfChange;                      // 판매량의 변화량.
-            int plusOrMinus = (dis(gen) + dis(gen)) % 2; // 난수 두개 더해서 2로 나눈 나머지가 0이면 판매량 증가, 1이면 판매량 감소.
-
-            if (tempSalesVolume >= 0 && tempSalesVolume <= 5) {
-                amountOfChange = (dis(gen) % 2);
-                if (tempSalesVolume == 0) { // 판매량이 0인경우에서 판매량이 감소할 순 없으니까... 0혹은 1만큼 판매량 증가.
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 5 && tempSalesVolume <= 15) {
-                amountOfChange = (dis(gen) % 3);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 15 && tempSalesVolume <= 25) {
-                amountOfChange = (dis(gen) % 5);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 25 && tempSalesVolume <= 35) {
-                amountOfChange = (dis(gen) % 7);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 35 && tempSalesVolume <= 50) {
-                amountOfChange = (dis(gen) % 10);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 50 && tempSalesVolume <= 65) {
-                amountOfChange = (dis(gen) % 13);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 65 && tempSalesVolume <= 85) {
-                amountOfChange = (dis(gen) % 16);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else if (tempSalesVolume > 85 && tempSalesVolume <= 110) {
-                amountOfChange = (dis(gen) % 21);
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            else {
-                amountOfChange = (dis(gen) % 25);
-                if (tempSalesVolume >= 150) { // 판매량이 150이상이 되면 판매량이 감소하게끔 설정
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                if (plusOrMinus == 0) {
-                    tempSalesVolume += amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-                else {
-                    tempSalesVolume -= amountOfChange;
-                    product[i]->setSalesVolume(tempSalesVolume);
-                }
-            }
-
-            product[i]->setSVChanged(true);
-            /* 위에서 랜덤 판매량을 대입한 제품과 유통기한만 다른 동일 제품을 찾아 동일한 판매량을 대입해주는 작업 */
-            for (int j = 0; j < count; j++) {
-                if (tempPN.compare(product[j]->getName()) == 0 && product[j]->getIsSVChanged() == false) {
-                    product[j]->setSalesVolume(tempSalesVolume);
-                    product[j]->setSVChanged(true);
-                }
-            }
-        }
-    }
-    /*동일 제품을 고려한 랜덤 판매량 대입 작업이 완료되었으므로 다시 IsSVChanged 변수를 false로 돌려놓는다.*/
-    for (int i = 0; i < count; i++) {
-        product[i]->setSVChanged(false);
-    }
-
-}
-
-
-int KICManager::calTodaySales(int ts, int sorsv, int rp)
-{
-    ts += (sorsv * rp);
-    return ts;
-}
-
-
-int KICManager::calTodayProfits(int tp, int sorsv, int rp, int wp)
-{
-    tp += ((sorsv * rp) - (sorsv * wp));
-    return tp;
-}
-
-
-KICManager::KICManager()
-{
-}
-
-
-KICManager::~KICManager()
-{
-}
-
-
-int KICManager::getProperty()
-{
-    return 0;
-}
-
-
-void KICManager::setProperty()
-{
-}
+void KICManager::fina
