@@ -6,19 +6,38 @@ void KICManager::start()
 {
 	while (true) {
 		system("cls");
-		string date, result;
-		cout << "[KU Inventory Controller]" << endl;
-		cout << "시작 날짜 입력 : ";
-		getline(cin, date);
-		result = checkDate(date);
 
-		if (finalCheck == true) {
-			todayDate = result;
-			break;
+		string menuNum;
+
+		cout << "[KU Inventory Controller]" << endl;
+		cout << "=================================================" << endl;
+		cout << "1. 새로 시작" << endl;
+		cout << "2. 불러오기" << endl;
+		cout << "=================================================" << endl;
+		cout << "시작 방법을 선택하세요 : ";
+		getline(cin, menuNum);
+
+		if (menuNum == "1") {
+			system("cls");
+			init();
 		}
+		else if (menuNum == "2") {
+			if (loadInfor()) {
+				break;
+			}
+			else {
+				cout << "저장되어 있는 정보가 존재하지 않습니다. 다시 입력해주세요." << endl;
+				system("pause");
+				continue;
+			}
+		}
+		else {
+			cout << "올바른 숫자를 입력하세요. " << endl;
+			system("pause");
+		}
+
 	}
 	system("cls");
-	init();
 	printMenu();
 }
 
@@ -520,6 +539,20 @@ void KICManager::init()
 		cerr << "파일 읽기 실패\n";
 		exit(0);
 	}
+
+	string date, result;
+
+	while (true) {
+		cout << "시작 날짜 입력 : ";
+		getline(cin, date);
+		result = checkDate(date);
+
+		if (finalCheck == true) {
+			todayDate = result;
+			break;
+		}
+	}
+
 	while (!fin.eof()) {
 
 		string buffer;
@@ -544,6 +577,8 @@ void KICManager::init()
 			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
 		}
 	}
+
+	printMenu();
 }
 
 
@@ -779,6 +814,48 @@ void KICManager::printDate()
 	cout << " < " << year << "년 " << month << "월 " << day << "일 > \n" << endl;
 }
 
+bool KICManager::loadInfor() {
+	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
+	fstream fin("C:\\Users\\samsung\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\test.txt");
+
+	if (!fin.is_open()) {
+		cerr << "파일 읽기 실패\n";
+		exit(0);
+	}
+
+	if (fin.eof()) {
+		//cout << "저장되어 있는 정보가 없습니다." << endl;
+		system("pause");
+		return false;
+	}
+
+	while (!fin.eof()) {
+
+		string buffer;
+		fin >> this->count;
+		getline(fin, buffer);
+
+		if (count > 0) {
+			product = new KICProduct * [100];
+			sortprod = new KICProduct * [100]; //정렬위해 추가
+		}
+
+		for (int i = 0; i < count; i++) {
+			string str;
+			getline(fin, str);
+			str.erase(remove(str.begin(), str.end(), ' '), str.end());
+			int stock, salesVolume, expDate, wPrice, rPrice;
+			fin >> stock >> salesVolume >> expDate >> wPrice >> rPrice;
+			this->product[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
+			getline(fin, buffer);
+		}
+		for (int i = 0; i < count; i++) {
+			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+		}
+	}
+
+	return true;
+}
 
 void KICManager::addOrder()
 {
