@@ -788,7 +788,6 @@ void KICManager::noStockAlarm()
 
 
 
-
 void KICManager::setDate()
 {
     // 폐기 처리 하고 함수 실행하기
@@ -1114,7 +1113,6 @@ void KICManager::addOrder()
 }
 
 
-
 void KICManager::searchProds()
 {
     cout.setf(ios::left);
@@ -1249,7 +1247,6 @@ void KICManager::sortDate()
 }
 
 
-
 void KICManager::sortAl()
 {
     //ㄱㄴㄷ순 정렬
@@ -1347,7 +1344,7 @@ void KICManager::sortStock()
 }
 
 
-void KICManager::discountProds()
+void KICManager::discountProds() // 현재 할인 중인 제품 출력
 {
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
@@ -1394,16 +1391,16 @@ void KICManager::discountProds()
         cout << endl;
     }
 
-}
+} // 현재 할인중인 제품을 출력하는 함수 // 현재 할인중인 제품을 출력하는 함수
 
 
-void KICManager::discountReqProds()
+void KICManager::discountReqProds() // 현재 할인 가능(필요)한 제품 출력
 {
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() / sortprod[i]->getSalesVolume() < sortprod[j]->getStock() / sortprod[j]->getSalesVolume()) {
+            if (sortprod[i]->getStock() - (sortprod[i]->getSalesVolume() * (sortprod[i]->getExpDate() + 1)) > 0 && sortprod[i]->getStock() != 0 && sortprod[i]->getDiscount() == 0) {
                 temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
                 *sortprod[j] = temp;
@@ -1417,7 +1414,7 @@ void KICManager::discountReqProds()
     cout << "-------------------------------------------------------------------------------------------" << endl;
     bool check = false;
     for (int i = 0; i < count; i++) {
-        if (sortprod[i]->getStock() >= sortprod[i]->getSalesVolume() * 3 && sortprod[i]->getStock() != 0 && sortprod[i]->getDiscount() == 0) {
+        if (sortprod[i]->getStock() - (sortprod[i]->getSalesVolume() * (sortprod[i]->getExpDate() + 1)) > 0 && sortprod[i]->getStock() != 0 && sortprod[i]->getDiscount() == 0) {
             bool accept = true;
             for (int j = 0; j < count; j++) {
                 if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
@@ -1432,7 +1429,7 @@ void KICManager::discountReqProds()
                 check = true;
             }
         }
-    }// 남은 재고 수 >= 전날 파매량 *3 인 제품만 sorted 된대로 출력
+    } // 남은 재고 수 >= 전날 판매량 *3 인 제품만 sorted 된대로 출력
     if (!check) {
         cout << "현재 할인 가능한 제품 없음" << endl;
         cout << endl;
@@ -1665,6 +1662,7 @@ void KICManager::addlist()
 
 }
 
+
 void KICManager::removelist()
 {
 
@@ -1768,7 +1766,6 @@ void KICManager::removelist()
     }
 
 }
-
 
 
 void KICManager::closingWork()
