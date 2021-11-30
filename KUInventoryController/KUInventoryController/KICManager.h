@@ -63,6 +63,7 @@ class KICManager
 
 	/*----- 6.5 업무 마감 -----*/
 	void closingWork();													// 당일 업무 마감
+	void deleteArray();
 	void searchScrap();													// 폐기 제품을 판별 후 출력
 	void financeCalculate();											// 재정 상황 출력(당일sear 매출, 당일 순이익, 보유 자산)
 	void randomSV();													// 판매량을 랜덤 알고리즘에 의해 지정

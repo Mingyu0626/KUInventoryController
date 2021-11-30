@@ -1399,7 +1399,7 @@ void KICManager::discountReqProds()
     KICProduct temp = *sortprod[0];
     for (int i = 0; i < count; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (sortprod[i]->getStock() - (sortprod[i]->getSalesVolume() * (sortprod[i]->getExpDate() + 1)) > 0 && sortprod[i]->getStock() != 0 && sortprod[i]->getDiscount() == 0) {
+            if (sortprod[i]->getStock() - (sortprod[i]->getSalesVolume() * (sortprod[i]->getExpDate() + 1)) < sortprod[j]->getStock() - (sortprod[j]->getSalesVolume() * (sortprod[j]->getExpDate() + 1))) {
                 temp = *sortprod[i];
                 *sortprod[i] = *sortprod[j];
                 *sortprod[j] = temp;
@@ -1470,7 +1470,7 @@ void KICManager::selectDiscountProds()
                         break;
                     }
                     else {
-                        if (product[i]->getStock() >= product[i]->getSalesVolume() * 3) {
+                        if ((product[i]->getStock() - (product[i]->getSalesVolume() * (product[i]->getExpDate() + 1))) > 0) {
                             status = 2;
                             break;
                         }
@@ -1788,10 +1788,11 @@ void KICManager::closingWork()
         if (sortprod[i]->getStock() == 0) {
             total = sortprod[i]->getStock();
 
-            for (int j = i + 1; j < count; j++) {
+            for (int j = i + 1; j < count; j++) { //0
                 if (sortprod[j]->getStock() != -1) {
 
-                    if (sortprod[j]->getName().compare(sortprod[i]->getName()) == 0) {
+                    if (sortprod[j]->getName().compare(sortprod[i]->getName()) == 0 // && j != i 
+                        ) {
                         total += sortprod[j]->getStock();
 
                     }
@@ -1817,10 +1818,38 @@ void KICManager::closingWork()
         randomSV(); // 제품별 랜덤 판매량 지정
         searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
         setDate();
+        deleteArray();
         cout << "다음날 영업으로 넘어갑니다..." << endl;
         system("pause");
         system("cls");
     }
+}
+
+
+void KICManager::deleteArray()
+{
+    int cnt = 0;
+    KICProduct** temp = new KICProduct * [100];
+    for (int i = 0; i < count; i++) {
+        if (product[i]->getStock() != 0 || product[i]->getStock() != -1) {
+            temp[cnt] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+            cnt++;
+        }
+    }
+    for (int i = cnt; i < count; i++) {
+        delete product[i];
+        delete sortprod[i];
+    }
+    for (int i = 0; i < cnt; i++) {
+        *product[i] = *temp[i];
+        *sortprod[i] = *temp[i];
+    }
+    count = cnt;
+    cout << cnt << endl;
+    for (int i = 0; i < 100; i++) {
+        delete temp[i];
+    }
+    delete[] temp;
 }
 
 /* 폐기 제품 판별 후 폐기, 남은 유통기한 조정 함수*/
