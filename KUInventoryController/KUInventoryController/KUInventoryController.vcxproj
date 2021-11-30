@@ -28,6 +28,8 @@
     <ClInclude Include="KICProduct.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="addlist.txt" />
+    <Text Include="currentsource.txt" />
     <Text Include="source.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

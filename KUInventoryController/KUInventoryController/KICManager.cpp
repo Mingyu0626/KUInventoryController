@@ -581,6 +581,8 @@ void KICManager::init()
         }
     }
 
+   
+
     printMenu();
 }
 
@@ -1508,15 +1510,30 @@ void KICManager::selectDiscountProds()
         else if (status == 2) {
             bool check = false;
             while (true) {
-                string line;
-                int percentage = 0;
+                string buffer;
+                int percentage;
                 cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) (q : 메뉴 종료)  : ";
-                getline(cin, line);
-                if (line.compare("q") == 0) {
-                    check = true;
+                cin >> percentage;
+                if (cin.fail()) {
+                    system("pause");
+                    cin.clear();
+                    getline(cin, buffer);
+                    if (buffer.compare("q") == 0) {
+                        check = true;
+                        break;
+                    }
+                    else {
+                        cout << "다시 입력하세요" << endl;
+                    }
+                    cout << buffer << endl;
                     break;
                 }
-                bool num = true;
+				/*getline(cin, buffer);
+				if (buffer.compare("q") == 0) {
+					check = true;
+					break;
+				}*/
+               /* bool num = true;
                 try {
                     for (char const& c : line) {
                         if (std::isdigit(c) == 0) {
@@ -1534,7 +1551,7 @@ void KICManager::selectDiscountProds()
                 }
                 else {
                     continue;
-                }
+                }*/
                 if (percentage < 10 || percentage > 90) {
                     cout << "범위가 알맞지 않습니다." << endl;
                     continue;
@@ -1661,7 +1678,43 @@ void KICManager::selectMarginRate()
 
 void KICManager::addlist()
 {
+    fstream fin("addlist.txt");
+    if (!fin.is_open()) {
+        cerr << "파일 읽기 실패\n";
+        exit(0);
+    }
+    
+    KICProduct** addlist = nullptr;
+    int cnt = 0;
 
+    while (!fin.eof()) {
+
+        string buffer;
+        fin >> cnt;
+        getline(fin, buffer);
+
+        if (cnt > 0) {
+            addlist = new KICProduct * [cnt];
+        }
+
+        for (int i = 0; i < cnt; i++) {
+            string str;
+            getline(fin, str);
+            str.erase(remove(str.begin(), str.end(), ' '), str.end());
+            int stock, salesVolume, expDate, wPrice, rPrice;
+            fin >> stock >> salesVolume >> expDate >> wPrice >> rPrice;
+            addlist[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
+            getline(fin, buffer);
+        }
+    }
+
+    system("cls");
+    cout << "================================================== < 제품 검색 > ====================================================" << endl;
+    cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << endl;
+    cout << "--------------------------------------------------------------------------------------------------------------------" << endl;
+    for (int i = 0; i < count; i++) {
+        cout << setw(15) << addlist[i]->getName() << setw(15) << addlist[i]->getStock() << setw(15) << addlist[i]->getSalesVolume() << setw(15) << addlist[i]->getExpDate() << setw(15) << addlist[i]->getWPrice() << setw(15) << addlist[i]->getRPrice() << endl;
+    }
 }
 
 
@@ -1689,17 +1742,17 @@ void KICManager::removelist()
         bool isZero = false;
         for (int i = 0; i < count; i++) {//총재고 0인거 검사&출력
             int total = -1;
-            if (sortprod[i]->getStock() == 0) {
+            if (product[i]->getStock() == 0) {
                 isZero = true;
                 total = 0;
                 for (int j = i + 1; j < count; j++) {
-                    if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
-                        total += sortprod[j]->getStock();
+                    if (product[i]->getName().compare(product[j]->getName()) == 0) {
+                        total += product[j]->getStock();
                     }
                 }
             }
             if (total == 0 && isZero == true) {
-                cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
+                cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getSalesVolume() << setw(15) << product[i]->getExpDate() << setw(15) << product[i]->getWPrice() << setw(15) << product[i]->getRPrice() << setw(15) << product[i]->getDiscount() << setw(15) << product[i]->getDisDate() << endl;
             }
         }
         cout << "삭제할 제품명을 입력하세요: ";
@@ -1714,11 +1767,11 @@ void KICManager::removelist()
 
         for (int i = 0; i < count; i++) {
             int total = 0;
-            if (sortprod[i]->getName().compare(removeproduct) == 0) {
-                if (sortprod[i]->getStock() == 0) {
+            if (product[i]->getName().compare(removeproduct) == 0) {
+                if (product[i]->getStock() == 0) {
                     for (int j = i + 1; j < count; j++) {
-                        if (sortprod[j]->getName().compare(removeproduct))
-                            total += sortprod[i]->getStock();
+                        if (product[j]->getName().compare(removeproduct))
+                            total += product[i]->getStock();
                     }
 
                 }
@@ -1737,16 +1790,16 @@ void KICManager::removelist()
         }
 
         for (int i = 0; i < count; i++) {
-            if (sortprod[i]->getStock() == 0 && ((sortprod[i]->getName().compare(removeproduct)) == 0)) {
+            if (product[i]->getStock() == 0 && ((product[i]->getName().compare(removeproduct)) == 0)) {
                 cout << "삭제하시겠습니까?(y/n): ";
                 string yn;
                 getline(cin, yn);
 
                 if (yn.compare("y") == 0) {
-                    string name = sortprod[i]->getName();
-                    out << *sortprod[i] << endl;
+                    string name = product[i]->getName();
+                    out << *product[i] << endl;
 
-                    sortprod[i]->setStock(-1);
+                    //sortprod[i]->setStock(-1);
                     product[i]->setStock(-1);
                     cout << "삭제되었습니다" << endl;
                     system("pause");
@@ -1763,6 +1816,9 @@ void KICManager::removelist()
                     break;
                 }
             }
+        }
+        for (int i = 0; i < count; i++) {
+            *sortprod[i] = *product[i];
         }
 
     }
@@ -1813,10 +1869,10 @@ void KICManager::closingWork()
     }
     else if (isZero == false) {
         cout << "업무를 마감합니다." << endl;
+        deleteArray();
         randomSV(); // 제품별 랜덤 판매량 지정
         searchScrap();      // 할인 마감 제품 판매가 복구 및 남은 할인 날짜 조정, 폐기 제품 판별 및 남은 유통기한 조정
         setDate();
-        deleteArray();
         cout << "다음날 영업으로 넘어갑니다..." << endl;
         system("pause");
         system("cls");
@@ -1829,11 +1885,15 @@ void KICManager::deleteArray()
     int cnt = 0;
     KICProduct** temp = new KICProduct * [100];
     for (int i = 0; i < count; i++) {
-        if (product[i]->getStock() != 0 || product[i]->getStock() != -1) {
+        if (product[i]->getStock() == 0 || product[i]->getStock() == -1) {
+           // cout << "재고 수가 0 or 1인거는 해줄필요 없음" << endl;
+        }
+        else {
             temp[cnt] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
             cnt++;
         }
     }
+    cout << cnt << endl;
     for (int i = cnt; i < count; i++) {
         delete product[i];
         delete sortprod[i];
@@ -1843,8 +1903,7 @@ void KICManager::deleteArray()
         *sortprod[i] = *temp[i];
     }
     count = cnt;
-    cout << cnt << endl;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < cnt; i++) {
         delete temp[i];
     }
     delete[] temp;

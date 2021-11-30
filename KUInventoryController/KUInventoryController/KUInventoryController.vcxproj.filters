@@ -37,5 +37,11 @@
     <Text Include="source.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+    <Text Include="addlist.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="currentsource.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>
