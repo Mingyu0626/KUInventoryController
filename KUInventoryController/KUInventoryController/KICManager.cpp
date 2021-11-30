@@ -579,6 +579,8 @@ void KICManager::init()
         }
     }
 
+   
+
     printMenu();
 }
 
@@ -1504,15 +1506,30 @@ void KICManager::selectDiscountProds()
         else if (status == 2) {
             bool check = false;
             while (true) {
-                string line;
-                int percentage = 0;
+                string buffer;
+                int percentage;
                 cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) (q : 메뉴 종료)  : ";
-                getline(cin, line);
-                if (line.compare("q") == 0) {
-                    check = true;
+                cin >> percentage;
+                if (cin.fail()) {
+                    system("pause");
+                    cin.clear();
+                    getline(cin, buffer);
+                    if (buffer.compare("q") == 0) {
+                        check = true;
+                        break;
+                    }
+                    else {
+                        cout << "다시 입력하세요" << endl;
+                    }
+                    cout << buffer << endl;
                     break;
                 }
-                bool num = true;
+				/*getline(cin, buffer);
+				if (buffer.compare("q") == 0) {
+					check = true;
+					break;
+				}*/
+               /* bool num = true;
                 try {
                     for (char const& c : line) {
                         if (std::isdigit(c) == 0) {
@@ -1530,7 +1547,7 @@ void KICManager::selectDiscountProds()
                 }
                 else {
                     continue;
-                }
+                }*/
                 if (percentage < 10 || percentage > 90) {
                     cout << "범위가 알맞지 않습니다." << endl;
                     continue;
@@ -1890,6 +1907,9 @@ void KICManager::removelist()
                     }
                 }
             }
+        }
+        for (int i = 0; i < count; i++) {
+            *sortprod[i] = *product[i];
         }
     }
 }
