@@ -127,7 +127,7 @@ void KICProduct::setIsStockDeclined(bool isStockDeclined)
 
 ostream& operator<<(ostream& out, const KICProduct& p)
 {
-    out << p.name << ' ' << p.stock << ' ' << p.salesVolume << ' ' << p.expDate << ' ' << p.wPrice << ' ' << p.rPrice;
+    out << p.name << '\n' << p.stock << ' ' << p.salesVolume << ' ' << p.expDate << ' ' << p.wPrice << ' ' << p.rPrice;
     if (p.discount != 0) {
         out << ' ' << p.rPrice * 100 / (100 - p.discount) << ' ' << p.disDate;
     }
