@@ -787,7 +787,6 @@ void KICManager::noStockAlarm()
 }
 
 
-
 void KICManager::setDate()
 {
     // 폐기 처리 하고 함수 실행하기
@@ -1039,7 +1038,7 @@ void KICManager::addOrder()
             if (yn.compare("y") == 0) {
 
                 /*주문 성공*/
-                int k = 0;//주문 횟수
+                int k = 0; //주문 횟수
                 for (int i = 0; i < count; i++) {
                     if (product[i]->getName().compare(namePro) == 0 && product[i]->getStock() != 0)
                         k++;
@@ -1343,7 +1342,7 @@ void KICManager::sortStock()
 
 }
 
-
+/* 현재 할인 중인 제품 출력 함수*/
 void KICManager::discountProds() // 현재 할인 중인 제품 출력
 {
     cout.setf(ios::left);
@@ -1393,8 +1392,8 @@ void KICManager::discountProds() // 현재 할인 중인 제품 출력
 
 } // 현재 할인중인 제품을 출력하는 함수 // 현재 할인중인 제품을 출력하는 함수
 
-
-void KICManager::discountReqProds() // 현재 할인 가능(필요)한 제품 출력
+/* 현재 할인 필요(가능) 제품 출력 함수*/
+void KICManager::discountReqProds() 
 {
     cout.setf(ios::left);
     KICProduct temp = *sortprod[0];
@@ -1436,7 +1435,7 @@ void KICManager::discountReqProds() // 현재 할인 가능(필요)한 제품 출력
     }
 }
 
-
+/* 할인 제품 지정 후 할인율 설정 함수*/
 void KICManager::selectDiscountProds()
 {
     cout.setf(ios::left);
@@ -1572,7 +1571,7 @@ void KICManager::selectDiscountProds()
     }
 }
 
-
+/* 마진율 변경 함수 */
 void KICManager::selectMarginRate()
 {
     int tempRPrice = 0;
@@ -1657,12 +1656,19 @@ void KICManager::selectMarginRate()
     }
 }
 
+/* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
+    fstream fin("addlist.txt");
+    if (!fin.is_open()) {
+        cerr << "파일 읽기 실패\n";
+        exit(0);
+    }
+
 
 }
 
-
+/* 제품 정보 삭제 함수 */
 void KICManager::removelist()
 {
 
@@ -1685,7 +1691,7 @@ void KICManager::removelist()
 
     while (true) {
         bool isZero = false;
-        for (int i = 0; i < count; i++) {//총재고 0인거 검사&출력
+        for (int i = 0; i < count; i++) { //총재고 0인거 검사&출력
             int total = -1;
             if (sortprod[i]->getStock() == 0) {
                 isZero = true;
@@ -1723,7 +1729,6 @@ void KICManager::removelist()
 
                 if (total == 0)
                     flag = 0;
-
                 break;
             }
         }
@@ -1731,43 +1736,42 @@ void KICManager::removelist()
         if (flag == 1) {
             cout << "재고가 0인 제품이 아닙니다" << endl;
             system("pause");
-            break;
+            system("cls");
         }
+        else {
+            for (int i = 0; i < count; i++) {
+                if (sortprod[i]->getStock() == 0 && ((sortprod[i]->getName().compare(removeproduct)) == 0)) {
+                    cout << "삭제하시겠습니까?(y/n): ";
+                    string yn;
+                    getline(cin, yn);
 
-        for (int i = 0; i < count; i++) {
-            if (sortprod[i]->getStock() == 0 && ((sortprod[i]->getName().compare(removeproduct)) == 0)) {
-                cout << "삭제하시겠습니까?(y/n): ";
-                string yn;
-                getline(cin, yn);
+                    if (yn.compare("y") == 0) {
+                        string name = sortprod[i]->getName();
+                        out << *sortprod[i] << endl;
 
-                if (yn.compare("y") == 0) {
-                    string name = sortprod[i]->getName();
-                    out << *sortprod[i] << endl;
-
-                    sortprod[i]->setStock(-1);
-                    product[i]->setStock(-1);
-                    cout << "삭제되었습니다" << endl;
-                    system("pause");
-                    return;
-                }
-                else if (yn.compare("n") == 0) {
-                    cout << "삭제가 취소되었습니다" << endl;
-                    system("pause");
-                    return;
-                }
-                else {
-                    cout << "잘못입력하셨습니다" << endl;
-                    system("pause");
-                    break;
+                        sortprod[i]->setStock(-1);
+                        product[i]->setStock(-1);
+                        cout << "삭제되었습니다" << endl;
+                        system("pause");
+                        return;
+                    }
+                    else if (yn.compare("n") == 0) {
+                        cout << "삭제가 취소되었습니다" << endl;
+                        system("pause");
+                        //return;
+                    }
+                    else {
+                        cout << "잘못 입력하셨습니다" << endl;
+                        system("pause");
+                        //break;
+                    }
                 }
             }
         }
-
     }
-
 }
 
-
+/* 업무 마감 함수*/
 void KICManager::closingWork()
 {
 
@@ -1806,7 +1810,7 @@ void KICManager::closingWork()
         cout << count << endl;
         cout << "총 재고가 0인 제품이 존재하므로 업무 마감이 불가능합니다." << endl;
         system("pause");
-        printMenu();
+        return;
     }
     else if (isZero == false) {
         cout << "업무를 마감합니다." << endl;
@@ -1819,7 +1823,7 @@ void KICManager::closingWork()
     }
 }
 
-
+/* 폐기 제품 판별 후 폐기, 남은 유통기한 조정 함수*/
 void KICManager::searchScrap()
 {
     financeCalculate(); // 당일 판매된 제품 재고 조정, 당일 매출, 순이익, 현재 보유 자산 출력
@@ -1857,7 +1861,7 @@ void KICManager::searchScrap()
     cout << "---------------------------------------------------" << endl;
 }
 
-
+/* 판매된 제품 재고량 조정, 당일 매출과 순이익 계산 후 출력 */
 void KICManager::financeCalculate()
 {
     int tempStock = 0;
@@ -1960,7 +1964,7 @@ void KICManager::financeCalculate()
     }
 }
 
-
+/* 판매량 변화 랜덤 알고리즘 함수 */
 void KICManager::randomSV()
 {
     random_device rd;
