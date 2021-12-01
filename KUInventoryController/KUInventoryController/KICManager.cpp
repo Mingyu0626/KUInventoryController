@@ -899,52 +899,8 @@ void KICManager::printDate()
 }
 
 bool KICManager::loadInfor() {
-	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
-
-	if (!fin.is_open()) {
-		cerr << "파일 읽기 실패\n";
-		exit(0);
-	}
-
-	if (fin.eof()) {
-		//cout << "저장되어 있는 정보가 없습니다." << endl;
-		system("pause");
-		return false;
-	}
-
-	while (!fin.eof()) {
-
-		string buffer;
-		fin >> this->count;
-		getline(fin, buffer);
-
-		if (count > 0) {
-			product = new KICProduct * [100];
-			sortprod = new KICProduct * [100]; //정렬위해 추가
-		}
-
-		for (int i = 0; i < count; i++) {
-			string str;
-			getline(fin, str);
-			str.erase(remove(str.begin(), str.end(), ' '), str.end());
-			int stock, salesVolume, expDate, wPrice, rPrice;
-			fin >> stock >> salesVolume >> expDate >> wPrice >> rPrice;
-			this->product[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
-			getline(fin, buffer);
-		}
-		for (int i = 0; i < count; i++) {
-			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
-		}
-	}
-
-	return true;
-}
-
-bool KICManager::loadInfor() {
     /*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-    // 임의로 해둔 파일임 
-    fstream fin("C:\\Users\\samsung\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\test.txt");
+    fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
@@ -952,16 +908,19 @@ bool KICManager::loadInfor() {
     }
 
     while (!fin.eof()) {
-
         string buffer;
-        fin >> this->count;
         getline(fin, buffer);
-
         if (buffer.empty()) {
-
             return false;
-
         }
+        this->todayDate = buffer;
+        getline(fin, buffer);
+        this->property = stoi(buffer);
+        getline(fin, buffer);
+        this->marginRate = stod(buffer);
+        getline(fin, buffer);
+        this->count = stoi(buffer);
+        // fin >> this->count;
 
         if (count > 0) {
             product = new KICProduct * [100];
@@ -972,13 +931,19 @@ bool KICManager::loadInfor() {
             string str;
             getline(fin, str);
             str.erase(remove(str.begin(), str.end(), ' '), str.end());
-            int stock, salesVolume, expDate, wPrice, rPrice;
-            fin >> stock >> salesVolume >> expDate >> wPrice >> rPrice;
-            this->product[i] = new KICProduct(str, stock, salesVolume, expDate, wPrice, rPrice);
+            int stock, salesVolume, expDate, fexpDate, wPrice, rPrice, discount, disDate;
+            fin >> stock >> salesVolume >> expDate >> fexpDate >> wPrice >> rPrice >> discount >> disDate;
+            this->product[i] = new KICProduct(str, stock, salesVolume, expDate, fexpDate, wPrice, rPrice, discount, disDate);
             getline(fin, buffer);
         }
         for (int i = 0; i < count; i++) {
-            this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
+            this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(),
+                product[i]->getFixedExpDate(), product[i]->getWPrice(), product[i]->getRPrice(), product[i]->getDiscount(), product[i]->getDisDate());
+        }
+
+        getline(fin, buffer);
+        if (buffer.empty()) {
+            return true;
         }
     }
 
@@ -1610,7 +1575,6 @@ void KICManager::selectMarginRate()
     int tempRPrice = 0;
     int tempWPrice = 0;
     int margin = 0;
-    double marginRate; // 마진율
     while (true) { // 올바른 값의 마진율을 입력할때까지 무한루프
         for (int i = 0; i < count; i++) {
             if (product[i]->getDiscount() == 0 && product[i]->getStock() != 0) {
