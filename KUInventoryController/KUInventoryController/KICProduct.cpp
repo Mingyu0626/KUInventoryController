@@ -10,6 +10,11 @@ KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int
 {
 }
 
+KICProduct::KICProduct(string name, int stock, int salesVolume, int expDate, int fexpDate, int wPrice, int rPrice, int discount, int disDate)
+    : name(name), stock(stock), salesVolume(salesVolume), expDate(expDate), fixedExpDate(fexpDate), wPrice(wPrice), rPrice(rPrice), discount(discount), disDate(disDate)
+{
+}
+
 KICProduct::~KICProduct()
 {
 }
