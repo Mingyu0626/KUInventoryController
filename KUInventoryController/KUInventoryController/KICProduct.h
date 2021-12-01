@@ -22,6 +22,7 @@ class KICProduct
 public:
 	KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice);
 	KICProduct(string name, int stock, int salesVolume, int expDate, int wPrice, int rPrice, int discount, int disDate);
+	KICProduct(string name, int stock, int salesVolume, int expDate, int fexpDate, int wPrice, int rPrice, int discount, int disDate);
 	~KICProduct();
 	string getName();
 	void setName(string name);
