@@ -34,7 +34,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="source.txt">
+    <Text Include="changedaddlist.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="changedprodsinfo.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="defaultprodsinfo.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="defualtaddlist.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="addlist.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="currentsource.txt">
       <Filter>리소스 파일</Filter>
     </Text>
   </ItemGroup>
