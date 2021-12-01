@@ -1637,7 +1637,7 @@ void KICManager::selectMarginRate()
 /* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
-    fstream fin("changedaddlist.txt");
+    fstream fin("defualtaddlist.txt");
     if (!fin.is_open()) {
         cerr << "파일 읽기 실패\n";
         exit(0);
@@ -1807,21 +1807,25 @@ void KICManager::removelist()
 
     ofstream out("changedaddlist.txt", ios::app);
 
+    for (int i = 0; i < count; i++) {
+        *sortprod[i] = *product[i];
+    }
+
     while (true) {
         bool isZero = false;
         for (int i = 0; i < count; i++) { //총재고 0인거 검사 & 출력
             int total = -1;
-            if (product[i]->getStock() == 0) {
+            if (sortprod[i]->getStock() == 0) {
                 isZero = true;
                 total = 0;
                 for (int j = i + 1; j < count; j++) {
-                    if (product[i]->getName().compare(product[j]->getName()) == 0) {
-                        total += product[j]->getStock();
+                    if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
+                        total += sortprod[j]->getStock();
                     }
                 }
             }
             if (total == 0 && isZero == true) {
-                cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getSalesVolume() << setw(15) << product[i]->getExpDate() << setw(15) << product[i]->getWPrice() << setw(15) << product[i]->getRPrice() << setw(15) << product[i]->getDiscount() << setw(15) << product[i]->getDisDate() << endl;
+                cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
             }
         }
         cout << "삭제할 제품명을 입력하세요 : ";
@@ -1836,11 +1840,11 @@ void KICManager::removelist()
 
         for (int i = 0; i < count; i++) {
             int total = 0;
-            if (product[i]->getName().compare(removeproduct) == 0) {
-                if (product[i]->getStock() == 0) {
+            if (sortprod[i]->getName().compare(removeproduct) == 0) {
+                if (sortprod[i]->getStock() == 0) {
                     for (int j = i + 1; j < count; j++) {
-                        if (product[j]->getName().compare(removeproduct))
-                            total += product[i]->getStock();
+                        if (sortprod[j]->getName().compare(removeproduct))
+                            total += sortprod[i]->getStock();
                     }
 
                 }
@@ -1854,41 +1858,45 @@ void KICManager::removelist()
         if (flag == 1) {
             cout << "재고가 0인 제품이 아닙니다." << endl;
             system("pause");
-            system("cls");
-        }
-        else {
-            for (int i = 0; i < count; i++) {
-                if (product[i]->getStock() == 0 && ((product[i]->getName().compare(removeproduct)) == 0)) {
-                    cout << "삭제하시겠습니까?(y/n) : ";
-                    string yn;
-                    getline(cin, yn);
+			system("cls");
+		}
+		else {
+			for (int i = 0; i < count; i++) {
+				if (sortprod[i]->getStock() == 0 && ((sortprod[i]->getName().compare(removeproduct)) == 0)) {
+					cout << "삭제하시겠습니까?(y/n) : ";
+					string yn;
+					getline(cin, yn);
 
-                    if (yn.compare("y") == 0) {
-                        string name = product[i]->getName();
-                        out << *product[i] << endl;
+					if (yn.compare("y") == 0) {
+						string name = sortprod[i]->getName();
+						out << *sortprod[i] << endl;
 
-                        //sortprod[i]->setStock(-1);
-                        product[i]->setStock(-1);
-                        cout << "삭제되었습니다." << endl;
-                        system("pause");
-                        return;
-                    }
-                    else if (yn.compare("n") == 0) {
-                        cout << "삭제가 취소되었습니다." << endl;
-                        system("pause");
-                        //return;
-                    }
-                    else {
-                        cout << "잘못 입력하셨습니다." << endl;
-                        system("pause");
-                        //break;
-                    }
+						sortprod[i]->setStock(-1);
+						// product[i]->setStock(-1);
+
+						cout << "삭제되었습니다." << endl;
+						*product[i] = *sortprod[i];
+						cout << product[i]->getName() << "      " << product[i]->getStock() << endl;
+
+
+						system("pause");
+						return;
+					}
+					else if (yn.compare("n") == 0) {
+						cout << "삭제가 취소되었습니다." << endl;
+						system("pause");
+						//return;
+					}
+					else {
+						cout << "잘못 입력하셨습니다." << endl;
+						system("pause");
+						//break;
+					}
                 }
             }
         }
-        for (int i = 0; i < count; i++) {
-            *sortprod[i] = *product[i];
-        }
+
+        
     }
 }
 
