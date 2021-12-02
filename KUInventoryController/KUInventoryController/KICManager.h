@@ -20,12 +20,12 @@ using namespace std;
 
 class KICManager
 {
-	int property = 1000000;         // 보유 자산
-	string todayDate;            // 날짜
-	int balance;                    // 보유 잔액
-	int count = 0;               // 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
-	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
+	int property = 1000000;     // 보유 자산
+	string todayDate;           // 날짜
+	int count = 0;              // 최초로 텍스트 파일에서 제품 정보들을 가져올 때, 제품의 개수
+	double marginRate = 0.5;			// 마진율
 
+	KICProduct** product = nullptr; // 제품 정보를 담는 동적 1차원 배열
 	KICProduct** sortprod = nullptr; //정렬 위한 동적 1차원 배열
   //   KICProduct** fixedprod = nullptr; //기존 정보를 담고있는 동적 1차원 배열(고정됨)
 
@@ -56,7 +56,7 @@ class KICManager
 	void discountReqProds();											// 할인이 필요한 제품 판별
 	void selectDiscountProds();											// 할인 제품 지정
 	void selectMarginRate();											// 마진율 지정
-	
+
 	/*----- 6.4 추가/삭제 -----*/
 	void addlist();														//제품 추가
 	void removelist();													//제품 삭제
@@ -71,6 +71,7 @@ class KICManager
 	int calTodayProfits(int tp, int sorsv, int rp, int wp);
 
 	/*----- 6.6 프로그램 종료 -----*/
+	void saveInfo();													// 텍스트 파일에 제품 정보 저장
 
 	/*----- 6.7 getter. setter -----*/
 	int getProperty();
