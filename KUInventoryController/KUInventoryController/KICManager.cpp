@@ -533,8 +533,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	//fstream fin("defaultprodsinfo.txt");
-	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
+	fstream fin("defaultprodsinfo.txt");
+	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -902,8 +902,8 @@ void KICManager::printDate()
 
 bool KICManager::loadInfor() {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
-
+	//fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	fstream fin("changedprodsinfo.txt");
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		exit(0);
@@ -939,7 +939,7 @@ bool KICManager::loadInfor() {
 			getline(fin, buffer);
 		}
 		for (int i = 0; i < count; i++) {
-			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), 
+			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(),
 				product[i]->getFixedExpDate(), product[i]->getWPrice(), product[i]->getRPrice(), product[i]->getDiscount(), product[i]->getDisDate());
 		}
 
@@ -1643,8 +1643,8 @@ void KICManager::selectMarginRate()
 /* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
-	// fstream fin("changedaddlist.txt");
-	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+	 fstream fin("changedaddlist.txt");
+	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1798,8 +1798,8 @@ void KICManager::addlist()
 /* 제품 정보 삭제 함수 */
 void KICManager::removelist()
 {
-	//fstream fin("changedaddlist.txt");
-	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin("changedaddlist.txt");
+	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -2298,7 +2298,8 @@ int KICManager::calTodayProfits(int tp, int sorsv, int rp, int wp)
 // 프로그램 종료 시 제품 정보 및 날짜, 보유자산 저장
 void KICManager::saveInfo()
 {
-	ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	ofstream fout("changedprodsinfo.txt");
+	//ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	if (!fout.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		return;
@@ -2316,12 +2317,12 @@ void KICManager::saveInfo()
 	}
 	fout << cTemp << endl;
 
-	for (int i = 0; i < count; i++){
+	for (int i = 0; i < count; i++) {
 		if (product[i]->getStock() < 0) {
 			continue;
 		}
 		fout << product[i]->getName() << endl;
-		fout << product[i]->getStock() << " " << product[i]->getSalesVolume() << " " << product[i]->getExpDate() << " " << product[i]->getFixedExpDate() 
+		fout << product[i]->getStock() << " " << product[i]->getSalesVolume() << " " << product[i]->getExpDate() << " " << product[i]->getFixedExpDate()
 			<< " " << product[i]->getWPrice() << " " << product[i]->getRPrice() << " " << product[i]->getDiscount() << " " << product[i]->getDisDate() << endl;
 	}
 
