@@ -580,6 +580,7 @@ void KICManager::init()
 		}
 	}
 
+
 	printMenu();
 }
 
