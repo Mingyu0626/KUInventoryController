@@ -542,8 +542,9 @@ void KICManager::init()
 	}
 
 	string date, result;
-
+	
 	while (true) {
+		system("cls");
 		cout << "시작 날짜 입력 : ";
 		getline(cin, date);
 		result = checkDate(date);
@@ -902,8 +903,9 @@ void KICManager::printDate()
 
 bool KICManager::loadInfor() {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	//fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	fstream fin("changedprodsinfo.txt");
+	//fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		exit(0);
@@ -1643,8 +1645,8 @@ void KICManager::selectMarginRate()
 /* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
-	 fstream fin("changedaddlist.txt");
-	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+	fstream fin("changedaddlist.txt");
+	// fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1674,8 +1676,8 @@ void KICManager::addlist()
 		}
 	}
 	fin.close();
-	//ofstream out("changedaddlist.txt");
-	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	ofstream out("changedaddlist.txt");
+	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	system("cls");
 	cout << "================================================== < 제품 검색 > ====================================================" << endl;
@@ -1756,6 +1758,7 @@ void KICManager::addlist()
 							this->product[count] = new KICProduct(addList[flag]->getName(), numOfPro, addList[flag]->getSalesVolume(), addList[flag]->getExpDate(), addList[flag]->getWPrice(), addList[flag]->getRPrice());
 							this->sortprod[count] = new KICProduct(addList[flag]->getName(), numOfPro, addList[flag]->getSalesVolume(), addList[flag]->getExpDate(), addList[flag]->getWPrice(), addList[flag]->getRPrice());
 							cout << addList[flag]->getName() << " " << numOfPro << "개 주문 완료되었습니다." << endl;
+							property -= (addList[flag]->getWPrice() * numOfPro);
 							count++;
 							int temp = cnt - 1;
 							out << temp << endl;
@@ -1799,7 +1802,7 @@ void KICManager::addlist()
 void KICManager::removelist()
 {
 	fstream fin("changedaddlist.txt");
-	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	// fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
