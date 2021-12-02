@@ -533,8 +533,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	fstream fin("defaultprodsinfo.txt");
-	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
+	//fstream fin("defaultprodsinfo.txt");
+	fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -579,6 +579,35 @@ void KICManager::init()
 			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
 		}
 	}
+
+	//fstream fin2("defaultaddlist.txt");
+	ofstream out("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin2("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+
+	if (!fin2.is_open()) {
+		cerr << "파일 읽기 실패\n";
+		exit(0);
+	}
+	int cnt = 0;
+	while (!fin2.eof()) {
+		string buffer;
+		fin2 >> cnt;
+		getline(fin2, buffer);
+		out << cnt << endl;
+		for (int i = 0; i < cnt * 2; i++) {
+			string line;
+			getline(fin2, line);
+			if (i == cnt * 2 - 1) {
+				out << line;
+			}
+			else {
+				out << line << endl;
+			}
+		}
+	}
+	fin2.close();
+	out.close();
+	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	printMenu();
 }
@@ -1646,7 +1675,8 @@ void KICManager::selectMarginRate()
 void KICManager::addlist()
 {
 	fstream fin("changedaddlist.txt");
-	// fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+	
+	//fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1677,7 +1707,7 @@ void KICManager::addlist()
 	}
 	fin.close();
 	ofstream out("changedaddlist.txt");
-	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	//ofstream out("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	system("cls");
 	cout << "================================================== < 제품 검색 > ====================================================" << endl;
