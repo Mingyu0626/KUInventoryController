@@ -28,9 +28,10 @@
     <ClInclude Include="KICProduct.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="addlist.txt" />
-    <Text Include="currentsource.txt" />
-    <Text Include="source.txt" />
+    <Text Include="changedaddlist.txt" />
+    <Text Include="changedprodsinfo.txt" />
+    <Text Include="defaultprodsinfo.txt" />
+    <Text Include="defualtaddlist.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
