@@ -533,8 +533,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	//fstream fin("defaultprodsinfo.txt");
-	fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
+	fstream fin("defaultprodsinfo.txt");
+	//fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -581,8 +581,11 @@ void KICManager::init()
 	}
 
 	//fstream fin2("defaultaddlist.txt");
-	ofstream out("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
-	fstream fin2("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+
+	ofstream out("changedaddlist.txt");
+	fstream fin2("defualtaddlist.txt");
+	//ofstream out("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	//fstream fin2("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
 
 	if (!fin2.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1325,9 +1328,6 @@ void KICManager::sortAl()
 			int total = sortprod[i]->getStock();
 			for (int j = 0; j < count; j++) {
 				if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
-					if (sortprod[i]->getExpDate() > sortprod[j]->getExpDate()) {
-						print = false;
-					}
 					if (i != j) {
 						total += sortprod[j]->getStock();
 					}
@@ -1335,11 +1335,11 @@ void KICManager::sortAl()
 			}
 			if (print) {
 				if (sortprod[i]->getStock() >= 0) {
-					if (total < sortprod[i]->getSalesVolume() * sortprod[i]->getExpDate()) {
+					if (total < sortprod[i]->getSalesVolume() * sortprod[i]->getExpDate() || (total==0 && sortprod[i]->getExpDate() == 0)) {
 						cout << setw(15) << sortprod[i]->getName() << setw(10) << total << setw(15) << sortprod[i]->getExpDate() << setw(10) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(8) << sortprod[i]->getDiscount() << setw(8) << sortprod[i]->getDisDate() << endl;
-						// cout << *sortprod[i] << endl;
 					}
 				}
+				
 			}
 		}
 	}
@@ -1841,15 +1841,14 @@ void KICManager::removelist()
 
 	string buffer;
 	while (!fin.eof()) {
-		//fin >> this->count;
+
 		getline(fin, buffer);
 
-		//cout << buffer << endl;
 	}
 	fin.close();
 
-	//ofstream out("changedaddlist.txt", ios::app);
-	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
+	ofstream out("changedaddlist.txt", ios::app);
+	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
 
 	for (int i = 0; i < count; i++) {
 		*sortprod[i] = *product[i];
@@ -1872,10 +1871,16 @@ void KICManager::removelist()
 				cout << setw(15) << sortprod[i]->getName() << setw(15) << sortprod[i]->getStock() << setw(15) << sortprod[i]->getSalesVolume() << setw(15) << sortprod[i]->getExpDate() << setw(15) << sortprod[i]->getWPrice() << setw(15) << sortprod[i]->getRPrice() << setw(15) << sortprod[i]->getDiscount() << setw(15) << sortprod[i]->getDisDate() << endl;
 			}
 		}
+		if (isZero == false) {
+			cout << "총 재고 0인 제품이 존재하지 않습니다." << endl;
+			system("pause");
+			break;
+		}
+
 		cout << "삭제할 제품명을 입력하세요 : ";
 		string removeproduct;
 		getline(cin, removeproduct);
-		int flag = 1; //재고 0인 제품인지
+		int flag = 2; //재고 0인 제품인지
 
 		if (removeproduct.compare("q") == 0) {
 			cout << "q" << endl;
@@ -1885,6 +1890,7 @@ void KICManager::removelist()
 		for (int i = 0; i < count; i++) {
 			int total = 0;
 			if (sortprod[i]->getName().compare(removeproduct) == 0) {
+				flag = 1;
 				if (sortprod[i]->getStock() == 0) {
 					for (int j = i + 1; j < count; j++) {
 						if (sortprod[j]->getName().compare(removeproduct))
@@ -1898,8 +1904,12 @@ void KICManager::removelist()
 				break;
 			}
 		}
-
-		if (flag == 1) {
+		if (flag == 2) {
+			cout << "잘못된 제품명입니다." << endl;
+			system("pause");
+			system("cls");
+		}
+		else if (flag == 1) {
 			cout << "재고가 0인 제품이 아닙니다." << endl;
 			system("pause");
 			system("cls");
@@ -1916,11 +1926,16 @@ void KICManager::removelist()
 						out << *sortprod[i] << endl;
 
 						sortprod[i]->setStock(-1);
-						// product[i]->setStock(-1);
-
-						cout << "삭제되었습니다." << endl;
 						*product[i] = *sortprod[i];
-						cout << product[i]->getName() << "      " << product[i]->getStock() << endl;
+
+						for (int j = i + 1; j < count; j++) {
+							if (sortprod[i]->getName().compare(sortprod[j]->getName()) == 0) {
+								sortprod[j]->setStock(-1);
+								*product[j] = *sortprod[j];
+							}
+						}
+
+						cout << "\n삭제되었습니다." << endl;
 
 
 						system("pause");
@@ -1929,12 +1944,10 @@ void KICManager::removelist()
 					else if (yn.compare("n") == 0) {
 						cout << "삭제가 취소되었습니다." << endl;
 						system("pause");
-						//return;
 					}
 					else {
 						cout << "잘못 입력하셨습니다." << endl;
 						system("pause");
-						//break;
 					}
 				}
 			}
@@ -2331,7 +2344,8 @@ int KICManager::calTodayProfits(int tp, int sorsv, int rp, int wp)
 // 프로그램 종료 시 제품 정보 및 날짜, 보유자산 저장
 void KICManager::saveInfo()
 {
-	ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	ofstream fout("changedprodsinfo.txt");
+	//ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	if (!fout.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		return;
