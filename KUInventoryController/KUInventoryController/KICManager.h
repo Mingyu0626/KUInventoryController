@@ -56,7 +56,7 @@ class KICManager
 	void discountReqProds();											// 할인이 필요한 제품 판별
 	void selectDiscountProds();											// 할인 제품 지정
 	void selectMarginRate();											// 마진율 지정
-	
+
 	/*----- 6.4 추가/삭제 -----*/
 	void addlist();														//제품 추가
 	void removelist();													//제품 삭제
