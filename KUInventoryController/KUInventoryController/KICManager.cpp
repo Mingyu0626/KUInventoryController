@@ -550,7 +550,8 @@ void KICManager::init()
 	}
 	 
 	fRemove << endl;
-	
+	fRemove.close();
+
 	string date, result;
 	
 	while (true) {
