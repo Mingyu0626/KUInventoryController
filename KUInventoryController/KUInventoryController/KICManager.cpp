@@ -579,6 +579,7 @@ void KICManager::init()
 			this->sortprod[i] = new KICProduct(product[i]->getName(), product[i]->getStock(), product[i]->getSalesVolume(), product[i]->getExpDate(), product[i]->getWPrice(), product[i]->getRPrice());
 		}
 	}
+	fin.close();
 
 	//fstream fin2("defaultaddlist.txt");
 	ofstream out("C:\\Users\\ÀÌÇÏÀ±\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
@@ -593,15 +594,17 @@ void KICManager::init()
 		string buffer;
 		fin2 >> cnt;
 		getline(fin2, buffer);
-		out << cnt << endl;
-		for (int i = 0; i < cnt * 2; i++) {
-			string line;
-			getline(fin2, line);
-			if (i == cnt * 2 - 1) {
-				out << line;
-			}
-			else {
-				out << line << endl;
+		if (cnt != 0) {
+			out << cnt << endl;
+			for (int i = 0; i < cnt * 2; i++) {
+				string line;
+				getline(fin2, line);
+				if (i == cnt * 2 - 1) {
+					out << line;
+				}
+				else {
+					out << line << endl;
+				}
 			}
 		}
 	}
