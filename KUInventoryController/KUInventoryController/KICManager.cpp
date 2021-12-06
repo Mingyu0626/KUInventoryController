@@ -1553,12 +1553,20 @@ void KICManager::selectDiscountProds()
 		else if (status == 2) {
 			bool check = false;
 			while (true) {
+				system("cls");
+				cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << endl;
+				cout << "-------------------------------------------------------------------------------------------" << endl;
+				for (int i = 0; i < count; i++) {
+					if (select.compare(product[i]->getName()) == 0 && product[i]->getStock() != 0) {
+						cout << setw(15) << product[i]->getName() << setw(15) << product[i]->getStock() << setw(15) << product[i]->getSalesVolume() << setw(15) << product[i]->getExpDate() << endl;
+					}
+				}
 				string buffer;
 				int percentage;
 				cout << "할인할 %를 입력해주세요 (10 단위) (10 이상 90 이하) (q : 메뉴 종료)  : ";
 				cin >> percentage;
+				getline(cin, buffer);
 				if (cin.fail()) {
-					system("pause");
 					cin.clear();
 					getline(cin, buffer);
 					if (buffer.compare("q") == 0) {
@@ -1566,18 +1574,20 @@ void KICManager::selectDiscountProds()
 						break;
 					}
 					else {
-						cout << "다시 입력하세요" << endl;
+						cout << "숫자를 입력하세요" << endl;
+						system("pause");
+						continue;
 					}
-					cout << buffer << endl;
-					break;
 				}
 
 				if (percentage < 10 || percentage > 90) {
 					cout << "범위가 알맞지 않습니다." << endl;
+					system("pause");
 					continue;
 				}
 				else if (percentage % 10 != 0) {
 					cout << "10 단위로 입력해야 합니다." << endl;
+					system("pause");
 					continue;
 				}
 				else {
@@ -1589,6 +1599,7 @@ void KICManager::selectDiscountProds()
 							product[i]->setRPrice(newPrice);
 							int newSalesVolume = product[i]->getSalesVolume() * (100 + percentage) / 100;
 							product[i]->setSalesVolume(newSalesVolume);
+							system("cls");
 							cout << "다음과 같이 할인이 적용되었습니다." << endl;
 							cout << endl;
 							cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "유통기한" << setw(15) << "할인판매가" << setw(15) << "원래판매가" << setw(15) << "할인남은기간" << endl;
@@ -1716,7 +1727,7 @@ void KICManager::addlist()
 	}
 	fin.close();
 	//ofstream out("changedaddlist.txt");
-	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	ofstream out("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 
 	while (true) {
@@ -1826,12 +1837,14 @@ void KICManager::addlist()
 							return;
 						}
 						else if (yn.compare("n") == 0) {
+							cout << "제품 추가를 취소합니다." << endl;
+							system("pause");
 							break;
 						}
 						else {
 							cout << "잘못 입력하셨습니다." << endl;
 							system("pause");
-							continue;
+							break;
 						}
 					}
 				}
