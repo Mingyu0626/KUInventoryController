@@ -533,14 +533,24 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	fstream fin("defaultprodsinfo.txt");
-	//fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
+	//fstream fin("defaultprodsinfo.txt");
+	fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		exit(0);
 	}
 
+	// 텍스트 파일에 저장되어 있던 정보 삭제
+	ofstream fRemove("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	
+	if (!fRemove.is_open()) {
+		cerr << "파일 읽기 실패\n";
+		exit(0);
+	}
+	 
+	fRemove << endl;
+	
 	string date, result;
 	
 	while (true) {
@@ -582,10 +592,10 @@ void KICManager::init()
 
 	//fstream fin2("defaultaddlist.txt");
 
-	ofstream out("changedaddlist.txt");
-	fstream fin2("defualtaddlist.txt");
-	//ofstream out("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
-	//fstream fin2("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+	/*ofstream out("changedaddlist.txt");
+	fstream fin2("defualtaddlist.txt");*/
+	ofstream out("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin2("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
 
 	if (!fin2.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -934,8 +944,8 @@ void KICManager::printDate()
 
 bool KICManager::loadInfor() {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	fstream fin("changedprodsinfo.txt");
-	//fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	//fstream fin("changedprodsinfo.txt");
+	fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1673,9 +1683,9 @@ void KICManager::selectMarginRate() {
 /* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
-	fstream fin("changedaddlist.txt");
+	//fstream fin("changedaddlist.txt");
 	
-	//fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1705,8 +1715,8 @@ void KICManager::addlist()
 		}
 	}
 	fin.close();
-	ofstream out("changedaddlist.txt");
-	//ofstream out("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	//ofstream out("changedaddlist.txt");
+	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	system("cls");
 	cout << "================================================== < 제품 검색 > ====================================================" << endl;
@@ -1830,8 +1840,8 @@ void KICManager::addlist()
 /* 제품 정보 삭제 함수 */
 void KICManager::removelist()
 {
-	fstream fin("changedaddlist.txt");
-	// fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	//fstream fin("changedaddlist.txt");
+	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1846,8 +1856,8 @@ void KICManager::removelist()
 	}
 	fin.close();
 
-	ofstream out("changedaddlist.txt", ios::app);
-	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
+	//ofstream out("changedaddlist.txt", ios::app);
+	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
 
 	for (int i = 0; i < count; i++) {
 		*sortprod[i] = *product[i];
@@ -2343,8 +2353,8 @@ int KICManager::calTodayProfits(int tp, int sorsv, int rp, int wp)
 // 프로그램 종료 시 제품 정보 및 날짜, 보유자산 저장
 void KICManager::saveInfo()
 {
-	ofstream fout("changedprodsinfo.txt");
-	//ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	//ofstream fout("changedprodsinfo.txt");
+	ofstream fout("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	if (!fout.is_open()) {
 		cerr << "파일 읽기 실패\n";
 		return;
