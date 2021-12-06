@@ -1776,7 +1776,9 @@ void KICManager::addlist()
 				}
 
 				if (numOfPro <= 0) {
-					cout << "0보다 큰 숫자를 입력해주세요." << endl;
+					cout << "올바른 숫자를 입력해주세요." << endl;
+					system("pause");
+					continue;
 				}
 				else {
 					price = addList[flag]->getWPrice() * numOfPro;
