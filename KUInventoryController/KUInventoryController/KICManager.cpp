@@ -88,6 +88,7 @@ string KICManager::checkDate(string date)
 			e = date[4];
 			f = date[5];
 
+
 			num0 = stoi(a);
 			num1 = stoi(b);
 			num2 = stoi(c);
