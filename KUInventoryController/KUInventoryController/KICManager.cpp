@@ -533,8 +533,8 @@ string KICManager::checkDate(string date)
 void KICManager::init()
 {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	//fstream fin("defaultprodsinfo.txt");
-	fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
+	fstream fin("defaultprodsinfo.txt");
+	//fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defaultprodsinfo.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -741,53 +741,6 @@ void KICManager::printMenu()
 }
 
 
-/*void KICManager::noStockAlarm()
-{
-   // 재고 <= 전날 판매량일 때 알람 출력
-   bool check = false;
-   int total = 0;
-   int productNum = 0;
-
-
-   //bool isRemove = false; //삭제된 제품인지 check
-   for (int i = 0; i < count; i++) {
-	  bool print = true;
-	  int dcheck = 0;
-	  if (product[i]->getStock() < 0) {
-		 total = 0;
-
-	  }
-	  else
-		 total = product[i]->getStock();
-
-	  for (int j = 0; j < count; j++) {
-		 if (product[i]->getName().compare(product[j]->getName()) == 0) {
-			if (product[i]->getExpDate() > product[j]->getExpDate()) {
-			   print = false;
-			}
-			if (i != j) {
-			   total += product[j]->getStock();
-			   dcheck++;
-			}
-			productNum = j;
-		 }
-	  }
-
-	  if (print) {
-		 if (total <= product[i]->getSalesVolume() && productNum == i) {
-			check = true;
-			cout << product[i]->getName() << " : 재고 " << total << "개" << endl;
-		 }
-	  }
-   }
-
-   if (!check) {
-	  cout << "재고 부족한 제품 없음" << endl;
-   }
-}
-*/    // 업무마감 및 제품 삭제 반영될수있도록 수정했어요 혹시 보고서 이런식으로 하면안된다 싶음 알려주세영
-
-
 void KICManager::noStockAlarm()
 {
 	// 재고 <= 전날 판매량일 때 알람 출력
@@ -945,8 +898,8 @@ void KICManager::printDate()
 
 bool KICManager::loadInfor() {
 	/*절대경로 필요한 친구들은 절대경로로 사용하시고 밑에 코드는 주석처리 해주세요.*/
-	//fstream fin("changedprodsinfo.txt");
-	fstream fin("C:\\Users\\USER\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
+	fstream fin("changedprodsinfo.txt");
+	//fstream fin("C:\\Users\\이하윤\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedprodsinfo.txt");
 	
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1258,9 +1211,10 @@ void KICManager::searchProds()
 			cout << setw(15) << "상품명" << setw(15) << "재고" << setw(15) << "전날판매량" << setw(15) << "유통기한" << setw(15) << "도매가" << setw(15) << "판매가" << setw(15) << "할인율" << setw(15) << "할인남은기간" << endl;
 			cout << "--------------------------------------------------------------------------------------------------------------------" << endl;
 			for (int j = 0; j < count; j++) {
-
 				if ((sortprod[j]->getName()).find(namePro) != string::npos) {
-					cout << setw(15) << sortprod[j]->getName() << setw(15) << sortprod[j]->getStock() << setw(15) << sortprod[j]->getSalesVolume() << setw(15) << sortprod[j]->getExpDate() << setw(15) << sortprod[j]->getWPrice() << setw(15) << sortprod[j]->getRPrice() << setw(15) << sortprod[j]->getDiscount() << setw(15) << sortprod[j]->getDisDate() << endl;
+					if (sortprod[j]->getStock() > 0) {
+						cout << setw(15) << sortprod[j]->getName() << setw(15) << sortprod[j]->getStock() << setw(15) << sortprod[j]->getSalesVolume() << setw(15) << sortprod[j]->getExpDate() << setw(15) << sortprod[j]->getWPrice() << setw(15) << sortprod[j]->getRPrice() << setw(15) << sortprod[j]->getDiscount() << setw(15) << sortprod[j]->getDisDate() << endl;
+					}
 				}
 			}
 			cout << endl;
@@ -1695,8 +1649,8 @@ void KICManager::selectMarginRate() {
 /* 제품 정보 추가 함수 */
 void KICManager::addlist()
 {
-	//fstream fin("changedaddlist.txt");
-	fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin("changedaddlist.txt");
+	//fstream fin("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1726,8 +1680,8 @@ void KICManager::addlist()
 		}
 	}
 	fin.close();
-	//ofstream out("changedaddlist.txt");
-	ofstream out("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	ofstream out("changedaddlist.txt");
+	//ofstream out("C:\\Users\\이하윤\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 
 	while (true) {
@@ -1777,7 +1731,7 @@ void KICManager::addlist()
 							delete addList[i];
 						}
 						delete[] addList;
-						break;
+						return;
 					}
 					else {
 						cout << "숫자를 입력해주세요." << endl;
@@ -1861,8 +1815,8 @@ void KICManager::addlist()
 /* 제품 정보 삭제 함수 */
 void KICManager::removelist()
 {
-	//fstream fin("changedaddlist.txt");
-	fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	fstream fin("changedaddlist.txt");
+	//fstream fin("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
 
 	if (!fin.is_open()) {
 		cerr << "파일 읽기 실패\n";
@@ -1877,8 +1831,8 @@ void KICManager::removelist()
 	}
 	fin.close();
 
-	//ofstream out("changedaddlist.txt", ios::app);
-	ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
+	ofstream out("changedaddlist.txt", ios::app);
+	//ofstream out("C:\\Users\\USER\\Source\\Repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt", ios::app);
 
 	for (int i = 0; i < count; i++) {
 		*sortprod[i] = *product[i];
