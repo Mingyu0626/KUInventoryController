@@ -593,10 +593,10 @@ void KICManager::init()
 	}
 	fin.close();
 
-	//ofstream out("changedaddlist.txt");
-	//fstream fin2("defualtaddlist.txt");
-	ofstream out("C:\\Users\\¿Ã«œ¿±\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
-	fstream fin2("C:\\Users\\¿Ã«œ¿±\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
+	ofstream out("changedaddlist.txt");
+	fstream fin2("defualtaddlist.txt");
+	//ofstream out("C:\\Users\\¿Ã«œ¿±\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\changedaddlist.txt");
+	//fstream fin2("C:\\Users\\¿Ã«œ¿±\\source\\repos\\Mingyu0626\\KUInventoryController\\KUInventoryController\\KUInventoryController\\defualtaddlist.txt");
 
 	if (!fin2.is_open()) {
 		cerr << "∆ƒ¿œ ¿–±‚ Ω«∆–\n";
